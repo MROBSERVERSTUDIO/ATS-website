@@ -47,7 +47,7 @@
                 });
             } else {
                 $('#contact_form_submit').children('.email-success').remove();
-                $('#contact_form_submit').prepend('<span class="alert alert-danger email-success">Somenthing went wrong</span>');
+                $('#contact_form_submit').prepend('<span class="alert alert-danger email-success">Something went wrong</span>');
                 $('#map').height('576px');
                 $('.email-success').fadeOut(3000);
             }

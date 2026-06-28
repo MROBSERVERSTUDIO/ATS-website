@@ -63,7 +63,7 @@ $(function () {
           slider area
 ================================= */
 
-// testimonial slider 
+// testimonial slider
 $('.testimonial-slider').slick({
   dots: true,
   infinite: true,
