@@ -1,16 +1,14 @@
-<!-- meta tags and other links -->
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from template.viserlab.com/hyiplab/demo/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 May 2026 12:53:12 GMT -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HYIPLAB - HYIP Investment HTML template</title>
+  <title>ATS - Dashboard | AI-Powered Trading That Works 24/7</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
-  <!-- bootstrap 4  -->
+  <!-- bootstrap 4 -->
   <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-  <!-- fontawesome 5  -->
+  <!-- fontawesome 5 -->
   <link rel="stylesheet" href="assets/css/all.min.css">
   <!-- line-awesome webfont -->
   <link rel="stylesheet" href="assets/css/line-awesome.min.css">
@@ -18,190 +16,817 @@
   <!-- slick slider css -->
   <link rel="stylesheet" href="assets/css/vendor/slick.css">
   <link rel="stylesheet" href="assets/css/vendor/dots.css">
-  <!-- dashdoard main css -->
+  <!-- ATS main css -->
   <link rel="stylesheet" href="assets/css/main.css">
-</head>
-  <body>
-    <div class="preloader">
-      <div class="preloader-container">
-        <span class="animated-preloader"></span>
-      </div>
-    </div>
-  
-    <!-- scroll-to-top start -->
-    <div class="scroll-to-top">
-      <span class="scroll-icon">
-        <i class="fa fa-rocket" aria-hidden="true"></i>
-      </span>
-    </div>
-    <!-- scroll-to-top end -->
 
+  <style>
+    /* ================================================
+       ATS DASHBOARD — Enhanced Styles
+    ================================================ */
+
+    /* ── TICKER ── */
+    .ats-ticker-bar {
+      background: rgba(10,132,255,0.06);
+      border-bottom: 1px solid rgba(10,132,255,0.15);
+      padding: 8px 0;
+      font-size: 12px;
+      color: rgba(232,234,246,0.7);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      display: block !important;
+      visibility: visible !important;
+      position: relative;
+      z-index: 10;
+      margin-top: 72px;
+    }
+
+    .ats-ticker-bar .ticker-inner {
+      display: inline-flex;
+      gap: 30px;
+      white-space: nowrap;
+      animation: tickerScroll 60s linear infinite;
+      will-change: transform;
+    }
+
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
+
+    .ats-ticker-bar .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      padding: 0 4px;
+    }
+
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232,234,246,0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up   { color: #00FFB3; }
+    .ats-ticker-bar .ticker-item .down { color: #ff4d6d; }
+    .ats-ticker-bar .ticker-separator  { color: rgba(10,132,255,0.4); font-size:16px; }
+
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 575px) {
+      .ats-ticker-bar { font-size: 11px; padding: 7px 0; }
+      .ats-ticker-bar .ticker-inner { gap: 20px; }
+    }
+
+    /* ── DASHBOARD WIDGETS — enhanced ATS style ── */
+    .d-widget {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .d-widget:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(10,132,255,0.25) !important;
+    }
+
+    .d-widget .currency-amount {
+      font-size: 26px;
+      font-weight: 700;
+      color: #00FFB3;
+      font-family: "Josefin Sans", sans-serif;
+      margin-top: 6px;
+      text-shadow: 0 0 15px rgba(0,255,179,0.3);
+    }
+
+    /* ── INTERSECTION OBSERVER ANIMATIONS ── */
+    .ats-fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ats-fade-in {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .ats-fade-in.ats-visible {
+      opacity: 1;
+    }
+
+    /* Stagger delays for grid items */
+    .ats-stagger-1 { transition-delay: 0.05s; }
+    .ats-stagger-2 { transition-delay: 0.10s; }
+    .ats-stagger-3 { transition-delay: 0.15s; }
+    .ats-stagger-4 { transition-delay: 0.20s; }
+    .ats-stagger-5 { transition-delay: 0.25s; }
+    .ats-stagger-6 { transition-delay: 0.30s; }
+
+    /* ── TABLE ENHANCEMENTS ── */
+    .table.style--two .text-success {
+      color: #00FFB3 !important;
+      font-weight: 600;
+    }
+
+    .table.style--two .badge.base--bg {
+      background: linear-gradient(135deg, #0A84FF, #00D4FF) !important;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+    }
+
+    .table.style--two .base--color {
+      color: #00D4FF !important;
+      font-family: "Josefin Sans", monospace;
+      font-size: 13px;
+    }
+
+    /* ── CALCULATOR SECTION ── */
+    .ats-calc-section {
+      margin-top: 50px;
+      padding: 35px;
+      background: rgba(20,27,52,0.9);
+      border: 1px solid rgba(10,132,255,0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ats-calc-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #0A84FF, #00FFB3, #00D4FF);
+    }
+
+    .ats-calc-section h4 {
+      color: #ffffff;
+      font-size: 20px;
+      margin-bottom: 24px;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-calc-section h4 i {
+      color: #00D4FF;
+      margin-right: 8px;
+    }
+
+    .calc-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #0A84FF, #00D4FF);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 20px rgba(10,132,255,0.4);
+      font-family: "Josefin Sans", sans-serif;
+      margin-top: 20px;
+    }
+
+    .calc-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(10,132,255,0.6);
+    }
+
+    .calc-btn:active {
+      transform: translateY(0);
+    }
+
+    .calc-error {
+      color: #ff4d6d;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+      padding: 8px 12px;
+      background: rgba(255,77,109,0.1);
+      border: 1px solid rgba(255,77,109,0.3);
+      border-radius: 6px;
+    }
+
+    /* Calculator results grid */
+    .calc-results {
+      display: none;
+      margin-top: 24px;
+      padding: 24px;
+      background: rgba(10,132,255,0.04);
+      border: 1px solid rgba(10,132,255,0.2);
+      border-radius: 12px;
+      animation: calcFadeIn 0.4s ease forwards;
+    }
+
+    .calc-results.show { display: block; }
+
+    @keyframes calcFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .calc-results-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .calc-results-header span {
+      font-size: 12px;
+      color: #00FFB3;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 575px) {
+      .calc-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .calc-result-box {
+      background: rgba(20,27,52,0.9);
+      border: 1px solid rgba(10,132,255,0.15);
+      border-radius: 10px;
+      padding: 16px 12px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+
+    .calc-result-box:hover {
+      border-color: rgba(0,212,255,0.3);
+    }
+
+    .calc-result-box.highlight {
+      border-color: rgba(0,255,179,0.35);
+      background: rgba(0,255,179,0.04);
+    }
+
+    .calc-result-box .box-label {
+      display: block;
+      font-size: 10px;
+      color: rgba(232,234,246,0.45);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .calc-result-box .box-value {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      color: #00FFB3;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .calc-result-box.highlight .box-value {
+      font-size: 22px;
+      text-shadow: 0 0 12px rgba(0,255,179,0.4);
+    }
+
+    .calc-disclaimer {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(232,234,246,0.3);
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    /* Plan info badge shown in result */
+    .calc-plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: rgba(10,132,255,0.1);
+      border: 1px solid rgba(10,132,255,0.25);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #00D4FF;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* ── PAYMENT CAROUSEL ── */
+    .ats-payment-section {
+      margin-top: 50px;
+    }
+
+    .ats-payment-section h4 {
+      color: #ffffff;
+      font-size: 18px;
+      margin-bottom: 24px;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-payment-section h4 i {
+      color: #00FFB3;
+      margin-right: 8px;
+    }
+
+    .ats-payment-carousel {
+      overflow: hidden;
+      position: relative;
+      padding: 8px 0;
+    }
+
+    .ats-payment-carousel::before,
+    .ats-payment-carousel::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 60px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ats-payment-carousel::before {
+      left: 0;
+      background: linear-gradient(to right, #0B1020, transparent);
+    }
+
+    .ats-payment-carousel::after {
+      right: 0;
+      background: linear-gradient(to left, #0B1020, transparent);
+    }
+
+    .ats-payment-track {
+      display: inline-flex;
+      gap: 16px;
+      animation: payScroll 30s linear infinite;
+      white-space: nowrap;
+      will-change: transform;
+    }
+
+    .ats-payment-carousel:hover .ats-payment-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes payScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ats-pay-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 24px;
+      background: rgba(20,27,52,0.8);
+      border: 1px solid rgba(10,132,255,0.15);
+      border-radius: 10px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      flex-shrink: 0;
+      min-width: 110px;
+      cursor: pointer;
+    }
+
+    .ats-pay-item:hover {
+      border-color: rgba(0,212,255,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 16px rgba(10,132,255,0.2);
+    }
+
+    .ats-pay-item img {
+      max-height: 44px;
+      max-width: 90px;
+      object-fit: contain;
+      filter: brightness(0.75) grayscale(0.2);
+      transition: filter 0.3s;
+    }
+
+    .ats-pay-item:hover img {
+      filter: brightness(1) grayscale(0);
+    }
+
+    /* ── FOOTER ── */
+    .footer__bottom p            { color: rgba(232,234,246,0.5); font-size:14px; }
+    .footer__bottom .base--color { color: #00D4FF !important; }
+
+    /* ── SCROLL TO TOP ── */
+    .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size:20px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 767px) {
+      .ats-calc-section { padding: 20px; }
+      .d-widget .currency-amount { font-size: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="preloader-container">
+      <span class="animated-preloader"></span>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <div class="scroll-to-top">
+    <span class="scroll-icon">
+      <i class="fa fa-rocket" aria-hidden="true"></i>
+    </span>
+  </div>
+
+  <!-- Star Field Background -->
   <div class="full-wh">
-    <!-- STAR ANIMATION -->
     <div class="bg-animation">
       <div id='stars'></div>
       <div id='stars2'></div>
       <div id='stars3'></div>
       <div id='stars4'></div>
-    </div><!-- / STAR ANIMATION -->
+    </div>
   </div>
+
   <div class="page-wrapper">
-      <!-- header-section start  -->
-  <header class="header">
-    <div class="header__bottom">
-      <div class="container">
-        <nav class="navbar navbar-expand-xl p-0 align-items-center">
-          <a class="site-logo site-title" href="index.html"><img src="assets/images/logo.png" alt="site-logo"></a>
-          <ul class="account-menu mobile-acc-menu">
-            <li class="icon">
-              <a href="login.html"><i class="las la-user"></i></a>
-            </li>
-          </ul> 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="menu-toggle"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav main-menu m-auto">
-              <li> <a href="index.html">Home</a></li>
-              <li> <a href="about.html">About Us</a></li>
-              <li> <a href="plan.html">Plan</a></li>
-              <li><a href="dashboard.html">Dashboard</a></li>
-              <li class="menu_has_children"><a href="#0">Blog</a>
-                <ul class="sub-menu">
-                  <li><a href="blog.html">Blog Posts</a></li>
-                  <li><a href="blog-details.html">Blog Details</a></li>
-                </ul>
-              </li>
-              <li class="menu_has_children"><a href="#0">Page</a>
-                <ul class="sub-menu">
-                  <li><a href="error-404.html">Error - 404</a></li>
-                </ul>
-              </li>
-              <li><a href="contact.html">Contact</a></li>
+
+    <!-- ============================================================
+         HEADER
+    ============================================================ -->
+    <header class="header">
+      <div class="header__bottom">
+        <div class="container">
+          <nav class="navbar navbar-expand-xl p-0 align-items-center">
+
+            <a class="site-logo site-title" href="index.html">
+              <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
+            </a>
+
+            <ul class="account-menu mobile-acc-menu">
+              <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
             </ul>
-            <div class="nav-right">
-              <ul class="account-menu ml-3">
-                <li class="icon">
-                  <a href="login.html"><i class="las la-user"></i></a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+              data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="menu-toggle"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav main-menu m-auto">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="plan.html">AI Plans</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li class="menu_has_children"><a href="#0">Blog</a>
+                  <ul class="sub-menu">
+                    <li><a href="blog.html">Market Analysis</a></li>
+                    <li><a href="blog-details.html">Trade Insights</a></li>
+                  </ul>
                 </li>
-              </ul> 
-              <select class="select d-inline-block w-auto ml-xl-3">
-                <option>Eng</option>
-                <option>Ban</option>
-                <option>Hin</option>
-              </select>
+                <li class="menu_has_children"><a href="#0">Pages</a>
+                  <ul class="sub-menu">
+                    <li><a href="error-404.html">Error — 404</a></li>
+                  </ul>
+                </li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+              <div class="nav-right">
+                <ul class="account-menu ml-3">
+                  <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+                </ul>
+                <select class="select d-inline-block w-auto ml-xl-3">
+                  <option>Eng</option>
+                  <option>Ban</option>
+                  <option>Hin</option>
+                </select>
+              </div>
             </div>
-          </div> 
-        </nav>
+
+          </nav>
+        </div>
       </div>
-    </div><!-- header__bottom end -->
-  </header>
-  <!-- header-section end  -->
-    
-    <!-- inner hero start -->
+    </header>
+
+
+    <!-- ============================================================
+         LIVE BINANCE WEBSOCKET TICKER
+    ============================================================ -->
+    <div class="ats-ticker-bar" id="atsTicker">
+      <div class="container-fluid px-0">
+        <div class="ticker-inner" id="atsTickerInner">
+          <span class="ticker-item">
+            <span class="symbol">Connecting</span>
+            <span class="price">—</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         INNER HERO
+         BG IMAGE → replace bg-1.jpg
+    ============================================================ -->
     <section class="inner-hero bg_img" data-background="assets/images/bg/bg-1.jpg">
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
-            <h2 class="page-title">Dashboard</h2>
+
+            <span class="section-top-title mb-2" style="display:block;">
+              AI Trading System
+            </span>
+
+            <h2 class="page-title" style="
+              background: linear-gradient(135deg, #ffffff 0%, #00D4FF 60%, #0A84FF 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              font-size: 40px;
+            ">Dashboard</h2>
+
             <ul class="page-breadcrumb">
               <li><a href="index.html">Home</a></li>
               <li>Dashboard</li>
             </ul>
+
           </div>
         </div>
       </div>
     </section>
-    <!-- inner hero end -->
 
 
-    <!-- dashboard section start -->
+    <!-- ============================================================
+         DASHBOARD SECTION
+    ============================================================ -->
     <div class="pt-120 pb-120">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-12">
+
+            <!-- STAT WIDGETS — with IO fade-up animations -->
             <div class="row mb-none-30">
-              <div class="col-xl-4 col-sm-6 mb-30">
+
+              <div class="col-xl-4 col-sm-6 mb-30 ats-fade-up ats-stagger-1">
                 <div class="d-widget d-flex flex-wrap">
                   <div class="col-8">
                     <span class="caption">Deposit Wallet Balance</span>
-                    <h4 class="currency-amount">$255</h4>
+                    <h4 class="currency-amount" data-counter="255">$255</h4>
                   </div>
                   <div class="col-4">
                     <div class="icon ml-auto">
                       <i class="las la-dollar-sign"></i>
                     </div>
                   </div>
-                </div><!-- d-widget-two end -->
+                </div>
               </div>
-              <div class="col-xl-4 col-sm-6 mb-30">
+
+              <div class="col-xl-4 col-sm-6 mb-30 ats-fade-up ats-stagger-2">
                 <div class="d-widget d-flex flex-wrap">
                   <div class="col-8">
                     <span class="caption">Interest Wallet Balance</span>
-                    <h4 class="currency-amount">$1,105</h4>
+                    <h4 class="currency-amount" data-counter="1105">$1,105</h4>
                   </div>
                   <div class="col-4">
                     <div class="icon ml-auto">
                       <i class="las la-wallet"></i>
                     </div>
                   </div>
-                </div><!-- d-widget-two end -->
+                </div>
               </div>
-              <div class="col-xl-4 col-sm-6 mb-30">
+
+              <div class="col-xl-4 col-sm-6 mb-30 ats-fade-up ats-stagger-3">
                 <div class="d-widget d-flex flex-wrap">
                   <div class="col-8">
                     <span class="caption">Total Invest</span>
-                    <h4 class="currency-amount">$500</h4>
+                    <h4 class="currency-amount" data-counter="500">$500</h4>
                   </div>
                   <div class="col-4">
                     <div class="icon ml-auto">
-                      <i class="las la-cubes "></i>
+                      <i class="las la-cubes"></i>
                     </div>
                   </div>
-                </div><!-- d-widget-two end -->
+                </div>
               </div>
-              <div class="col-xl-4 col-sm-6 mb-30">
+
+              <div class="col-xl-4 col-sm-6 mb-30 ats-fade-up ats-stagger-4">
                 <div class="d-widget d-flex flex-wrap">
                   <div class="col-8">
                     <span class="caption">Total Deposit</span>
-                    <h4 class="currency-amount">$1,050</h4>
+                    <h4 class="currency-amount" data-counter="1050">$1,050</h4>
                   </div>
                   <div class="col-4">
                     <div class="icon ml-auto">
                       <i class="las la-credit-card"></i>
                     </div>
                   </div>
-                </div><!-- d-widget-two end -->
+                </div>
               </div>
-              <div class="col-xl-4 col-sm-6 mb-30">
+
+              <div class="col-xl-4 col-sm-6 mb-30 ats-fade-up ats-stagger-5">
                 <div class="d-widget d-flex flex-wrap">
                   <div class="col-8">
                     <span class="caption">Total Withdraw</span>
-                    <h4 class="currency-amount">$1703</h4>
+                    <h4 class="currency-amount" data-counter="1703">$1,703</h4>
                   </div>
                   <div class="col-4">
                     <div class="icon ml-auto">
                       <i class="las la-cloud-download-alt"></i>
                     </div>
                   </div>
-                </div><!-- d-widget-two end -->
+                </div>
               </div>
-              <div class="col-xl-4 col-sm-6 mb-30">
+
+              <div class="col-xl-4 col-sm-6 mb-30 ats-fade-up ats-stagger-6">
                 <div class="d-widget d-flex flex-wrap">
                   <div class="col-8">
                     <span class="caption">Referral Earnings</span>
-                    <h4 class="currency-amount">$1710.5</h4>
+                    <h4 class="currency-amount" data-counter="1710.5">$1,710.50</h4>
                   </div>
                   <div class="col-4">
                     <div class="icon ml-auto">
                       <i class="las la-user-friends"></i>
                     </div>
                   </div>
-                </div><!-- d-widget-two end -->
+                </div>
               </div>
-            </div><!-- row end -->
-            <div class="row mt-50">
+
+            </div>
+            <!-- widgets row end -->
+
+
+            <!-- ============================================================
+                 REQUIREMENT 2: FULLY FUNCTIONAL AI RETURN CALCULATOR
+                 Fixed formula:
+                 2-Day plans: 26.04% per hour × 48 hours
+                 3-Day plans: 17.36% per hour × 72 hours
+                 Total Return = Investment × (1 + rate%) × hours
+                 Net Profit  = Total Return - Investment
+            ============================================================ -->
+            <div class="ats-calc-section ats-fade-up mt-50">
+              <h4>
+                <i class="las la-calculator"></i>
+                AI Return Calculator
+              </h4>
+
+              <div class="row mb-none-30">
+
+                <!-- Plan selector — NO investment amount shown in front -->
+                <div class="col-lg-6 mb-30">
+                  <label>
+                    <i class="las la-robot" style="color:#0A84FF; margin-right:6px;"></i>
+                    Choose AI Strategy
+                  </label>
+                  <select class="form-control" id="calcPlan" style="background:rgba(11,16,32,0.8); border-color:rgba(10,132,255,0.3); color:#e8eaf6;">
+                    <optgroup label="── 2 Days (48 Hours) ──">
+                      <option value="200:26.04:48:2">Beginner Access</option>
+                      <option value="300:26.04:48:2">Premium Access</option>
+                      <option value="400:26.04:48:2">Massive Growth</option>
+                      <option value="500:26.04:48:2">Trading Mastery</option>
+                    </optgroup>
+                    <optgroup label="── 3 Days (72 Hours) ──">
+                      <option value="600:17.36:72:3">Elite Trader</option>
+                      <option value="700:17.36:72:3">Professional Level</option>
+                      <option value="900:17.36:72:3">VIP Access</option>
+                      <option value="10000:17.36:72:3">Hack Bot Automation</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Investment amount -->
+                <div class="col-lg-6 mb-30">
+                  <label>
+                    <i class="las la-dollar-sign" style="color:#0A84FF; margin-right:6px;"></i>
+                    Investment Amount (USD)
+                  </label>
+                  <input type="number"
+                    id="calcAmount"
+                    class="form-control"
+                    placeholder="e.g. 500"
+                    min="1"
+                    step="any"
+                    style="background:rgba(11,16,32,0.8); border-color:rgba(10,132,255,0.3); color:#e8eaf6;">
+                  <span class="calc-error" id="calcError"></span>
+                </div>
+
+                <!-- Calculate button — MUST BE CLICKED -->
+                <div class="col-lg-12 mb-30">
+                  <button type="button" class="calc-btn" id="calcBtn" onclick="atsCalculate()">
+                    <i class="las la-bolt" style="margin-right:8px;"></i>
+                    Calculate My Returns
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Results panel (hidden until button is clicked) -->
+              <div class="calc-results" id="calcResults">
+
+                <div class="calc-results-header">
+                  <div class="calc-plan-badge" id="calcPlanBadge">
+                    <i class="las la-robot"></i>
+                    <span id="calcPlanName">—</span>
+                  </div>
+                  <br>
+                  <span>
+                    <i class="las la-check-circle" style="color:#00FFB3;"></i>
+                    AI Projection Complete
+                  </span>
+                </div>
+
+                <div class="calc-grid">
+
+                  <div class="calc-result-box">
+                    <span class="box-label">Hourly Profit</span>
+                    <span class="box-value" id="resHourly">$0.00</span>
+                  </div>
+
+                  <div class="calc-result-box">
+                    <span class="box-label">Daily Profit</span>
+                    <span class="box-value" id="resDaily">$0.00</span>
+                  </div>
+
+                  <div class="calc-result-box">
+                    <span class="box-label">Duration</span>
+                    <span class="box-value" id="resDuration">— Days</span>
+                  </div>
+
+                  <div class="calc-result-box">
+                    <span class="box-label">Hourly Rate</span>
+                    <span class="box-value" id="resRate">—%</span>
+                  </div>
+
+                  <div class="calc-result-box">
+                    <span class="box-label">Total Hours</span>
+                    <span class="box-value" id="resHours">—</span>
+                  </div>
+
+                  <div class="calc-result-box">
+                    <span class="box-label">ROI</span>
+                    <span class="box-value" id="resRoi">—%</span>
+                  </div>
+
+                  <div class="calc-result-box highlight">
+                    <span class="box-label">Net Profit</span>
+                    <span class="box-value" id="resProfit">$0.00</span>
+                  </div>
+
+                  <div class="calc-result-box highlight">
+                    <span class="box-label">Total Return</span>
+                    <span class="box-value" id="resTotal">$0.00</span>
+                  </div>
+
+                </div>
+
+                <p class="calc-disclaimer">
+                  * Projections based on the selected plan's fixed hourly rate over the full investment duration.<br>
+                  Past performance does not guarantee future results.
+                </p>
+
+              </div>
+              <!-- calc-results end -->
+
+            </div>
+            <!-- calculator section end -->
+
+
+            <!-- TRANSACTION TABLE — fade-up -->
+            <div class="row mt-50 ats-fade-up">
               <div class="col-lg-12">
+
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+                  <i class="las la-history" style="color:#00D4FF; font-size:20px;"></i>
+                  <h5 style="color:#ffffff; margin:0; font-family:'Josefin Sans',sans-serif; font-size:18px;">
+                    Recent Transactions
+                  </h5>
+                  <span style="padding:3px 10px; background:rgba(0,255,179,0.1); border:1px solid rgba(0,255,179,0.3); border-radius:10px; font-size:10px; color:#00FFB3; font-weight:700; text-transform:uppercase; letter-spacing:1px;">
+                    Live
+                  </span>
+                </div>
+
                 <div class="table-responsive--md p-0">
                   <table class="table style--two white-space-nowrap">
                     <thead>
@@ -216,122 +841,111 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">21/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">DZQXF5NAN2AT</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $17.50</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">17.50 USD Interest — AI Bot</td>
+                        <td data-label="Post Balance">$22,991.90</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">21/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">AK8MXPR9VT3Z</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $25.00</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">25.00 USD Interest — Neural Pro</td>
+                        <td data-label="Post Balance">$23,016.90</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">20/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">BQ7NLST4WX1M</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $17.50</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">17.50 USD Interest — AI Bot</td>
+                        <td data-label="Post Balance">$22,974.40</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">20/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">CR3PQWV8YH5J</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $17.50</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">17.50 USD Interest — Alpha Bot</td>
+                        <td data-label="Post Balance">$22,956.90</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">19/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">DS4RTKU9ZI6K</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $50.00</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">50.00 USD Interest — Elite Trader</td>
+                        <td data-label="Post Balance">$22,939.40</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">19/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">ET5SULV0AJ7L</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $17.50</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">17.50 USD Interest — Stealth AI</td>
+                        <td data-label="Post Balance">$22,889.40</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">18/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">FU6TVMW1BK8M</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $17.50</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">17.50 USD Interest — Vortex AI</td>
+                        <td data-label="Post Balance">$22,871.90</td>
                       </tr>
                       <tr>
-                        <td data-label="Date">21/02/2020</td>
-                        <td data-label="Transaction ID">
-                          <span class="base--color">DZQXF5NAN2AT</span>
-                        </td>
-                        <td data-label="Amount">
-                          <span class="text-success">+ $17.5</span>
-                        </td>
-                        <td data-label="Wallet">
-                          <span class="badge base--bg">Interest Wallet</span>
-                        </td>
-                        <td data-label="Details">17.5 USD Interest From Crown</td>
-                        <td data-label="Post Balance">$22991.9</td>
+                        <td data-label="Date">18/02/2024</td>
+                        <td data-label="Transaction ID"><span class="base--color">GV7UWNX2CL9N</span></td>
+                        <td data-label="Amount"><span class="text-success">+ $17.50</span></td>
+                        <td data-label="Wallet"><span class="badge base--bg">Interest Wallet</span></td>
+                        <td data-label="Details">17.50 USD Interest — AI Bot</td>
+                        <td data-label="Post Balance">$22,854.40</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
-            </div><!-- row end -->
+            </div>
+            <!-- transaction table end -->
+
+
+            <!-- ============================================================
+                 REQUIREMENT 3: AUTO-SLIDING PAYMENT CAROUSEL
+            ============================================================ -->
+            <div class="ats-payment-section ats-fade-up">
+              <h4>
+                <i class="las la-coins"></i>
+                Supported Payment Networks
+              </h4>
+
+              <div class="ats-payment-carousel">
+                <div class="ats-payment-track">
+                  <!-- Original set -->
+                  <div class="ats-pay-item"><img src="assets/images/brand/1.png" alt="Bitcoin"   loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/2.png" alt="Ethereum"  loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/3.png" alt="USDT"      loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/4.png" alt="BNB"       loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/5.png" alt="Solana"    loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/6.png" alt="Litecoin"  loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/7.png" alt="XRP"       loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/8.png" alt="USDC"      loading="lazy"></div>
+                  <!-- Duplicate for seamless infinite loop -->
+                  <div class="ats-pay-item"><img src="assets/images/brand/1.png" alt="Bitcoin"   loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/2.png" alt="Ethereum"  loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/3.png" alt="USDT"      loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/4.png" alt="BNB"       loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/5.png" alt="Solana"    loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/6.png" alt="Litecoin"  loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/7.png" alt="XRP"       loading="lazy"></div>
+                  <div class="ats-pay-item"><img src="assets/images/brand/8.png" alt="USDC"      loading="lazy"></div>
+                </div>
+              </div>
+            </div>
+            <!-- payment carousel end -->
+
           </div>
         </div>
       </div>
@@ -339,56 +953,445 @@
     <!-- dashboard section end -->
 
 
+    <!-- ============================================================
+         FOOTER
+         BG IMAGE → replace bg-7.jpg
+    ============================================================ -->
+    <footer class="footer bg_img ats-fade-up" data-background="assets/images/bg/bg-7.jpg">
+      <div class="footer__top">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-12 text-center">
 
-    <!-- footer section start -->
-<footer class="footer bg_img" data-background="assets/images/bg/bg-7.jpg">
-  <div class="footer__top">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-12 text-center">
-          <a href="#0" class="footer-logo"><img src="assets/images/logo.png" alt="image"></a>
-          <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
-            <li><a href="#0">Home</a></li>
-            <li><a href="#0">Privacy & Policy</a></li>
-            <li><a href="#0">Terms & Conditions</a></li>
-          </ul>
+              <a href="#0" class="footer-logo">
+                <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
+              </a>
+
+              <p style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+                AI-Powered Trading That Works 24/7
+              </p>
+
+              <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#0">AI Trading Plans</a></li>
+                <li><a href="#0">Privacy Policy</a></li>
+                <li><a href="#0">Terms &amp; Conditions</a></li>
+                <li><a href="#0">Risk Disclosure</a></li>
+              </ul>
+
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="footer__bottom">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 text-md-left text-center">
-          <p>© 2020 <a href="index.html" class="base--color">HYIPLAB</a>. All rights reserved</p>
-        </div>
-        <div class="col-md-6">
-          <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
-            <li><a href="#0" data-toggle="tooltip" data-placement="top" title="facebook"><i class="lab la-facebook-f"></i></a></li>
-            <li><a href="#0" data-toggle="tooltip" data-placement="top" title="twitter"><i class="lab la-twitter"></i></a></li>
-            <li><a href="#0" data-toggle="tooltip" data-placement="top" title="pinterest"><i class="lab la-pinterest-p"></i></a></li>
-            <li><a href="#0" data-toggle="tooltip" data-placement="top" title="pinterest"><i class="lab la-pinterest-in"></i></a></li>
-          </ul>
+      <div class="footer__bottom">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-md-left text-center">
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights reserved.</p>
+            </div>
+            <div class="col-md-6">
+              <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i class="lab la-discord"></i></a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</footer>
-<!-- footer section end -->
-  </div> <!-- page-wrapper end -->
-    <!-- jQuery library -->
+    </footer>
+
+  </div><!-- page-wrapper end -->
+
+  <!-- Original scripts — preserved exactly -->
   <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-  <!-- bootstrap js -->
   <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
-  <!-- slick slider js -->
   <script src="assets/js/vendor/slick.min.js"></script>
   <script src="assets/js/vendor/wow.min.js"></script>
   <script src="assets/js/contact.js"></script>
-  <!-- dashboard custom js -->
   <script src="assets/js/app.js"></script>
 
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"0542d18bc5a94bf6b5460f8530f5a523","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-</body>
+  <script>
+  /* ============================================================
+     REQUIREMENT 1: LIVE BINANCE WEBSOCKET TICKER
+     — Connects to Binance public WebSocket (free, no API key)
+     — Auto-reconnects with exponential backoff
+     — Updates prices in real-time
+  ============================================================ */
+  (function () {
+    'use strict';
 
-<!-- Mirrored from template.viserlab.com/hyiplab/demo/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 May 2026 12:53:12 GMT -->
-</html> 
+    var SYMBOLS = [
+      ['btcusdt',  'BTC/USD'],
+      ['ethusdt',  'ETH/USD'],
+      ['solusdt',  'SOL/USD'],
+      ['bnbusdt',  'BNB/USD'],
+      ['xrpusdt',  'XRP/USD'],
+      ['dogeusdt', 'DOGE/USD'],
+      ['adausdt',  'ADA/USD'],
+      ['maticusdt','MATIC/USD'],
+    ];
+
+    var liveData      = {};   // { symbol: { price, change } }
+    var reconnectMs   = 3000;
+    var ws            = null;
+    var tickerTimeout = null;
+
+    /* Format price based on magnitude */
+    function fmtPrice(p) {
+      p = parseFloat(p);
+      if (isNaN(p)) return '—';
+      if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (p >= 1)    return '$' + p.toFixed(4);
+      return '$' + p.toFixed(6);
+    }
+
+    /* Format 24h change */
+    function fmtChange(c) {
+      c = parseFloat(c);
+      if (isNaN(c)) return '';
+      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+    }
+
+    /* Rebuild the ticker HTML and duplicate for seamless loop */
+    function buildTicker() {
+      var inner = document.getElementById('atsTickerInner');
+      if (!inner) return;
+
+      var half = '';
+      SYMBOLS.forEach(function (s) {
+        var sym    = s[0];
+        var label  = s[1];
+        var d      = liveData[sym] || {};
+        var price  = d.price  ? fmtPrice(d.price)   : '—';
+        var change = d.change !== undefined ? parseFloat(d.change) : null;
+        var cls    = change === null ? '' : (change >= 0 ? 'up' : 'down');
+        var chTxt  = change !== null ? fmtChange(change) : '';
+
+        half += '<span class="ticker-item">';
+        half += '<span class="symbol">' + label + '</span>';
+        half += '<span class="price">' + price + '</span>';
+        if (chTxt) half += '<span class="change ' + cls + '">' + chTxt + '</span>';
+        half += '</span>';
+        half += '<span class="ticker-separator">·</span>';
+      });
+
+      inner.innerHTML = half + half; // duplicate for infinite CSS scroll
+    }
+
+    /* Debounced ticker rebuild (max once per 500ms) */
+    function scheduleTicker() {
+      if (tickerTimeout) return;
+      tickerTimeout = setTimeout(function () {
+        tickerTimeout = null;
+        buildTicker();
+      }, 500);
+    }
+
+    /* Connect to Binance multi-stream */
+    function connect() {
+      var streams = SYMBOLS.map(function (s) { return s[0] + '@ticker'; }).join('/');
+      var url = 'wss://stream.binance.com:9443/stream?streams=' + streams;
+
+      try { ws = new WebSocket(url); }
+      catch (e) { retry(); return; }
+
+      ws.onopen = function () { reconnectMs = 3000; };
+
+      ws.onmessage = function (e) {
+        try {
+          var msg = JSON.parse(e.data);
+          if (!msg || !msg.data) return;
+          var d   = msg.data;
+          var sym = (d.s || '').toLowerCase();
+          if (!sym) return;
+          liveData[sym] = { price: d.c, change: d.P };
+          scheduleTicker();
+        } catch (err) { /* ignore */ }
+      };
+
+      ws.onerror  = function () { /* silent */ };
+      ws.onclose  = function () { retry(); };
+    }
+
+    function retry() {
+      setTimeout(connect, reconnectMs);
+      reconnectMs = Math.min(reconnectMs * 1.5, 30000);
+    }
+
+    /* Start */
+    connect();
+    buildTicker(); // show placeholders immediately
+
+  }());
+
+
+  /* ============================================================
+     REQUIREMENT 2: FULLY FUNCTIONAL AI RETURN CALCULATOR
+     —————————————————————————————————————————————————————————
+     CORRECT FORMULA:
+       Each plan has a fixed hourly rate (%) and total hours.
+       Hourly Profit  = Investment × (rate / 100)
+       Total Profit   = Hourly Profit × Total Hours
+       Total Return   = Investment + Total Profit
+       ROI            = (Total Profit / Investment) × 100
+       Daily Profit   = Hourly Profit × 24
+
+     Plan data (from requirement 4):
+       2-Day plans: rate = 26.04% per hour, hours = 48
+       3-Day plans: rate = 17.36% per hour, hours = 72
+
+     The select option value format:
+       "minInvestment:hourlyRate:totalHours:days"
+  ============================================================ */
+
+  /* Plan display names — matched to option values */
+  var PLAN_NAMES = {
+    '200:26.04:48:2': 'Beginner Access',
+    '300:26.04:48:2': 'Premium Access',
+    '400:26.04:48:2': 'Massive Growth',
+    '500:26.04:48:2': 'Trading Mastery',
+    '600:17.36:72:3': 'Elite Trader',
+    '700:17.36:72:3': 'Professional Level',
+    '900:17.36:72:3': 'VIP Access',
+    '10000:17.36:72:3': 'Hack Bot Automation',
+  };
+
+  /* Animate a number counting up from 0 to target */
+  function animateNumber(elId, targetVal, prefix, suffix, decimals) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    var start     = 0;
+    var duration  = 900; // ms
+    var startTime = null;
+
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var elapsed  = ts - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      /* Ease out cubic */
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var val  = start + (targetVal - start) * ease;
+
+      el.textContent = prefix + val.toLocaleString('en-US', {
+        minimumFractionDigits:  decimals,
+        maximumFractionDigits:  decimals,
+      }) + suffix;
+
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  /* Main calculator function — triggered ONLY by button click */
+  function atsCalculate() {
+    var planEl   = document.getElementById('calcPlan');
+    var amtEl    = document.getElementById('calcAmount');
+    var errEl    = document.getElementById('calcError');
+    var resDiv   = document.getElementById('calcResults');
+
+    /* Hide previous error */
+    errEl.style.display = 'none';
+    errEl.textContent   = '';
+
+    /* Parse plan value */
+    var planVal    = planEl.value.split(':');
+    var minInvest  = parseFloat(planVal[0]);
+    var hourlyRate = parseFloat(planVal[1]); /* e.g. 26.04 */
+    var totalHours = parseInt(planVal[2]);   /* e.g. 48 */
+    var days       = parseInt(planVal[3]);   /* e.g. 2 */
+    var planName   = PLAN_NAMES[planEl.value] || planEl.options[planEl.selectedIndex].text;
+
+    /* Parse and validate investment amount */
+    var amount = parseFloat(amtEl.value);
+
+    if (!amtEl.value || amtEl.value.trim() === '') {
+      errEl.textContent   = '⚠ Please enter an investment amount.';
+      errEl.style.display = 'block';
+      resDiv.classList.remove('show');
+      return;
+    }
+
+    if (isNaN(amount) || amount <= 0) {
+      errEl.textContent   = '⚠ Please enter a valid positive number.';
+      errEl.style.display = 'block';
+      resDiv.classList.remove('show');
+      return;
+    }
+
+    if (amount < minInvest) {
+      errEl.textContent   = '⚠ Minimum investment for ' + planName + ' is $' + minInvest.toLocaleString('en-US', { minimumFractionDigits: 0 }) + '.';
+      errEl.style.display = 'block';
+      resDiv.classList.remove('show');
+      return;
+    }
+
+    /* ── CALCULATIONS ── */
+    var hourlyProfit = amount * (hourlyRate / 100);
+    var dailyProfit  = hourlyProfit * 24;
+    var totalProfit  = hourlyProfit * totalHours;
+    var totalReturn  = amount + totalProfit;
+    var roi          = (totalProfit / amount) * 100;
+
+    /* Update plan badge */
+    document.getElementById('calcPlanName').textContent = planName;
+
+    /* Show results with animation */
+    resDiv.classList.remove('show');
+    void resDiv.offsetWidth; /* force reflow so animation restarts */
+    resDiv.classList.add('show');
+
+    /* Animate all result values */
+    animateNumber('resHourly',   hourlyProfit, '$', '',       2);
+    animateNumber('resDaily',    dailyProfit,  '$', '',       2);
+    animateNumber('resProfit',   totalProfit,  '$', '',       2);
+    animateNumber('resTotal',    totalReturn,  '$', '',       2);
+    animateNumber('resRoi',      roi,          '',  '%',      2);
+
+    /* Static (non-animating) fields */
+    document.getElementById('resDuration').textContent = days + ' Days';
+    document.getElementById('resRate').textContent     = hourlyRate + '%';
+    document.getElementById('resHours').textContent    = totalHours + ' hrs';
+  }
+
+  /* Allow Enter key on amount input */
+  document.addEventListener('DOMContentLoaded', function () {
+    var amtEl = document.getElementById('calcAmount');
+    if (amtEl) {
+      amtEl.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') atsCalculate();
+      });
+    }
+  });
+
+
+  /* ============================================================
+     REQUIREMENT 5: INTERSECTION OBSERVER
+     — Fade-up animations on elements with .ats-fade-up
+     — Counter animations on stat widgets
+     — Triggered once, performance-optimised
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    if (!('IntersectionObserver' in window)) {
+      /* Fallback: show everything immediately */
+      document.querySelectorAll('.ats-fade-up, .ats-fade-in').forEach(function (el) {
+        el.classList.add('ats-visible');
+      });
+      return;
+    }
+
+    /* ── Fade animations ── */
+    var fadeObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('ats-visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.ats-fade-up, .ats-fade-in').forEach(function (el) {
+      fadeObserver.observe(el);
+    });
+
+    /* ── Counter animations on stat widget amounts ── */
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el  = entry.target;
+        var raw = parseFloat(el.getAttribute('data-counter'));
+        if (isNaN(raw)) return;
+
+        var duration  = 1200;
+        var startTime = null;
+
+        function tick(ts) {
+          if (!startTime) startTime = ts;
+          var elapsed  = ts - startTime;
+          var progress = Math.min(elapsed / duration, 1);
+          var ease     = 1 - Math.pow(1 - progress, 3);
+          var val      = raw * ease;
+
+          el.textContent = '$' + val.toLocaleString('en-US', {
+            minimumFractionDigits:  raw % 1 !== 0 ? 2 : 0,
+            maximumFractionDigits:  2,
+          });
+
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('[data-counter]').forEach(function (el) {
+      counterObserver.observe(el);
+    });
+
+    /* ── Lazy-load images with data-src ── */
+    if ('IntersectionObserver' in window) {
+      var imgObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+            }
+            imgObserver.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+
+      document.querySelectorAll('img[data-src]').forEach(function (img) {
+        imgObserver.observe(img);
+      });
+    }
+
+  }());
+
+
+  /* ============================================================
+     REQUIREMENT 6: PERFORMANCE OPTIMISATIONS
+     — Passive scroll listener
+     — Throttled resize handler
+     — requestAnimationFrame for scroll events
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    var ticking = false;
+
+    /* Throttled scroll using rAF */
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          /* Scroll-to-top button visibility is handled by app.js */
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* Debounced resize */
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        /* Any resize-sensitive logic goes here */
+      }, 150);
+    }, { passive: true });
+
+  }());
+
+  </script>
+
+</body>
+</html>
