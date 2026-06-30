@@ -21,11 +21,11 @@
 
     /* ── TICKER (same as index.html) ── */
     .ats-ticker-bar {
-      background: rgba(10,132,255,0.06);
-      border-bottom: 1px solid rgba(10,132,255,0.15);
+      background: rgba(10, 132, 255, 0.06);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.15);
       padding: 8px 0;
       font-size: 12px;
-      color: rgba(232,234,246,0.7);
+      color: rgba(232, 234, 246, 0.7);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       overflow: hidden;
@@ -46,7 +46,9 @@
       will-change: transform;
     }
 
-    .ats-ticker-bar:hover .ticker-inner { animation-play-state: paused; }
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
 
     .ats-ticker-bar .ticker-item {
       display: inline-flex;
@@ -55,21 +57,53 @@
       flex-shrink: 0;
     }
 
-    .ats-ticker-bar .ticker-item .symbol { color: rgba(232,234,246,0.5); font-weight: 600; }
-    .ats-ticker-bar .ticker-item .price  { color: #e8eaf6; font-weight: 700; font-family: "Josefin Sans", sans-serif; }
-    .ats-ticker-bar .ticker-item .change { font-weight: 600; font-size: 11px; }
-    .ats-ticker-bar .ticker-item .up     { color: #00FFB3; }
-    .ats-ticker-bar .ticker-item .down   { color: #ff4d6d; }
-    .ats-ticker-bar .ticker-sep          { color: rgba(10,132,255,0.35); }
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232, 234, 246, 0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up {
+      color: #00FFB3;
+    }
+
+    .ats-ticker-bar .ticker-item .down {
+      color: #ff4d6d;
+    }
+
+    .ats-ticker-bar .ticker-sep {
+      color: rgba(10, 132, 255, 0.35);
+    }
 
     @keyframes tickerScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
 
     @media (max-width: 575px) {
-      .ats-ticker-bar { font-size: 11px; padding: 7px 0; }
-      .ats-ticker-bar .ticker-inner { gap: 18px; }
+      .ats-ticker-bar {
+        font-size: 11px;
+        padding: 7px 0;
+      }
+
+      .ats-ticker-bar .ticker-inner {
+        gap: 18px;
+      }
     }
 
     /* ── IO FADE-UP ANIMATIONS (same as index.html) ── */
@@ -79,17 +113,46 @@
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    .ats-d1 { transition-delay: 0.05s; }
-    .ats-d2 { transition-delay: 0.12s; }
-    .ats-d3 { transition-delay: 0.19s; }
-    .ats-d4 { transition-delay: 0.26s; }
-    .ats-d5 { transition-delay: 0.33s; }
-    .ats-d6 { transition-delay: 0.40s; }
-    .ats-d7 { transition-delay: 0.47s; }
-    .ats-d8 { transition-delay: 0.54s; }
-    .ats-d9 { transition-delay: 0.61s; }
+    .ats-d1 {
+      transition-delay: 0.05s;
+    }
+
+    .ats-d2 {
+      transition-delay: 0.12s;
+    }
+
+    .ats-d3 {
+      transition-delay: 0.19s;
+    }
+
+    .ats-d4 {
+      transition-delay: 0.26s;
+    }
+
+    .ats-d5 {
+      transition-delay: 0.33s;
+    }
+
+    .ats-d6 {
+      transition-delay: 0.40s;
+    }
+
+    .ats-d7 {
+      transition-delay: 0.47s;
+    }
+
+    .ats-d8 {
+      transition-delay: 0.54s;
+    }
+
+    .ats-d9 {
+      transition-delay: 0.61s;
+    }
 
     /* ── BLOG CARDS — glassmorphism hover lift ── */
     .blog-card {
@@ -98,7 +161,7 @@
 
     .blog-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(10,132,255,0.18);
+      box-shadow: 0 16px 40px rgba(10, 132, 255, 0.18);
     }
 
     .blog-card__title a {
@@ -106,7 +169,9 @@
       transition: color 0.3s;
     }
 
-    .blog-card__title a:hover { color: #00D4FF; }
+    .blog-card__title a:hover {
+      color: #00D4FF;
+    }
 
     /* Blog card category tag */
     .blog-card-tag {
@@ -122,15 +187,44 @@
       margin-bottom: 12px;
     }
 
-    .blog-card-tag.ai     { background:rgba(10,132,255,0.12); color:#0A84FF; border:1px solid rgba(10,132,255,0.3); }
-    .blog-card-tag.market { background:rgba(0,212,255,0.12);  color:#00D4FF; border:1px solid rgba(0,212,255,0.3); }
-    .blog-card-tag.defi   { background:rgba(0,255,179,0.1);   color:#00FFB3; border:1px solid rgba(0,255,179,0.3); }
-    .blog-card-tag.bot    { background:rgba(255,215,0,0.08);  color:#ffd700; border:1px solid rgba(255,215,0,0.25); }
+    .blog-card-tag.ai {
+      background: rgba(10, 132, 255, 0.12);
+      color: #0A84FF;
+      border: 1px solid rgba(10, 132, 255, 0.3);
+    }
+
+    .blog-card-tag.market {
+      background: rgba(0, 212, 255, 0.12);
+      color: #00D4FF;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+
+    .blog-card-tag.defi {
+      background: rgba(0, 255, 179, 0.1);
+      color: #00FFB3;
+      border: 1px solid rgba(0, 255, 179, 0.3);
+    }
+
+    .blog-card-tag.bot {
+      background: rgba(255, 215, 0, 0.08);
+      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.25);
+    }
 
     /* Footer */
-    .footer__bottom p            { color: rgba(232,234,246,0.5); font-size:14px; }
-    .footer__bottom .base--color { color: #00D4FF !important; }
-    .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size:20px; }
+    .footer__bottom p {
+      color: rgba(232, 234, 246, 0.5);
+      font-size: 14px;
+    }
+
+    .footer__bottom .base--color {
+      color: #00D4FF !important;
+    }
+
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
   </style>
 </head>
 
@@ -178,31 +272,22 @@
               <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
             </ul>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-              data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-              aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu-toggle"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav main-menu m-auto">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="plan.html">AI Plans</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
                 <li class="menu_has_children"><a href="#0">Blog</a>
                   <ul class="sub-menu">
                     <li><a href="blog.html">Market Analysis</a></li>
                     <li><a href="blog-details.html">Trade Insights</a></li>
                   </ul>
                 </li>
-                <li class="menu_has_children"><a href="#0">Pages</a>
-                  <ul class="sub-menu">
-                    <li><a href="error-404.html">Error — 404</a></li>
-                  </ul>
-                </li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
 
               <div class="nav-right">
                 <ul class="account-menu ml-3">
@@ -576,7 +661,8 @@
                 <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
               </a>
 
-              <p style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+              <p
+                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
                 AI-Powered Trading That Works 24/7
               </p>
 
@@ -588,22 +674,35 @@
                 <li><a href="#0">Risk Disclosure</a></li>
               </ul>
 
-              <div style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+              <div
+                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">$5.4B+</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Volume Traded</div>
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $5.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Volume Traded</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">88K+</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Active Traders</div>
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    88K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Active Traders</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">99.99%</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">System Uptime</div>
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    System Uptime</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">99.99%</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">AI Win Rate</div>
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    AI Win Rate</div>
                 </div>
               </div>
 
@@ -616,14 +715,19 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6 text-md-left text-center">
-              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights reserved.</p>
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
+                reserved.</p>
             </div>
             <div class="col-md-6">
               <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i class="lab la-twitter"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i class="lab la-telegram-plane"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="lab la-linkedin-in"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i class="lab la-discord"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
+                      class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
+                      class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
+                      class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
+                      class="lab la-discord"></i></a></li>
               </ul>
             </div>
           </div>
@@ -642,164 +746,165 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-  /* ============================================================
-     1. LIVE BINANCE WEBSOCKET TICKER — same as index.html
-  ============================================================ */
-  (function () {
-    'use strict';
+    /* ============================================================
+       1. LIVE BINANCE WEBSOCKET TICKER — same as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
 
-    var PAIRS = [
-      ['btcusdt',  'BTC/USD'],
-      ['ethusdt',  'ETH/USD'],
-      ['solusdt',  'SOL/USD'],
-      ['bnbusdt',  'BNB/USD'],
-      ['xrpusdt',  'XRP/USD'],
-      ['dogeusdt', 'DOGE/USD'],
-      ['adausdt',  'ADA/USD'],
-      ['maticusdt','MATIC/USD'],
-    ];
+      var PAIRS = [
+        ['btcusdt', 'BTC/USD'],
+        ['ethusdt', 'ETH/USD'],
+        ['solusdt', 'SOL/USD'],
+        ['bnbusdt', 'BNB/USD'],
+        ['xrpusdt', 'XRP/USD'],
+        ['dogeusdt', 'DOGE/USD'],
+        ['adausdt', 'ADA/USD'],
+        ['maticusdt', 'MATIC/USD'],
+      ];
 
-    var live       = {};
-    var ws         = null;
-    var retryMs    = 3000;
-    var buildTimer = null;
+      var live = {};
+      var ws = null;
+      var retryMs = 3000;
+      var buildTimer = null;
 
-    function fmtPrice(p) {
-      p = parseFloat(p);
-      if (isNaN(p)) return '—';
-      if (p >= 1000) return '$' + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-      if (p >= 1)    return '$' + p.toFixed(4);
-      return '$' + p.toFixed(6);
-    }
-
-    function fmtChange(c) {
-      c = parseFloat(c);
-      if (isNaN(c)) return '';
-      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
-    }
-
-    function buildTicker() {
-      var el = document.getElementById('atsTickerInner');
-      if (!el) return;
-      var half = '';
-      PAIRS.forEach(function (p) {
-        var sym = p[0], lbl = p[1];
-        var d   = live[sym] || {};
-        var pr  = d.price  ? fmtPrice(d.price) : '—';
-        var ch  = d.change !== undefined ? parseFloat(d.change) : null;
-        var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
-        var ct  = ch !== null ? fmtChange(ch) : '';
-        half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
-        if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
-        half += '</span><span class="ticker-sep">·</span>';
-      });
-      el.innerHTML = half + half;
-    }
-
-    function scheduleBuild() {
-      if (buildTimer) return;
-      buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
-    }
-
-    function connect() {
-      var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
-      try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
-      catch (e) { retry(); return; }
-
-      ws.onopen  = function () { retryMs = 3000; };
-      ws.onclose = function () { retry(); };
-      ws.onerror = function () {};
-
-      ws.onmessage = function (e) {
-        try {
-          var m = JSON.parse(e.data);
-          if (!m || !m.data) return;
-          var sym = (m.data.s || '').toLowerCase();
-          live[sym] = { price: m.data.c, change: m.data.P };
-          scheduleBuild();
-        } catch (err) { /* ignore */ }
-      };
-    }
-
-    function retry() {
-      setTimeout(connect, retryMs);
-      retryMs = Math.min(retryMs * 1.5, 30000);
-    }
-
-    connect();
-    buildTicker();
-  }());
-
-
-  /* ============================================================
-     2. INTERSECTION OBSERVER — Fade-up + lazy images
-        Same implementation as index.html
-  ============================================================ */
-  (function () {
-    'use strict';
-
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-        el.classList.add('ats-visible');
-      });
-      return;
-    }
-
-    var fadeObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ats-visible');
-          fadeObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
-    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-      fadeObs.observe(el);
-    });
-
-    var imgObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var img = entry.target;
-          if (img.dataset.src) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-          }
-          imgObs.unobserve(img);
-        }
-      });
-    }, { rootMargin: '200px' });
-
-    document.querySelectorAll('img[data-src]').forEach(function (img) {
-      imgObs.observe(img);
-    });
-
-  }());
-
-
-  /* ============================================================
-     3. PERFORMANCE — passive listeners, rAF scroll, debounced resize
-  ============================================================ */
-  (function () {
-    'use strict';
-    var ticking = false;
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(function () { ticking = false; });
-        ticking = true;
+      function fmtPrice(p) {
+        p = parseFloat(p);
+        if (isNaN(p)) return '—';
+        if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (p >= 1) return '$' + p.toFixed(4);
+        return '$' + p.toFixed(6);
       }
-    }, { passive: true });
 
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
-    }, { passive: true });
-  }());
+      function fmtChange(c) {
+        c = parseFloat(c);
+        if (isNaN(c)) return '';
+        return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      }
+
+      function buildTicker() {
+        var el = document.getElementById('atsTickerInner');
+        if (!el) return;
+        var half = '';
+        PAIRS.forEach(function (p) {
+          var sym = p[0], lbl = p[1];
+          var d = live[sym] || {};
+          var pr = d.price ? fmtPrice(d.price) : '—';
+          var ch = d.change !== undefined ? parseFloat(d.change) : null;
+          var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+          var ct = ch !== null ? fmtChange(ch) : '';
+          half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+          if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+          half += '</span><span class="ticker-sep">·</span>';
+        });
+        el.innerHTML = half + half;
+      }
+
+      function scheduleBuild() {
+        if (buildTimer) return;
+        buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+      }
+
+      function connect() {
+        var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+        try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+        catch (e) { retry(); return; }
+
+        ws.onopen = function () { retryMs = 3000; };
+        ws.onclose = function () { retry(); };
+        ws.onerror = function () { };
+
+        ws.onmessage = function (e) {
+          try {
+            var m = JSON.parse(e.data);
+            if (!m || !m.data) return;
+            var sym = (m.data.s || '').toLowerCase();
+            live[sym] = { price: m.data.c, change: m.data.P };
+            scheduleBuild();
+          } catch (err) { /* ignore */ }
+        };
+      }
+
+      function retry() {
+        setTimeout(connect, retryMs);
+        retryMs = Math.min(retryMs * 1.5, 30000);
+      }
+
+      connect();
+      buildTicker();
+    }());
+
+
+    /* ============================================================
+       2. INTERSECTION OBSERVER — Fade-up + lazy images
+          Same implementation as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
+        return;
+      }
+
+      var fadeObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ats-visible');
+            fadeObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        fadeObs.observe(el);
+      });
+
+      var imgObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+            }
+            imgObs.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+
+      document.querySelectorAll('img[data-src]').forEach(function (img) {
+        imgObs.observe(img);
+      });
+
+    }());
+
+
+    /* ============================================================
+       3. PERFORMANCE — passive listeners, rAF scroll, debounced resize
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+      }, { passive: true });
+    }());
 
   </script>
 
 </body>
+
 </html>

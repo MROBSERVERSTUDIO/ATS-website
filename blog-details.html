@@ -21,11 +21,11 @@
 
     /* ── TICKER (same as index.html) ── */
     .ats-ticker-bar {
-      background: rgba(10,132,255,0.06);
-      border-bottom: 1px solid rgba(10,132,255,0.15);
+      background: rgba(10, 132, 255, 0.06);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.15);
       padding: 8px 0;
       font-size: 12px;
-      color: rgba(232,234,246,0.7);
+      color: rgba(232, 234, 246, 0.7);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       overflow: hidden;
@@ -46,7 +46,9 @@
       will-change: transform;
     }
 
-    .ats-ticker-bar:hover .ticker-inner { animation-play-state: paused; }
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
 
     .ats-ticker-bar .ticker-item {
       display: inline-flex;
@@ -55,21 +57,53 @@
       flex-shrink: 0;
     }
 
-    .ats-ticker-bar .ticker-item .symbol { color: rgba(232,234,246,0.5); font-weight: 600; }
-    .ats-ticker-bar .ticker-item .price  { color: #e8eaf6; font-weight: 700; font-family: "Josefin Sans", sans-serif; }
-    .ats-ticker-bar .ticker-item .change { font-weight: 600; font-size: 11px; }
-    .ats-ticker-bar .ticker-item .up     { color: #00FFB3; }
-    .ats-ticker-bar .ticker-item .down   { color: #ff4d6d; }
-    .ats-ticker-bar .ticker-sep          { color: rgba(10,132,255,0.35); }
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232, 234, 246, 0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up {
+      color: #00FFB3;
+    }
+
+    .ats-ticker-bar .ticker-item .down {
+      color: #ff4d6d;
+    }
+
+    .ats-ticker-bar .ticker-sep {
+      color: rgba(10, 132, 255, 0.35);
+    }
 
     @keyframes tickerScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
 
     @media (max-width: 575px) {
-      .ats-ticker-bar { font-size: 11px; padding: 7px 0; }
-      .ats-ticker-bar .ticker-inner { gap: 18px; }
+      .ats-ticker-bar {
+        font-size: 11px;
+        padding: 7px 0;
+      }
+
+      .ats-ticker-bar .ticker-inner {
+        gap: 18px;
+      }
     }
 
     /* ── IO FADE-UP ANIMATIONS (same as index.html) ── */
@@ -79,12 +113,26 @@
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    .ats-d1 { transition-delay: 0.05s; }
-    .ats-d2 { transition-delay: 0.12s; }
-    .ats-d3 { transition-delay: 0.19s; }
-    .ats-d4 { transition-delay: 0.26s; }
+    .ats-d1 {
+      transition-delay: 0.05s;
+    }
+
+    .ats-d2 {
+      transition-delay: 0.12s;
+    }
+
+    .ats-d3 {
+      transition-delay: 0.19s;
+    }
+
+    .ats-d4 {
+      transition-delay: 0.26s;
+    }
 
     /* Reading progress indicator — fixed below ticker so it doesn't clash */
     .ats-reading-bar {
@@ -117,9 +165,19 @@
       color: rgba(232, 234, 246, 0.55);
     }
 
-    .ats-article-meta .meta-item i { color: #00FFB3; font-size: 15px; }
-    .ats-article-meta .meta-item a { color: #00D4FF; font-size: 13px; }
-    .ats-article-meta .meta-item a:hover { color: #0A84FF; }
+    .ats-article-meta .meta-item i {
+      color: #00FFB3;
+      font-size: 15px;
+    }
+
+    .ats-article-meta .meta-item a {
+      color: #00D4FF;
+      font-size: 13px;
+    }
+
+    .ats-article-meta .meta-item a:hover {
+      color: #0A84FF;
+    }
 
     /* AI tag label on article */
     .ats-article-tag {
@@ -144,15 +202,16 @@
       align-items: center;
       gap: 8px;
       padding: 10px 18px;
-      background: rgba(10,132,255,0.08);
-      border: 1px solid rgba(10,132,255,0.25);
+      background: rgba(10, 132, 255, 0.08);
+      border: 1px solid rgba(10, 132, 255, 0.25);
       border-radius: 12px;
       margin: 24px 0;
     }
 
     .ats-confidence-badge .conf-icon {
-      width: 36px; height: 36px;
-      background: rgba(0,255,179,0.12);
+      width: 36px;
+      height: 36px;
+      background: rgba(0, 255, 179, 0.12);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -164,7 +223,7 @@
 
     .ats-confidence-badge .conf-text {
       font-size: 13px;
-      color: rgba(232,234,246,0.75);
+      color: rgba(232, 234, 246, 0.75);
     }
 
     .ats-confidence-badge .conf-text strong {
@@ -222,7 +281,9 @@
     }
 
     /* Form group spacing */
-    .comment-form .form-group { margin-bottom: 20px; }
+    .comment-form .form-group {
+      margin-bottom: 20px;
+    }
 
     /* Sidebar widget card wrapper — glassmorphism */
     .sidebar .widget {
@@ -236,32 +297,61 @@
     }
 
     .sidebar .widget:hover {
-      border-color: rgba(0,212,255,0.3);
+      border-color: rgba(0, 212, 255, 0.3);
     }
 
-    .sidebar .widget + .widget { margin-top: 24px !important; }
-    .sidebar .widget-title { margin-bottom: 20px !important; }
+    .sidebar .widget+.widget {
+      margin-top: 24px !important;
+    }
+
+    .sidebar .widget-title {
+      margin-bottom: 20px !important;
+    }
 
     /* Footer */
-    .footer__bottom p            { color: rgba(232, 234, 246, 0.5); font-size: 14px; }
-    .footer__bottom .base--color { color: #00D4FF !important; }
-    .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size: 20px; }
+    .footer__bottom p {
+      color: rgba(232, 234, 246, 0.5);
+      font-size: 14px;
+    }
+
+    .footer__bottom .base--color {
+      color: #00D4FF !important;
+    }
+
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
 
     /* Share post caption */
-    .blog-details__footer .caption { color: #ffffff; font-size: 20px; }
+    .blog-details__footer .caption {
+      color: #ffffff;
+      font-size: 20px;
+    }
 
     /* CTA live dot */
     .cta-live-dot {
-      width: 7px; height: 7px;
-      background: #00FFB3; border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,255,179,0.8);
+      width: 7px;
+      height: 7px;
+      background: #00FFB3;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
       animation: pulseDot 1.5s infinite;
       display: inline-block;
     }
 
     @keyframes pulseDot {
-      0%,100% { opacity:1; box-shadow:0 0 8px rgba(0,255,179,0.8); }
-      50%      { opacity:0.4; box-shadow:0 0 3px rgba(0,255,179,0.3); }
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      }
+
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px rgba(0, 255, 179, 0.3);
+      }
     }
   </style>
 </head>
@@ -322,21 +412,14 @@
               <ul class="navbar-nav main-menu m-auto">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="plan.html">AI Plans</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
                 <li class="menu_has_children"><a href="#0">Blog</a>
                   <ul class="sub-menu">
                     <li><a href="blog.html">Market Analysis</a></li>
                     <li><a href="blog-details.html">Trade Insights</a></li>
                   </ul>
                 </li>
-                <li class="menu_has_children"><a href="#0">Pages</a>
-                  <ul class="sub-menu">
-                    <li><a href="error-404.html">Error — 404</a></li>
-                  </ul>
-                </li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
 
               <div class="nav-right">
                 <ul class="account-menu ml-3">
@@ -416,7 +499,8 @@
 
               <!-- Article featured image -->
               <div class="blog-details__thumb">
-                <img src="assets/images/blog/1.jpg" alt="Bitcoin Reaches New ATH — AI Predicts 40% Further Upside" loading="lazy">
+                <img src="assets/images/blog/1.jpg" alt="Bitcoin Reaches New ATH — AI Predicts 40% Further Upside"
+                  loading="lazy">
                 <div class="post__date">
                   <span class="date">20</span>
                   <span class="month">Nov</span>
@@ -462,7 +546,8 @@
                 <div class="ats-confidence-badge">
                   <div class="conf-icon"><i class="las la-brain"></i></div>
                   <div class="conf-text">
-                    AI Confidence Score: <strong>91.4%</strong> — Based on 2.3M on-chain data points analyzed across 47 exchanges
+                    AI Confidence Score: <strong>91.4%</strong> — Based on 2.3M on-chain data points analyzed across 47
+                    exchanges
                   </div>
                 </div>
 
@@ -748,7 +833,8 @@
                 <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
               </a>
 
-              <p style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+              <p
+                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
                 AI-Powered Trading That Works 24/7
               </p>
 
@@ -760,22 +846,35 @@
                 <li><a href="#0">Risk Disclosure</a></li>
               </ul>
 
-              <div style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+              <div
+                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">$5.4B+</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Volume Traded</div>
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $5.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Volume Traded</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">88K+</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Active Traders</div>
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    88K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Active Traders</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">99.99%</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">System Uptime</div>
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    System Uptime</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">99.99%</div>
-                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">AI Win Rate</div>
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    AI Win Rate</div>
                 </div>
               </div>
 
@@ -788,14 +887,19 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6 text-md-left text-center">
-              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights reserved.</p>
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
+                reserved.</p>
             </div>
             <div class="col-md-6">
               <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i class="lab la-twitter"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i class="lab la-telegram-plane"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="lab la-linkedin-in"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i class="lab la-discord"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
+                      class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
+                      class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
+                      class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
+                      class="lab la-discord"></i></a></li>
               </ul>
             </div>
           </div>
@@ -814,179 +918,180 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-  /* ============================================================
-     1. LIVE BINANCE WEBSOCKET TICKER — same as index.html
-  ============================================================ */
-  (function () {
-    'use strict';
+    /* ============================================================
+       1. LIVE BINANCE WEBSOCKET TICKER — same as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
 
-    var PAIRS = [
-      ['btcusdt',  'BTC/USD'],
-      ['ethusdt',  'ETH/USD'],
-      ['solusdt',  'SOL/USD'],
-      ['bnbusdt',  'BNB/USD'],
-      ['xrpusdt',  'XRP/USD'],
-      ['dogeusdt', 'DOGE/USD'],
-      ['adausdt',  'ADA/USD'],
-      ['maticusdt','MATIC/USD'],
-    ];
+      var PAIRS = [
+        ['btcusdt', 'BTC/USD'],
+        ['ethusdt', 'ETH/USD'],
+        ['solusdt', 'SOL/USD'],
+        ['bnbusdt', 'BNB/USD'],
+        ['xrpusdt', 'XRP/USD'],
+        ['dogeusdt', 'DOGE/USD'],
+        ['adausdt', 'ADA/USD'],
+        ['maticusdt', 'MATIC/USD'],
+      ];
 
-    var live       = {};
-    var ws         = null;
-    var retryMs    = 3000;
-    var buildTimer = null;
+      var live = {};
+      var ws = null;
+      var retryMs = 3000;
+      var buildTimer = null;
 
-    function fmtPrice(p) {
-      p = parseFloat(p);
-      if (isNaN(p)) return '—';
-      if (p >= 1000) return '$' + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-      if (p >= 1)    return '$' + p.toFixed(4);
-      return '$' + p.toFixed(6);
-    }
-
-    function fmtChange(c) {
-      c = parseFloat(c);
-      if (isNaN(c)) return '';
-      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
-    }
-
-    function buildTicker() {
-      var el = document.getElementById('atsTickerInner');
-      if (!el) return;
-      var half = '';
-      PAIRS.forEach(function (p) {
-        var sym = p[0], lbl = p[1];
-        var d   = live[sym] || {};
-        var pr  = d.price  ? fmtPrice(d.price) : '—';
-        var ch  = d.change !== undefined ? parseFloat(d.change) : null;
-        var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
-        var ct  = ch !== null ? fmtChange(ch) : '';
-        half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
-        if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
-        half += '</span><span class="ticker-sep">·</span>';
-      });
-      el.innerHTML = half + half;
-    }
-
-    function scheduleBuild() {
-      if (buildTimer) return;
-      buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
-    }
-
-    function connect() {
-      var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
-      try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
-      catch (e) { retry(); return; }
-
-      ws.onopen  = function () { retryMs = 3000; };
-      ws.onclose = function () { retry(); };
-      ws.onerror = function () {};
-
-      ws.onmessage = function (e) {
-        try {
-          var m = JSON.parse(e.data);
-          if (!m || !m.data) return;
-          var sym = (m.data.s || '').toLowerCase();
-          live[sym] = { price: m.data.c, change: m.data.P };
-          scheduleBuild();
-        } catch (err) { /* ignore */ }
-      };
-    }
-
-    function retry() {
-      setTimeout(connect, retryMs);
-      retryMs = Math.min(retryMs * 1.5, 30000);
-    }
-
-    connect();
-    buildTicker();
-  }());
-
-
-  /* ============================================================
-     2. INTERSECTION OBSERVER — Fade-up + lazy images
-        Same implementation as index.html
-  ============================================================ */
-  (function () {
-    'use strict';
-
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-        el.classList.add('ats-visible');
-      });
-      return;
-    }
-
-    var fadeObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ats-visible');
-          fadeObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
-
-    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-      fadeObs.observe(el);
-    });
-
-    var imgObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var img = entry.target;
-          if (img.dataset.src) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-          }
-          imgObs.unobserve(img);
-        }
-      });
-    }, { rootMargin: '200px' });
-
-    document.querySelectorAll('img[data-src]').forEach(function (img) {
-      imgObs.observe(img);
-    });
-
-  }());
-
-
-  /* ============================================================
-     3. PERFORMANCE — passive listeners, rAF scroll, debounced resize
-        Same as index.html — reading bar uses rAF-throttled scroll
-  ============================================================ */
-  (function () {
-    'use strict';
-    var ticking = false;
-    var readingBar = document.getElementById('readingBar');
-
-    function updateReadingBar() {
-      var scrollTop    = document.documentElement.scrollTop || document.body.scrollTop;
-      var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      var progress     = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-      if (readingBar) readingBar.style.width = progress + '%';
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(function () {
-          updateReadingBar();
-          ticking = false;
-        });
-        ticking = true;
+      function fmtPrice(p) {
+        p = parseFloat(p);
+        if (isNaN(p)) return '—';
+        if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (p >= 1) return '$' + p.toFixed(4);
+        return '$' + p.toFixed(6);
       }
-    }, { passive: true });
 
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
-    }, { passive: true });
+      function fmtChange(c) {
+        c = parseFloat(c);
+        if (isNaN(c)) return '';
+        return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      }
 
-    /* Initial paint */
-    updateReadingBar();
-  }());
+      function buildTicker() {
+        var el = document.getElementById('atsTickerInner');
+        if (!el) return;
+        var half = '';
+        PAIRS.forEach(function (p) {
+          var sym = p[0], lbl = p[1];
+          var d = live[sym] || {};
+          var pr = d.price ? fmtPrice(d.price) : '—';
+          var ch = d.change !== undefined ? parseFloat(d.change) : null;
+          var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+          var ct = ch !== null ? fmtChange(ch) : '';
+          half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+          if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+          half += '</span><span class="ticker-sep">·</span>';
+        });
+        el.innerHTML = half + half;
+      }
+
+      function scheduleBuild() {
+        if (buildTimer) return;
+        buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+      }
+
+      function connect() {
+        var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+        try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+        catch (e) { retry(); return; }
+
+        ws.onopen = function () { retryMs = 3000; };
+        ws.onclose = function () { retry(); };
+        ws.onerror = function () { };
+
+        ws.onmessage = function (e) {
+          try {
+            var m = JSON.parse(e.data);
+            if (!m || !m.data) return;
+            var sym = (m.data.s || '').toLowerCase();
+            live[sym] = { price: m.data.c, change: m.data.P };
+            scheduleBuild();
+          } catch (err) { /* ignore */ }
+        };
+      }
+
+      function retry() {
+        setTimeout(connect, retryMs);
+        retryMs = Math.min(retryMs * 1.5, 30000);
+      }
+
+      connect();
+      buildTicker();
+    }());
+
+
+    /* ============================================================
+       2. INTERSECTION OBSERVER — Fade-up + lazy images
+          Same implementation as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
+        return;
+      }
+
+      var fadeObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ats-visible');
+            fadeObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        fadeObs.observe(el);
+      });
+
+      var imgObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+            }
+            imgObs.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+
+      document.querySelectorAll('img[data-src]').forEach(function (img) {
+        imgObs.observe(img);
+      });
+
+    }());
+
+
+    /* ============================================================
+       3. PERFORMANCE — passive listeners, rAF scroll, debounced resize
+          Same as index.html — reading bar uses rAF-throttled scroll
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
+      var readingBar = document.getElementById('readingBar');
+
+      function updateReadingBar() {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        if (readingBar) readingBar.style.width = progress + '%';
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () {
+            updateReadingBar();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+      }, { passive: true });
+
+      /* Initial paint */
+      updateReadingBar();
+    }());
 
   </script>
 
 </body>
+
 </html>

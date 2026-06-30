@@ -21,11 +21,11 @@
 
     /* ── TICKER ── */
     .ats-ticker-bar {
-      background: rgba(10,132,255,0.06);
-      border-bottom: 1px solid rgba(10,132,255,0.15);
+      background: rgba(10, 132, 255, 0.06);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.15);
       padding: 8px 0;
       font-size: 12px;
-      color: rgba(232,234,246,0.7);
+      color: rgba(232, 234, 246, 0.7);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       overflow: hidden;
@@ -46,7 +46,9 @@
       will-change: transform;
     }
 
-    .ats-ticker-bar:hover .ticker-inner { animation-play-state: paused; }
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
 
     .ats-ticker-bar .ticker-item {
       display: inline-flex;
@@ -55,21 +57,53 @@
       flex-shrink: 0;
     }
 
-    .ats-ticker-bar .ticker-item .symbol { color: rgba(232,234,246,0.5); font-weight: 600; }
-    .ats-ticker-bar .ticker-item .price  { color: #e8eaf6; font-weight: 700; font-family: "Josefin Sans", sans-serif; }
-    .ats-ticker-bar .ticker-item .change { font-weight: 600; font-size: 11px; }
-    .ats-ticker-bar .ticker-item .up     { color: #00FFB3; }
-    .ats-ticker-bar .ticker-item .down   { color: #ff4d6d; }
-    .ats-ticker-bar .ticker-sep          { color: rgba(10,132,255,0.35); }
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232, 234, 246, 0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up {
+      color: #00FFB3;
+    }
+
+    .ats-ticker-bar .ticker-item .down {
+      color: #ff4d6d;
+    }
+
+    .ats-ticker-bar .ticker-sep {
+      color: rgba(10, 132, 255, 0.35);
+    }
 
     @keyframes tickerScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
 
     @media (max-width: 575px) {
-      .ats-ticker-bar { font-size: 11px; padding: 7px 0; }
-      .ats-ticker-bar .ticker-inner { gap: 18px; }
+      .ats-ticker-bar {
+        font-size: 11px;
+        padding: 7px 0;
+      }
+
+      .ats-ticker-bar .ticker-inner {
+        gap: 18px;
+      }
     }
 
     /* ── HERO ── */
@@ -78,16 +112,27 @@
       padding-bottom: 100px !important;
     }
 
-    @media (max-width: 1199px) { .hero { padding-top: 80px !important; padding-bottom: 80px !important; } }
-    @media (max-width: 767px)  { .hero { padding-top: 60px !important; padding-bottom: 60px !important; } }
+    @media (max-width: 1199px) {
+      .hero {
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .hero {
+        padding-top: 60px !important;
+        padding-bottom: 60px !important;
+      }
+    }
 
     .hero-ai-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 6px 16px;
-      background: rgba(0,255,179,0.1);
-      border: 1px solid rgba(0,255,179,0.3);
+      background: rgba(0, 255, 179, 0.1);
+      border: 1px solid rgba(0, 255, 179, 0.3);
       border-radius: 20px;
       font-size: 11px;
       color: #00FFB3;
@@ -99,53 +144,136 @@
 
     .hero-ai-badge::before {
       content: '';
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       background: #00FFB3;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,255,179,0.8);
+      box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
       animation: pulseDot 1.5s ease-in-out infinite;
     }
 
     @keyframes pulseDot {
-      0%,100% { opacity:1; box-shadow:0 0 8px rgba(0,255,179,0.8); }
-      50%      { opacity:0.4; box-shadow:0 0 3px rgba(0,255,179,0.3); }
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      }
+
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px rgba(0, 255, 179, 0.3);
+      }
     }
 
-    .hero-stats { display:flex; gap:30px; margin-top:28px; flex-wrap:wrap; }
-    .hero-stats__item { display:flex; flex-direction:column; }
-    .hero-stats__item .stat-value { font-size:22px; font-weight:700; color:#00D4FF; font-family:"Josefin Sans",sans-serif; line-height:1; }
-    .hero-stats__item .stat-label { font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+    .hero-stats {
+      display: flex;
+      gap: 30px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats__item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stats__item .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #00D4FF;
+      font-family: "Josefin Sans", sans-serif;
+      line-height: 1;
+    }
+
+    .hero-stats__item .stat-label {
+      font-size: 11px;
+      color: rgba(232, 234, 246, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
 
     .hero-chart-svg {
-      position:absolute; right:-20px; top:50%; transform:translateY(-50%);
-      width:50%; max-width:680px; opacity:0.18; pointer-events:none; display:none;
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50%;
+      max-width: 680px;
+      opacity: 0.18;
+      pointer-events: none;
+      display: none;
     }
-    @media (min-width:1200px) { .hero-chart-svg { display:block; } }
+
+    @media (min-width:1200px) {
+      .hero-chart-svg {
+        display: block;
+      }
+    }
 
     /* ── PLAN BADGES ── */
     .plan-tier-badge {
-      display:inline-block; font-size:10px; font-weight:700;
-      text-transform:uppercase; letter-spacing:2px;
-      padding:3px 10px; border-radius:10px; margin-bottom:12px;
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
     }
-    .plan-tier-badge.starter  { background:rgba(10,132,255,0.15); color:#0A84FF; border:1px solid rgba(10,132,255,0.3); }
-    .plan-tier-badge.advanced { background:rgba(0,212,255,0.15);  color:#00D4FF; border:1px solid rgba(0,212,255,0.3); }
-    .plan-tier-badge.pro      { background:rgba(0,255,179,0.12);  color:#00FFB3; border:1px solid rgba(0,255,179,0.3); }
-    .plan-tier-badge.elite    { background:rgba(255,215,0,0.1);   color:#ffd700; border:1px solid rgba(255,215,0,0.3); }
-    .plan-tier-badge.vip      { background:rgba(255,77,109,0.12); color:#ff4d6d; border:1px solid rgba(255,77,109,0.3); }
+
+    .plan-tier-badge.starter {
+      background: rgba(10, 132, 255, 0.15);
+      color: #0A84FF;
+      border: 1px solid rgba(10, 132, 255, 0.3);
+    }
+
+    .plan-tier-badge.advanced {
+      background: rgba(0, 212, 255, 0.15);
+      color: #00D4FF;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+
+    .plan-tier-badge.pro {
+      background: rgba(0, 255, 179, 0.12);
+      color: #00FFB3;
+      border: 1px solid rgba(0, 255, 179, 0.3);
+    }
+
+    .plan-tier-badge.elite {
+      background: rgba(255, 215, 0, 0.1);
+      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .plan-tier-badge.vip {
+      background: rgba(255, 77, 109, 0.12);
+      color: #ff4d6d;
+      border: 1px solid rgba(255, 77, 109, 0.3);
+    }
 
     .plan-total-profit {
-      font-size:13px; font-weight:700; color:#00FFB3;
-      background:rgba(0,255,179,0.08); border:1px solid rgba(0,255,179,0.2);
-      border-radius:6px; padding:6px 10px; margin-top:8px; display:block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #00FFB3;
+      background: rgba(0, 255, 179, 0.08);
+      border: 1px solid rgba(0, 255, 179, 0.2);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-top: 8px;
+      display: block;
     }
 
     /* ── CALCULATOR — FIXED & FUNCTIONAL ── */
-    .section-dark-alt { background: #0d1426; }
+    .section-dark-alt {
+      background: #0d1426;
+    }
 
     .profit-calculator-wrapper {
-      background: rgba(20,27,52,0.9);
-      border: 1px solid rgba(10,132,255,0.2);
+      background: rgba(20, 27, 52, 0.9);
+      border: 1px solid rgba(10, 132, 255, 0.2);
       border-radius: 16px;
       padding: 32px;
       position: relative;
@@ -154,15 +282,19 @@
 
     .profit-calculator-wrapper::before {
       content: '';
-      position: absolute; top:0; left:0; right:0; height:2px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
       background: linear-gradient(90deg, #0A84FF, #00FFB3, #00D4FF);
     }
 
     /* Styled select and inputs inside calculator */
     .profit-calculator-wrapper select,
     .profit-calculator-wrapper input {
-      background: rgba(11,16,32,0.85) !important;
-      border: 1px solid rgba(10,132,255,0.3) !important;
+      background: rgba(11, 16, 32, 0.85) !important;
+      border: 1px solid rgba(10, 132, 255, 0.3) !important;
       color: #e8eaf6 !important;
       border-radius: 8px;
       padding: 10px 14px;
@@ -173,13 +305,13 @@
 
     .profit-calculator-wrapper select:focus,
     .profit-calculator-wrapper input:focus {
-      border-color: rgba(0,212,255,0.5) !important;
+      border-color: rgba(0, 212, 255, 0.5) !important;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(10,132,255,0.1);
+      box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
     }
 
     .profit-calculator-wrapper label {
-      color: rgba(232,234,246,0.65);
+      color: rgba(232, 234, 246, 0.65);
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
@@ -202,7 +334,7 @@
       letter-spacing: 1.5px;
       cursor: pointer;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
-      box-shadow: 0 6px 24px rgba(10,132,255,0.45);
+      box-shadow: 0 6px 24px rgba(10, 132, 255, 0.45);
       font-family: "Josefin Sans", sans-serif;
       display: flex;
       align-items: center;
@@ -212,10 +344,12 @@
 
     .ats-calc-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(10,132,255,0.65);
+      box-shadow: 0 10px 32px rgba(10, 132, 255, 0.65);
     }
 
-    .ats-calc-btn:active { transform: translateY(0); }
+    .ats-calc-btn:active {
+      transform: translateY(0);
+    }
 
     /* Validation error */
     .ats-calc-error {
@@ -224,8 +358,8 @@
       font-size: 13px;
       margin-top: 8px;
       padding: 10px 14px;
-      background: rgba(255,77,109,0.08);
-      border: 1px solid rgba(255,77,109,0.25);
+      background: rgba(255, 77, 109, 0.08);
+      border: 1px solid rgba(255, 77, 109, 0.25);
       border-radius: 8px;
     }
 
@@ -234,8 +368,8 @@
       display: none;
       margin-top: 28px;
       padding: 24px;
-      background: rgba(10,132,255,0.04);
-      border: 1px solid rgba(10,132,255,0.18);
+      background: rgba(10, 132, 255, 0.04);
+      border: 1px solid rgba(10, 132, 255, 0.18);
       border-radius: 12px;
     }
 
@@ -245,15 +379,22 @@
     }
 
     @keyframes calcSlideIn {
-      from { opacity:0; transform:translateY(10px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .ats-calc-results__header {
       text-align: center;
       margin-bottom: 20px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(10,132,255,0.12);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.12);
     }
 
     .ats-calc-results__header .plan-badge {
@@ -261,8 +402,8 @@
       align-items: center;
       gap: 6px;
       padding: 5px 14px;
-      background: rgba(10,132,255,0.1);
-      border: 1px solid rgba(10,132,255,0.25);
+      background: rgba(10, 132, 255, 0.1);
+      border: 1px solid rgba(10, 132, 255, 0.25);
       border-radius: 20px;
       font-size: 12px;
       color: #00D4FF;
@@ -285,29 +426,33 @@
     }
 
     @media (max-width: 575px) {
-      .ats-calc-grid { grid-template-columns: repeat(2, 1fr); }
+      .ats-calc-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .ats-calc-box {
-      background: rgba(20,27,52,0.9);
-      border: 1px solid rgba(10,132,255,0.12);
+      background: rgba(20, 27, 52, 0.9);
+      border: 1px solid rgba(10, 132, 255, 0.12);
       border-radius: 10px;
       padding: 16px 12px;
       text-align: center;
       transition: border-color 0.3s;
     }
 
-    .ats-calc-box:hover { border-color: rgba(0,212,255,0.3); }
+    .ats-calc-box:hover {
+      border-color: rgba(0, 212, 255, 0.3);
+    }
 
     .ats-calc-box.big {
-      border-color: rgba(0,255,179,0.3);
-      background: rgba(0,255,179,0.04);
+      border-color: rgba(0, 255, 179, 0.3);
+      background: rgba(0, 255, 179, 0.04);
     }
 
     .ats-calc-box .lbl {
       display: block;
       font-size: 10px;
-      color: rgba(232,234,246,0.4);
+      color: rgba(232, 234, 246, 0.4);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 8px;
@@ -323,13 +468,13 @@
 
     .ats-calc-box.big .val {
       font-size: 22px;
-      text-shadow: 0 0 14px rgba(0,255,179,0.4);
+      text-shadow: 0 0 14px rgba(0, 255, 179, 0.4);
     }
 
     .ats-calc-disclaimer {
       text-align: center;
       font-size: 11px;
-      color: rgba(232,234,246,0.28);
+      color: rgba(232, 234, 246, 0.28);
       margin-top: 16px;
       line-height: 1.6;
     }
@@ -344,12 +489,23 @@
     .ats-payment-carousel::before,
     .ats-payment-carousel::after {
       content: '';
-      position: absolute; top:0; bottom:0;
-      width: 80px; z-index: 2; pointer-events: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
     }
 
-    .ats-payment-carousel::before { left:0;  background: linear-gradient(to right, #0B1020, transparent); }
-    .ats-payment-carousel::after  { right:0; background: linear-gradient(to left,  #0B1020, transparent); }
+    .ats-payment-carousel::before {
+      left: 0;
+      background: linear-gradient(to right, #0B1020, transparent);
+    }
+
+    .ats-payment-carousel::after {
+      right: 0;
+      background: linear-gradient(to left, #0B1020, transparent);
+    }
 
     .ats-payment-track {
       display: inline-flex;
@@ -358,11 +514,18 @@
       will-change: transform;
     }
 
-    .ats-payment-carousel:hover .ats-payment-track { animation-play-state: paused; }
+    .ats-payment-carousel:hover .ats-payment-track {
+      animation-play-state: paused;
+    }
 
     @keyframes payScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
 
     .ats-pay-item {
@@ -370,8 +533,8 @@
       align-items: center;
       justify-content: center;
       padding: 18px 26px;
-      background: rgba(20,27,52,0.8);
-      border: 1px solid rgba(10,132,255,0.15);
+      background: rgba(20, 27, 52, 0.8);
+      border: 1px solid rgba(10, 132, 255, 0.15);
       border-radius: 10px;
       flex-shrink: 0;
       min-width: 110px;
@@ -379,19 +542,22 @@
     }
 
     .ats-pay-item:hover {
-      border-color: rgba(0,212,255,0.4);
+      border-color: rgba(0, 212, 255, 0.4);
       transform: translateY(-3px);
-      box-shadow: 0 4px 16px rgba(10,132,255,0.2);
+      box-shadow: 0 4px 16px rgba(10, 132, 255, 0.2);
     }
 
     .ats-pay-item img {
-      max-height: 46px; max-width: 90px;
+      max-height: 46px;
+      max-width: 90px;
       object-fit: contain;
       filter: brightness(0.75) grayscale(0.2);
       transition: filter 0.3s;
     }
 
-    .ats-pay-item:hover img { filter: brightness(1) grayscale(0); }
+    .ats-pay-item:hover img {
+      filter: brightness(1) grayscale(0);
+    }
 
     /* ── IO FADE-UP ANIMATIONS ── */
     .ats-fade-up {
@@ -400,23 +566,68 @@
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    .ats-fade-up.ats-visible { opacity:1; transform:translateY(0); }
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    .ats-d1 { transition-delay: 0.05s; }
-    .ats-d2 { transition-delay: 0.12s; }
-    .ats-d3 { transition-delay: 0.19s; }
-    .ats-d4 { transition-delay: 0.26s; }
+    .ats-d1 {
+      transition-delay: 0.05s;
+    }
+
+    .ats-d2 {
+      transition-delay: 0.12s;
+    }
+
+    .ats-d3 {
+      transition-delay: 0.19s;
+    }
+
+    .ats-d4 {
+      transition-delay: 0.26s;
+    }
 
     /* ── MISC ── */
-    .team-card .designation { color:#00D4FF; font-size:13px; text-transform:uppercase; letter-spacing:1px; }
-    .investor-card__content .name   { color:#ffffff; font-size:15px; font-weight:600; }
-    .investor-card__content .amount { color:#00FFB3; font-size:13px; }
-    .footer__bottom p            { color:rgba(232,234,246,0.5); font-size:14px; }
-    .footer__bottom .base--color { color:#00D4FF !important; }
-    .scroll-to-top .scroll-icon i { transform:rotate(0deg) !important; font-size:20px; }
+    .team-card .designation {
+      color: #00D4FF;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .investor-card__content .name {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .investor-card__content .amount {
+      color: #00FFB3;
+      font-size: 13px;
+    }
+
+    .footer__bottom p {
+      color: rgba(232, 234, 246, 0.5);
+      font-size: 14px;
+    }
+
+    .footer__bottom .base--color {
+      color: #00D4FF !important;
+    }
+
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
+
     .cta-live-dot {
-      width:7px; height:7px; background:#00FFB3; border-radius:50%;
-      box-shadow:0 0 8px rgba(0,255,179,0.8); animation:pulseDot 1.5s infinite; display:inline-block;
+      width: 7px;
+      height: 7px;
+      background: #00FFB3;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      animation: pulseDot 1.5s infinite;
+      display: inline-block;
     }
   </style>
 </head>
@@ -435,8 +646,10 @@
 
   <div class="full-wh">
     <div class="bg-animation">
-      <div id='stars'></div><div id='stars2'></div>
-      <div id='stars3'></div><div id='stars4'></div>
+      <div id='stars'></div>
+      <div id='stars2'></div>
+      <div id='stars3'></div>
+      <div id='stars4'></div>
     </div>
   </div>
 
@@ -453,38 +666,32 @@
             <ul class="account-menu mobile-acc-menu">
               <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
             </ul>
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-              data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-              aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="menu-toggle"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav main-menu m-auto">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="plan.html">AI Plans</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
                 <li class="menu_has_children"><a href="#0">Blog</a>
                   <ul class="sub-menu">
                     <li><a href="blog.html">Market Analysis</a></li>
                     <li><a href="blog-details.html">Trade Insights</a></li>
                   </ul>
                 </li>
-                <li class="menu_has_children"><a href="#0">Pages</a>
-                  <ul class="sub-menu">
-                    <li><a href="error-404.html">Error — 404</a></li>
+                <div class="nav-right">
+                  <ul class="account-menu ml-3">
+                    <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
                   </ul>
-                </li>
-                <li><a href="contact.html">Contact</a></li>
-              </ul>
-              <div class="nav-right">
-                <ul class="account-menu ml-3">
-                  <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
-                </ul>
-                <select class="select d-inline-block w-auto ml-xl-3">
-                  <option>Eng</option><option>Ban</option><option>Hin</option>
-                </select>
-              </div>
+                  <select class="select d-inline-block w-auto ml-xl-3">
+                    <option>Eng</option>
+                    <option>Ban</option>
+                    <option>Hin</option>
+                  </select>
+                </div>
             </div>
           </nav>
         </div>
@@ -508,19 +715,24 @@
       <svg class="hero-chart-svg" viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"   style="stop-color:#0A84FF;stop-opacity:0.5"/>
-            <stop offset="100%" style="stop-color:#0A84FF;stop-opacity:0"/>
+            <stop offset="0%" style="stop-color:#0A84FF;stop-opacity:0.5" />
+            <stop offset="100%" style="stop-color:#0A84FF;stop-opacity:0" />
           </linearGradient>
         </defs>
-        <path d="M0,280 L60,240 L120,260 L180,200 L240,220 L300,160 L360,180 L420,120 L480,90 L540,110 L600,60 L660,40 L700,20 L700,350 L0,350 Z" fill="url(#chartGrad)" opacity="0.6"/>
-        <path d="M0,280 L60,240 L120,260 L180,200 L240,220 L300,160 L360,180 L420,120 L480,90 L540,110 L600,60 L660,40 L700,20" fill="none" stroke="#0A84FF" stroke-width="2.5" opacity="0.9"/>
-        <path d="M0,310 L80,290 L160,300 L240,270 L320,250 L400,230 L480,200 L560,180 L640,150 L700,120" fill="none" stroke="#00FFB3" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.5"/>
-        <circle cx="300" cy="160" r="5" fill="#0A84FF"/>
-        <circle cx="480" cy="90"  r="5" fill="#00D4FF"/>
-        <circle cx="660" cy="40"  r="6" fill="#00FFB3"/>
-        <line x1="0" y1="80"  x2="700" y2="80"  stroke="rgba(10,132,255,0.12)" stroke-width="1"/>
-        <line x1="0" y1="160" x2="700" y2="160" stroke="rgba(10,132,255,0.12)" stroke-width="1"/>
-        <line x1="0" y1="240" x2="700" y2="240" stroke="rgba(10,132,255,0.12)" stroke-width="1"/>
+        <path
+          d="M0,280 L60,240 L120,260 L180,200 L240,220 L300,160 L360,180 L420,120 L480,90 L540,110 L600,60 L660,40 L700,20 L700,350 L0,350 Z"
+          fill="url(#chartGrad)" opacity="0.6" />
+        <path
+          d="M0,280 L60,240 L120,260 L180,200 L240,220 L300,160 L360,180 L420,120 L480,90 L540,110 L600,60 L660,40 L700,20"
+          fill="none" stroke="#0A84FF" stroke-width="2.5" opacity="0.9" />
+        <path d="M0,310 L80,290 L160,300 L240,270 L320,250 L400,230 L480,200 L560,180 L640,150 L700,120" fill="none"
+          stroke="#00FFB3" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.5" />
+        <circle cx="300" cy="160" r="5" fill="#0A84FF" />
+        <circle cx="480" cy="90" r="5" fill="#00D4FF" />
+        <circle cx="660" cy="40" r="6" fill="#00FFB3" />
+        <line x1="0" y1="80" x2="700" y2="80" stroke="rgba(10,132,255,0.12)" stroke-width="1" />
+        <line x1="0" y1="160" x2="700" y2="160" stroke="rgba(10,132,255,0.12)" stroke-width="1" />
+        <line x1="0" y1="240" x2="700" y2="240" stroke="rgba(10,132,255,0.12)" stroke-width="1" />
       </svg>
 
       <div class="container">
@@ -608,15 +820,29 @@
                 <span class="font-weight-normal">AI-Powered</span>
                 <b style="color:#00FFB3;"> Trading Platform</b>
               </h2>
-              <p style="color:rgba(232,234,246,0.85); line-height:1.9;">ATS is a next-generation automated trading system powered by deep learning neural networks and real-time market intelligence. Our algorithms continuously scan global markets, identifying high-probability trade setups that human traders would never detect.</p>
-              <p class="mt-4" style="color:rgba(232,234,246,0.85); line-height:1.9;">Founded by a team of quantitative analysts, machine learning engineers, and veteran traders, our mission is to democratize institutional-grade trading strategies for every investor.</p>
+              <p style="color:rgba(232,234,246,0.85); line-height:1.9;">ATS is a next-generation automated trading
+                system powered by deep learning neural networks and real-time market intelligence. Our algorithms
+                continuously scan global markets, identifying high-probability trade setups that human traders would
+                never detect.</p>
+              <p class="mt-4" style="color:rgba(232,234,246,0.85); line-height:1.9;">Founded by a team of quantitative
+                analysts, machine learning engineers, and veteran traders, our mission is to democratize
+                institutional-grade trading strategies for every investor.</p>
               <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:24px;">
-                <span style="padding:6px 14px; background:rgba(10,132,255,0.1); border:1px solid rgba(10,132,255,0.3); border-radius:20px; font-size:12px; color:#00D4FF; font-weight:600;"><i class="las la-brain"></i> Deep Learning AI</span>
-                <span style="padding:6px 14px; background:rgba(0,255,179,0.08); border:1px solid rgba(0,255,179,0.25); border-radius:20px; font-size:12px; color:#00FFB3; font-weight:600;"><i class="las la-shield-alt"></i> Military Encryption</span>
-                <span style="padding:6px 14px; background:rgba(10,132,255,0.1); border:1px solid rgba(10,132,255,0.3); border-radius:20px; font-size:12px; color:#00D4FF; font-weight:600;"><i class="las la-chart-line"></i> 1000+ Signal Sources</span>
-                <span style="padding:6px 14px; background:rgba(0,255,179,0.08); border:1px solid rgba(0,255,179,0.25); border-radius:20px; font-size:12px; color:#00FFB3; font-weight:600;"><i class="las la-clock"></i> 24/7 Autonomous</span>
+                <span
+                  style="padding:6px 14px; background:rgba(10,132,255,0.1); border:1px solid rgba(10,132,255,0.3); border-radius:20px; font-size:12px; color:#00D4FF; font-weight:600;"><i
+                    class="las la-brain"></i> Deep Learning AI</span>
+                <span
+                  style="padding:6px 14px; background:rgba(0,255,179,0.08); border:1px solid rgba(0,255,179,0.25); border-radius:20px; font-size:12px; color:#00FFB3; font-weight:600;"><i
+                    class="las la-shield-alt"></i> Military Encryption</span>
+                <span
+                  style="padding:6px 14px; background:rgba(10,132,255,0.1); border:1px solid rgba(10,132,255,0.3); border-radius:20px; font-size:12px; color:#00D4FF; font-weight:600;"><i
+                    class="las la-chart-line"></i> 1000+ Signal Sources</span>
+                <span
+                  style="padding:6px 14px; background:rgba(0,255,179,0.08); border:1px solid rgba(0,255,179,0.25); border-radius:20px; font-size:12px; color:#00FFB3; font-weight:600;"><i
+                    class="las la-clock"></i> 24/7 Autonomous</span>
               </div>
-              <a href="about.html" class="cmn-btn mt-4"><i class="las la-info-circle" style="margin-right:6px;"></i>Learn More</a>
+              <a href="about.html" class="cmn-btn mt-4"><i class="las la-info-circle"
+                  style="margin-right:6px;"></i>Learn More</a>
             </div>
           </div>
         </div>
@@ -635,7 +861,8 @@
                 <span class="font-weight-normal">AI Trading</span>
                 <b style="color:#00D4FF;"> Plans</b>
               </h2>
-              <p style="color:rgba(232,234,246,0.65);">2-Day plans earn 26.04% per hour. 3-Day plans earn 17.36% per hour. All fully automated.</p>
+              <p style="color:rgba(232,234,246,0.65);">2-Day plans earn 26.04% per hour. 3-Day plans earn 17.36% per
+                hour. All fully automated.</p>
             </div>
           </div>
         </div>
@@ -650,7 +877,8 @@
                 <li><i class="las la-percentage" style="color:#0A84FF; margin-right:5px;"></i>Return 26.04% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 2 Days (48hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $2,500</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $2,500</span></li>
               </ul>
               <div class="package-card__range mt-4">$200</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -665,7 +893,8 @@
                 <li><i class="las la-percentage" style="color:#00D4FF; margin-right:5px;"></i>Return 26.04% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 2 Days (48hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $3,750</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $3,750</span></li>
               </ul>
               <div class="package-card__range mt-4">$300</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -680,7 +909,8 @@
                 <li><i class="las la-percentage" style="color:#00FFB3; margin-right:5px;"></i>Return 26.04% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 2 Days (48hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $5,000</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $5,000</span></li>
               </ul>
               <div class="package-card__range mt-4">$400</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -695,7 +925,8 @@
                 <li><i class="las la-percentage" style="color:#00D4FF; margin-right:5px;"></i>Return 26.04% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 2 Days (48hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $6,250</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $6,250</span></li>
               </ul>
               <div class="package-card__range mt-4">$500</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -711,7 +942,8 @@
                 <li><i class="las la-percentage" style="color:#ffd700; margin-right:5px;"></i>Return 17.36% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 3 Days (72hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $7,500</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $7,500</span></li>
               </ul>
               <div class="package-card__range mt-4">$600</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -726,7 +958,8 @@
                 <li><i class="las la-percentage" style="color:#00FFB3; margin-right:5px;"></i>Return 17.36% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 3 Days (72hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $8,750</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $8,750</span></li>
               </ul>
               <div class="package-card__range mt-4">$700</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -741,7 +974,8 @@
                 <li><i class="las la-percentage" style="color:#ff4d6d; margin-right:5px;"></i>Return 17.36% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 3 Days (72hrs)</li>
-                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit: $11,250</span></li>
+                <li><span class="plan-total-profit"><i class="las la-trophy" style="margin-right:4px;"></i>Total Profit:
+                    $11,250</span></li>
               </ul>
               <div class="package-card__range mt-4">$900</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -756,7 +990,9 @@
                 <li><i class="las la-percentage" style="color:#ffd700; margin-right:5px;"></i>Return 17.36% / Hour</li>
                 <li>Every Hour</li>
                 <li>For 3 Days (72hrs)</li>
-                <li><span class="plan-total-profit" style="color:#ffd700; border-color:rgba(255,215,0,0.3); background:rgba(255,215,0,0.08);"><i class="las la-infinity" style="margin-right:4px;"></i>Total Profit: $125,000+</span></li>
+                <li><span class="plan-total-profit"
+                    style="color:#ffd700; border-color:rgba(255,215,0,0.3); background:rgba(255,215,0,0.08);"><i
+                      class="las la-infinity" style="margin-right:4px;"></i>Total Profit: $125,000+</span></li>
               </ul>
               <div class="package-card__range mt-4">$10,000+</div>
               <a href="login.html" class="cmn-btn btn-md mt-4">AUTO-TRADE</a>
@@ -766,7 +1002,8 @@
         </div>
         <div class="row mt-50">
           <div class="col-lg-12 text-center">
-            <a href="login.html" class="cmn-btn"><i class="las la-th-list" style="margin-right:6px;"></i>View All AI Strategies</a>
+            <a href="login.html" class="cmn-btn"><i class="las la-th-list" style="margin-right:6px;"></i>View All AI
+              Strategies</a>
           </div>
         </div>
       </div>
@@ -780,21 +1017,104 @@
           <div class="col-lg-7 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Our Edge</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Why Choose</span><b style="color:#00D4FF;"> ATS Platform</b></h2>
-              <p style="color:rgba(232,234,246,0.7);">Our AI trading infrastructure is built for institutional performance at retail scale.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Why Choose</span><b
+                  style="color:#00D4FF;"> ATS Platform</b></h2>
+              <p style="color:rgba(232,234,246,0.7);">Our AI trading infrastructure is built for institutional
+                performance at retail scale.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center mb-none-30">
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d1"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-certificate"></i></div><h4 class="choose-card__title">SEC Registered</h4></div><p style="color:rgba(232,234,246,0.7);">ATS operates under full regulatory compliance, audited quarterly by independent financial authorities.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d2"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-lock"></i></div><h4 class="choose-card__title">Military Encryption</h4></div><p style="color:rgba(232,234,246,0.7);">256-bit AES encryption protects every transaction with cold-storage multi-signature wallets.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d3"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-user-lock"></i></div><h4 class="choose-card__title">Privacy First</h4></div><p style="color:rgba(232,234,246,0.7);">Trade with complete anonymity. Zero personal data shared with third parties.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d1"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-shipping-fast"></i></div><h4 class="choose-card__title">Instant Withdrawal</h4></div><p style="color:rgba(232,234,246,0.7);">AI-processed withdrawals execute in under 60 seconds. Your profits are always accessible.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d2"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-users"></i></div><h4 class="choose-card__title">Referral Program</h4></div><p style="color:rgba(232,234,246,0.7);">Earn passive income via our multi-tier referral system — rewarded every time your network trades.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d3"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-headset"></i></div><h4 class="choose-card__title">24/7 AI Support</h4></div><p style="color:rgba(232,234,246,0.7);">Our AI support resolves 95% of queries instantly. Human specialists handle complex cases.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d1"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-server"></i></div><h4 class="choose-card__title">Quantum Servers</h4></div><p style="color:rgba(232,234,246,0.7);">Bare-metal servers with sub-millisecond latency co-located at major exchange data centers.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d2"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="fab fa-expeditedssl"></i></div><h4 class="choose-card__title">SSL / TLS Secured</h4></div><p style="color:rgba(232,234,246,0.7);">Extended Validation SSL with HSTS — every byte between you and the platform is impenetrable.</p></div></div>
-          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d3"><div class="choose-card border-radius--5"><div class="choose-card__header mb-3"><div class="choose-card__icon"><i class="las la-shield-alt"></i></div><h4 class="choose-card__title">DDoS Protection</h4></div><p style="color:rgba(232,234,246,0.7);">10 Tbps scrubbing capacity ensuring 99.99% uptime — your trades never miss a beat.</p></div></div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d1">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-certificate"></i></div>
+                <h4 class="choose-card__title">SEC Registered</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">ATS operates under full regulatory compliance, audited quarterly
+                by independent financial authorities.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d2">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-lock"></i></div>
+                <h4 class="choose-card__title">Military Encryption</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">256-bit AES encryption protects every transaction with
+                cold-storage multi-signature wallets.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d3">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-user-lock"></i></div>
+                <h4 class="choose-card__title">Privacy First</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">Trade with complete anonymity. Zero personal data shared with
+                third parties.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d1">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-shipping-fast"></i></div>
+                <h4 class="choose-card__title">Instant Withdrawal</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">AI-processed withdrawals execute in under 60 seconds. Your profits
+                are always accessible.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d2">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-users"></i></div>
+                <h4 class="choose-card__title">Referral Program</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">Earn passive income via our multi-tier referral system — rewarded
+                every time your network trades.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d3">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-headset"></i></div>
+                <h4 class="choose-card__title">24/7 AI Support</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">Our AI support resolves 95% of queries instantly. Human
+                specialists handle complex cases.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d1">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-server"></i></div>
+                <h4 class="choose-card__title">Quantum Servers</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">Bare-metal servers with sub-millisecond latency co-located at
+                major exchange data centers.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d2">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="fab fa-expeditedssl"></i></div>
+                <h4 class="choose-card__title">SSL / TLS Secured</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">Extended Validation SSL with HSTS — every byte between you and the
+                platform is impenetrable.</p>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6 mb-30 ats-fade-up ats-d3">
+            <div class="choose-card border-radius--5">
+              <div class="choose-card__header mb-3">
+                <div class="choose-card__icon"><i class="las la-shield-alt"></i></div>
+                <h4 class="choose-card__title">DDoS Protection</h4>
+              </div>
+              <p style="color:rgba(232,234,246,0.7);">10 Tbps scrubbing capacity ensuring 99.99% uptime — your trades
+                never miss a beat.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -861,11 +1181,7 @@
                     <i class="las la-dollar-sign" style="color:#0A84FF; margin-right:6px;"></i>
                     Investment Amount (USD)
                   </label>
-                  <input type="number"
-                    id="atsCalcAmount"
-                    placeholder="Enter amount e.g. 500"
-                    min="1"
-                    step="any">
+                  <input type="number" id="atsCalcAmount" placeholder="Enter amount e.g. 500" min="1" step="any">
                   <span class="ats-calc-error" id="atsCalcError"></span>
                 </div>
 
@@ -959,28 +1275,45 @@
           <div class="col-lg-7 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Simple 3-Step Process</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">How</span><b style="color:#00D4FF;"> ATS</b><span class="font-weight-normal"> Works</span></h2>
-              <p style="color:rgba(232,234,246,0.7);">Three steps to activate your AI bot — no trading knowledge required.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">How</span><b style="color:#00D4FF;">
+                  ATS</b><span class="font-weight-normal"> Works</span></h2>
+              <p style="color:rgba(232,234,246,0.7);">Three steps to activate your AI bot — no trading knowledge
+                required.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center mb-none-30">
           <div class="col-lg-4 col-md-6 work-item mb-30 ats-fade-up ats-d1">
             <div class="work-card text-center">
-              <div class="work-card__icon"><i class="las la-user-plus" style="color:#0A84FF;"></i><span class="step-number">01</span></div>
-              <div class="work-card__content"><h4 style="color:#00D4FF;" class="mb-3">Create Account</h4><p style="color:rgba(232,234,246,0.65); font-size:14px;">Register in under 2 minutes and set your trading preferences.</p></div>
+              <div class="work-card__icon"><i class="las la-user-plus" style="color:#0A84FF;"></i><span
+                  class="step-number">01</span></div>
+              <div class="work-card__content">
+                <h4 style="color:#00D4FF;" class="mb-3">Create Account</h4>
+                <p style="color:rgba(232,234,246,0.65); font-size:14px;">Register in under 2 minutes and set your
+                  trading preferences.</p>
+              </div>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 work-item mb-30 ats-fade-up ats-d2">
             <div class="work-card text-center">
-              <div class="work-card__icon"><i class="las la-robot" style="color:#00D4FF;"></i><span class="step-number">02</span></div>
-              <div class="work-card__content"><h4 style="color:#00D4FF;" class="mb-3">Deploy AI Bot</h4><p style="color:rgba(232,234,246,0.65); font-size:14px;">Choose your strategy, fund your account, activate with one click.</p></div>
+              <div class="work-card__icon"><i class="las la-robot" style="color:#00D4FF;"></i><span
+                  class="step-number">02</span></div>
+              <div class="work-card__content">
+                <h4 style="color:#00D4FF;" class="mb-3">Deploy AI Bot</h4>
+                <p style="color:rgba(232,234,246,0.65); font-size:14px;">Choose your strategy, fund your account,
+                  activate with one click.</p>
+              </div>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 work-item mb-30 ats-fade-up ats-d3">
             <div class="work-card text-center">
-              <div class="work-card__icon"><i class="las la-wallet" style="color:#00FFB3;"></i><span class="step-number">03</span></div>
-              <div class="work-card__content"><h4 style="color:#00D4FF;" class="mb-3">Collect Profits</h4><p style="color:rgba(232,234,246,0.65); font-size:14px;">Watch returns accumulate in real-time. Withdraw anytime.</p></div>
+              <div class="work-card__icon"><i class="las la-wallet" style="color:#00FFB3;"></i><span
+                  class="step-number">03</span></div>
+              <div class="work-card__content">
+                <h4 style="color:#00D4FF;" class="mb-3">Collect Profits</h4>
+                <p style="color:rgba(232,234,246,0.65); font-size:14px;">Watch returns accumulate in real-time. Withdraw
+                  anytime.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -995,19 +1328,73 @@
           <div class="col-lg-6 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Got Questions?</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Frequently Asked</span><b style="color:#00D4FF;"> Questions</b></h2>
-              <p style="color:rgba(232,234,246,0.65);">Everything you need to know about ATS. AI support is available 24/7.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Frequently Asked</span><b
+                  style="color:#00D4FF;"> Questions</b></h2>
+              <p style="color:rgba(232,234,246,0.65);">Everything you need to know about ATS. AI support is available
+                24/7.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-8">
             <div class="accordion cmn-accordion" id="accordionExample">
-              <div class="card"><div class="card-header" id="h1"><h2 class="mb-0"><button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#c1" aria-expanded="true" aria-controls="c1"><i class="las la-robot"></i><span>When can I deposit or withdraw from my ATS account?</span></button></h2></div><div id="c1" class="collapse show" aria-labelledby="h1" data-parent="#accordionExample"><div class="card-body" style="color:rgba(232,234,246,0.75);">Deposits and withdrawals are available at any time. Our AI settlement engine processes withdrawals in under 60 seconds.</div></div></div>
-              <div class="card"><div class="card-header" id="h2"><h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#c2" aria-expanded="false" aria-controls="c2"><i class="las la-chart-line"></i><span>How do I monitor my AI bot's performance?</span></button></h2></div><div id="c2" class="collapse" aria-labelledby="h2" data-parent="#accordionExample"><div class="card-body" style="color:rgba(232,234,246,0.75);">Your dashboard provides real-time analytics including trade history, win rate, profit/loss charts, and AI signal insights.</div></div></div>
-              <div class="card"><div class="card-header" id="h3"><h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#c3" aria-expanded="false" aria-controls="c3"><i class="las la-lock"></i><span>I forgot my password — what should I do?</span></button></h2></div><div id="c3" class="collapse" aria-labelledby="h3" data-parent="#accordionExample"><div class="card-body" style="color:rgba(232,234,246,0.75);">Visit the password reset page and enter your registered email. You'll receive a secure reset link within 60 seconds.</div></div></div>
-              <div class="card"><div class="card-header" id="h4"><h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#c4" aria-expanded="false" aria-controls="c4"><i class="las la-bell"></i><span>How will I know when my withdrawal is successful?</span></button></h2></div><div id="c4" class="collapse" aria-labelledby="h4" data-parent="#accordionExample"><div class="card-body" style="color:rgba(232,234,246,0.75);">You'll receive an instant push notification, email confirmation, and a blockchain transaction hash for crypto withdrawals.</div></div></div>
-              <div class="card"><div class="card-header" id="h5"><h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#c5" aria-expanded="false" aria-controls="c5"><i class="las la-dollar-sign"></i><span>How much can I withdraw at once?</span></button></h2></div><div id="c5" class="collapse" aria-labelledby="h5" data-parent="#accordionExample"><div class="card-body" style="color:rgba(232,234,246,0.75);">You can withdraw your full available balance at any time. Minimum withdrawal is $10. No maximum limits for Elite accounts.</div></div></div>
+              <div class="card">
+                <div class="card-header" id="h1">
+                  <h2 class="mb-0"><button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                      data-target="#c1" aria-expanded="true" aria-controls="c1"><i class="las la-robot"></i><span>When
+                        can I deposit or withdraw from my ATS account?</span></button></h2>
+                </div>
+                <div id="c1" class="collapse show" aria-labelledby="h1" data-parent="#accordionExample">
+                  <div class="card-body" style="color:rgba(232,234,246,0.75);">Deposits and withdrawals are available at
+                    any time. Our AI settlement engine processes withdrawals in under 60 seconds.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="h2">
+                  <h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button"
+                      data-toggle="collapse" data-target="#c2" aria-expanded="false" aria-controls="c2"><i
+                        class="las la-chart-line"></i><span>How do I monitor my AI bot's performance?</span></button>
+                  </h2>
+                </div>
+                <div id="c2" class="collapse" aria-labelledby="h2" data-parent="#accordionExample">
+                  <div class="card-body" style="color:rgba(232,234,246,0.75);">Your dashboard provides real-time
+                    analytics including trade history, win rate, profit/loss charts, and AI signal insights.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="h3">
+                  <h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button"
+                      data-toggle="collapse" data-target="#c3" aria-expanded="false" aria-controls="c3"><i
+                        class="las la-lock"></i><span>I forgot my password — what should I do?</span></button></h2>
+                </div>
+                <div id="c3" class="collapse" aria-labelledby="h3" data-parent="#accordionExample">
+                  <div class="card-body" style="color:rgba(232,234,246,0.75);">Visit the password reset page and enter
+                    your registered email. You'll receive a secure reset link within 60 seconds.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="h4">
+                  <h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button"
+                      data-toggle="collapse" data-target="#c4" aria-expanded="false" aria-controls="c4"><i
+                        class="las la-bell"></i><span>How will I know when my withdrawal is successful?</span></button>
+                  </h2>
+                </div>
+                <div id="c4" class="collapse" aria-labelledby="h4" data-parent="#accordionExample">
+                  <div class="card-body" style="color:rgba(232,234,246,0.75);">You'll receive an instant push
+                    notification, email confirmation, and a blockchain transaction hash for crypto withdrawals.</div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="h5">
+                  <h2 class="mb-0"><button class="btn btn-link btn-block text-left collapsed" type="button"
+                      data-toggle="collapse" data-target="#c5" aria-expanded="false" aria-controls="c5"><i
+                        class="las la-dollar-sign"></i><span>How much can I withdraw at once?</span></button></h2>
+                </div>
+                <div id="c5" class="collapse" aria-labelledby="h5" data-parent="#accordionExample">
+                  <div class="card-body" style="color:rgba(232,234,246,0.75);">You can withdraw your full available
+                    balance at any time. Minimum withdrawal is $10. No maximum limits for Elite accounts.</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1022,18 +1409,82 @@
           <div class="col-lg-7 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Trader Reviews</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">What Our Traders</span><b style="color:#00D4FF;"> Say About ATS</b></h2>
-              <p style="color:rgba(232,234,246,0.65);">Over 88,000 active traders globally trust ATS to manage their portfolios.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">What Our Traders</span><b
+                  style="color:#00D4FF;"> Say About ATS</b></h2>
+              <p style="color:rgba(232,234,246,0.65);">Over 88,000 active traders globally trust ATS to manage their
+                portfolios.</p>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-12">
             <div class="testimonial-slider">
-              <div class="single-slide"><div class="testimonial-card"><div class="testimonial-card__content"><p style="color:rgba(232,234,246,0.85);">"The Neural Pro bot has completely transformed my portfolio. After 6 months I've seen consistent returns. The dashboard transparency gives me complete confidence."</p></div><div class="testimonial-card__client"><div class="thumb"><img src="assets/images/testimonial/1.jpg" alt="Trader"></div><div class="content"><h6 class="name">Marcus Chen</h6><span class="designation">Quantitative Analyst, Singapore</span><div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div></div></div></div></div>
-              <div class="single-slide"><div class="testimonial-card"><div class="testimonial-card__content"><p style="color:rgba(232,234,246,0.85);">"I switched from manual trading to ATS six months ago. The AI identifies opportunities I would have completely missed. My ROI has increased by 340%."</p></div><div class="testimonial-card__client"><div class="thumb"><img src="assets/images/testimonial/2.jpg" alt="Trader"></div><div class="content"><h6 class="name">Sarah Mitchell</h6><span class="designation">Portfolio Manager, London</span><div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div></div></div></div></div>
-              <div class="single-slide"><div class="testimonial-card"><div class="testimonial-card__content"><p style="color:rgba(232,234,246,0.85);">"During recent market volatility, the AI adapted in real-time and turned a bearish market into a profitable quarter. Absolutely remarkable technology."</p></div><div class="testimonial-card__client"><div class="thumb"><img src="assets/images/testimonial/3.jpg" alt="Trader"></div><div class="content"><h6 class="name">Rajesh Patel</h6><span class="designation">Crypto Fund Manager, Dubai</span><div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div></div></div></div></div>
-              <div class="single-slide"><div class="testimonial-card"><div class="testimonial-card__content"><p style="color:rgba(232,234,246,0.85);">"As a complete beginner, the ATS onboarding was incredibly simple. My bot has been running for 3 months with zero issues and consistent daily returns."</p></div><div class="testimonial-card__client"><div class="thumb"><img src="assets/images/testimonial/4.jpg" alt="Trader"></div><div class="content"><h6 class="name">Emily Nguyen</h6><span class="designation">Retail Investor, Toronto</span><div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div></div></div></div></div>
+              <div class="single-slide">
+                <div class="testimonial-card">
+                  <div class="testimonial-card__content">
+                    <p style="color:rgba(232,234,246,0.85);">"The Neural Pro bot has completely transformed my
+                      portfolio. After 6 months I've seen consistent returns. The dashboard transparency gives me
+                      complete confidence."</p>
+                  </div>
+                  <div class="testimonial-card__client">
+                    <div class="thumb"><img src="assets/images/testimonial/1.jpg" alt="Trader"></div>
+                    <div class="content">
+                      <h6 class="name">Marcus Chen</h6><span class="designation">Quantitative Analyst, Singapore</span>
+                      <div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i
+                          class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="single-slide">
+                <div class="testimonial-card">
+                  <div class="testimonial-card__content">
+                    <p style="color:rgba(232,234,246,0.85);">"I switched from manual trading to ATS six months ago. The
+                      AI identifies opportunities I would have completely missed. My ROI has increased by 340%."</p>
+                  </div>
+                  <div class="testimonial-card__client">
+                    <div class="thumb"><img src="assets/images/testimonial/2.jpg" alt="Trader"></div>
+                    <div class="content">
+                      <h6 class="name">Sarah Mitchell</h6><span class="designation">Portfolio Manager, London</span>
+                      <div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i
+                          class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="single-slide">
+                <div class="testimonial-card">
+                  <div class="testimonial-card__content">
+                    <p style="color:rgba(232,234,246,0.85);">"During recent market volatility, the AI adapted in
+                      real-time and turned a bearish market into a profitable quarter. Absolutely remarkable
+                      technology."</p>
+                  </div>
+                  <div class="testimonial-card__client">
+                    <div class="thumb"><img src="assets/images/testimonial/3.jpg" alt="Trader"></div>
+                    <div class="content">
+                      <h6 class="name">Rajesh Patel</h6><span class="designation">Crypto Fund Manager, Dubai</span>
+                      <div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i
+                          class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="single-slide">
+                <div class="testimonial-card">
+                  <div class="testimonial-card__content">
+                    <p style="color:rgba(232,234,246,0.85);">"As a complete beginner, the ATS onboarding was incredibly
+                      simple. My bot has been running for 3 months with zero issues and consistent daily returns."</p>
+                  </div>
+                  <div class="testimonial-card__client">
+                    <div class="thumb"><img src="assets/images/testimonial/4.jpg" alt="Trader"></div>
+                    <div class="content">
+                      <h6 class="name">Emily Nguyen</h6><span class="designation">Retail Investor, Toronto</span>
+                      <div class="ratings"><i class="las la-star"></i><i class="las la-star"></i><i
+                          class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1048,20 +1499,78 @@
           <div class="col-lg-7 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">The Minds Behind ATS</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Our Expert</span><b style="color:#00D4FF;"> AI Team</b></h2>
-              <p style="color:rgba(232,234,246,0.65);">World-class quants, ML engineers, and veteran traders building the most powerful automated trading system on the planet.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Our Expert</span><b
+                  style="color:#00D4FF;"> AI Team</b></h2>
+              <p style="color:rgba(232,234,246,0.65);">World-class quants, ML engineers, and veteran traders building
+                the most powerful automated trading system on the planet.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center mb-none-30">
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/1.jpg" alt="James Hartwell"></div><div class="team-card__content"><h4 class="name mb-1">James Hartwell</h4><span class="designation">CEO &amp; AI Architect</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/2.jpg" alt="Daniel Kim"></div><div class="team-card__content"><h4 class="name mb-1">Daniel Kim</h4><span class="designation">CTO &amp; ML Lead</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/3.jpg" alt="Leah Sonnenberg"></div><div class="team-card__content"><h4 class="name mb-1">Leah Sonnenberg</h4><span class="designation">Head of Quant Research</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/4.jpg" alt="Tenzin Johar"></div><div class="team-card__content"><h4 class="name mb-1">Tenzin Johar</h4><span class="designation">Lead UI/UX Designer</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/5.jpg" alt="Samuel Okafor"></div><div class="team-card__content"><h4 class="name mb-1">Samuel Okafor</h4><span class="designation">Senior Bot Developer</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/6.jpg" alt="Alex Johansson"></div><div class="team-card__content"><h4 class="name mb-1">Alex Johansson</h4><span class="designation">Risk &amp; Compliance</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/7.jpg" alt="Jun-ah Song"></div><div class="team-card__content"><h4 class="name mb-1">Jun-ah Song</h4><span class="designation">Data Science Lead</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4"><div class="team-card"><div class="team-card__thumb"><img src="assets/images/investor/8.jpg" alt="Prof Ed Laurent"></div><div class="team-card__content"><h4 class="name mb-1">Prof. Ed Laurent</h4><span class="designation">Chief Economist</span></div></div></div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/1.jpg" alt="James Hartwell"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">James Hartwell</h4><span class="designation">CEO &amp; AI Architect</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/2.jpg" alt="Daniel Kim"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Daniel Kim</h4><span class="designation">CTO &amp; ML Lead</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/3.jpg" alt="Leah Sonnenberg"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Leah Sonnenberg</h4><span class="designation">Head of Quant Research</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/4.jpg" alt="Tenzin Johar"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Tenzin Johar</h4><span class="designation">Lead UI/UX Designer</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/5.jpg" alt="Samuel Okafor"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Samuel Okafor</h4><span class="designation">Senior Bot Developer</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/6.jpg" alt="Alex Johansson"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Alex Johansson</h4><span class="designation">Risk &amp; Compliance</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/7.jpg" alt="Jun-ah Song"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Jun-ah Song</h4><span class="designation">Data Science Lead</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4">
+            <div class="team-card">
+              <div class="team-card__thumb"><img src="assets/images/investor/8.jpg" alt="Prof Ed Laurent"></div>
+              <div class="team-card__content">
+                <h4 class="name mb-1">Prof. Ed Laurent</h4><span class="designation">Chief Economist</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1074,29 +1583,102 @@
           <div class="col-lg-6 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Blockchain Verified</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Live</span><b style="color:#00D4FF;"> Transaction Feed</b></h2>
-              <p style="color:rgba(232,234,246,0.65);">Every transaction recorded on-chain. Full transparency in real-time.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Live</span><b style="color:#00D4FF;">
+                  Transaction Feed</b></h2>
+              <p style="color:rgba(232,234,246,0.65);">Every transaction recorded on-chain. Full transparency in
+                real-time.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-10">
             <ul class="nav nav-tabs custom--style-two justify-content-center" id="transactionTab" role="tablist">
-              <li class="nav-item" role="presentation"><a class="nav-link active" id="deposit-tab" data-toggle="tab" href="#deposit" role="tab" aria-controls="deposit" aria-selected="true"><i class="las la-arrow-down" style="color:#00FFB3; margin-right:5px;"></i>Latest Deposits</a></li>
-              <li class="nav-item" role="presentation"><a class="nav-link" id="withdraw-tab" data-toggle="tab" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="false"><i class="las la-arrow-up" style="color:#0A84FF; margin-right:5px;"></i>Latest Withdrawals</a></li>
+              <li class="nav-item" role="presentation"><a class="nav-link active" id="deposit-tab" data-toggle="tab"
+                  href="#deposit" role="tab" aria-controls="deposit" aria-selected="true"><i class="las la-arrow-down"
+                    style="color:#00FFB3; margin-right:5px;"></i>Latest Deposits</a></li>
+              <li class="nav-item" role="presentation"><a class="nav-link" id="withdraw-tab" data-toggle="tab"
+                  href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="false"><i class="las la-arrow-up"
+                    style="color:#0A84FF; margin-right:5px;"></i>Latest Withdrawals</a></li>
             </ul>
             <div class="tab-content mt-4" id="transactionTabContent">
               <div class="tab-pane fade show active" id="deposit" role="tabpanel" aria-labelledby="deposit-tab">
                 <div class="table-responsive--sm">
                   <table class="table style--two">
-                    <thead><tr><th>Trader</th><th>Timestamp</th><th>Amount</th><th>Gateway</th></tr></thead>
+                    <thead>
+                      <tr>
+                        <th>Trader</th>
+                        <th>Timestamp</th>
+                        <th>Amount</th>
+                        <th>Gateway</th>
+                      </tr>
+                    </thead>
                     <tbody>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/1.jpg" alt="" loading="lazy"></div><span>Marcus_Chen</span></div></td><td data-label="Timestamp">Nov 22, 2024</td><td data-label="Amount" style="color:#00FFB3; font-weight:600;">$5,000</td><td data-label="Gateway">Bitcoin Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/2.jpg" alt="" loading="lazy"></div><span>S_Mitchell</span></div></td><td data-label="Timestamp">Dec 11, 2024</td><td data-label="Amount" style="color:#00FFB3; font-weight:600;">$1,000</td><td data-label="Gateway">Ethereum Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/3.jpg" alt="" loading="lazy"></div><span>R_Patel</span></div></td><td data-label="Timestamp">Dec 12, 2024</td><td data-label="Amount" style="color:#00FFB3; font-weight:600;">$10,000</td><td data-label="Gateway">USDT — TRC20</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/6.jpg" alt="" loading="lazy"></div><span>E_Nguyen</span></div></td><td data-label="Timestamp">Dec 14, 2024</td><td data-label="Amount" style="color:#00FFB3; font-weight:600;">$6,500</td><td data-label="Gateway">Bitcoin Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/7.jpg" alt="" loading="lazy"></div><span>J_Song</span></div></td><td data-label="Timestamp">Dec 15, 2024</td><td data-label="Amount" style="color:#00FFB3; font-weight:600;">$3,200</td><td data-label="Gateway">Solana Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/8.jpg" alt="" loading="lazy"></div><span>P_Laurent</span></div></td><td data-label="Timestamp">Dec 16, 2024</td><td data-label="Amount" style="color:#00FFB3; font-weight:600;">$8,750</td><td data-label="Gateway">Ethereum Network</td></tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/1.jpg" alt="" loading="lazy"></div>
+                            <span>Marcus_Chen</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Nov 22, 2024</td>
+                        <td data-label="Amount" style="color:#00FFB3; font-weight:600;">$5,000</td>
+                        <td data-label="Gateway">Bitcoin Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/2.jpg" alt="" loading="lazy"></div>
+                            <span>S_Mitchell</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 11, 2024</td>
+                        <td data-label="Amount" style="color:#00FFB3; font-weight:600;">$1,000</td>
+                        <td data-label="Gateway">Ethereum Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/3.jpg" alt="" loading="lazy"></div>
+                            <span>R_Patel</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 12, 2024</td>
+                        <td data-label="Amount" style="color:#00FFB3; font-weight:600;">$10,000</td>
+                        <td data-label="Gateway">USDT — TRC20</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/6.jpg" alt="" loading="lazy"></div>
+                            <span>E_Nguyen</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 14, 2024</td>
+                        <td data-label="Amount" style="color:#00FFB3; font-weight:600;">$6,500</td>
+                        <td data-label="Gateway">Bitcoin Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/7.jpg" alt="" loading="lazy"></div>
+                            <span>J_Song</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 15, 2024</td>
+                        <td data-label="Amount" style="color:#00FFB3; font-weight:600;">$3,200</td>
+                        <td data-label="Gateway">Solana Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/8.jpg" alt="" loading="lazy"></div>
+                            <span>P_Laurent</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 16, 2024</td>
+                        <td data-label="Amount" style="color:#00FFB3; font-weight:600;">$8,750</td>
+                        <td data-label="Gateway">Ethereum Network</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -1104,14 +1686,81 @@
               <div class="tab-pane fade" id="withdraw" role="tabpanel" aria-labelledby="withdraw-tab">
                 <div class="table-responsive--md">
                   <table class="table style--two">
-                    <thead><tr><th>Trader</th><th>Timestamp</th><th>Amount</th><th>Gateway</th></tr></thead>
+                    <thead>
+                      <tr>
+                        <th>Trader</th>
+                        <th>Timestamp</th>
+                        <th>Amount</th>
+                        <th>Gateway</th>
+                      </tr>
+                    </thead>
                     <tbody>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/1.jpg" alt="" loading="lazy"></div><span>Marcus_Chen</span></div></td><td data-label="Timestamp">Nov 22, 2024</td><td data-label="Amount" style="color:#0A84FF; font-weight:600;">$5,000</td><td data-label="Gateway">Bitcoin Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/2.jpg" alt="" loading="lazy"></div><span>S_Mitchell</span></div></td><td data-label="Timestamp">Dec 11, 2024</td><td data-label="Amount" style="color:#0A84FF; font-weight:600;">$1,000</td><td data-label="Gateway">Ethereum Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/3.jpg" alt="" loading="lazy"></div><span>R_Patel</span></div></td><td data-label="Timestamp">Dec 12, 2024</td><td data-label="Amount" style="color:#0A84FF; font-weight:600;">$10,000</td><td data-label="Gateway">USDT — TRC20</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/6.jpg" alt="" loading="lazy"></div><span>E_Nguyen</span></div></td><td data-label="Timestamp">Dec 14, 2024</td><td data-label="Amount" style="color:#0A84FF; font-weight:600;">$6,500</td><td data-label="Gateway">Bitcoin Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/7.jpg" alt="" loading="lazy"></div><span>J_Song</span></div></td><td data-label="Timestamp">Dec 15, 2024</td><td data-label="Amount" style="color:#0A84FF; font-weight:600;">$3,200</td><td data-label="Gateway">Solana Network</td></tr>
-                      <tr><td data-label="Trader"><div class="user"><div class="thumb"><img src="assets/images/investor/8.jpg" alt="" loading="lazy"></div><span>P_Laurent</span></div></td><td data-label="Timestamp">Dec 16, 2024</td><td data-label="Amount" style="color:#0A84FF; font-weight:600;">$8,750</td><td data-label="Gateway">Ethereum Network</td></tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/1.jpg" alt="" loading="lazy"></div>
+                            <span>Marcus_Chen</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Nov 22, 2024</td>
+                        <td data-label="Amount" style="color:#0A84FF; font-weight:600;">$5,000</td>
+                        <td data-label="Gateway">Bitcoin Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/2.jpg" alt="" loading="lazy"></div>
+                            <span>S_Mitchell</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 11, 2024</td>
+                        <td data-label="Amount" style="color:#0A84FF; font-weight:600;">$1,000</td>
+                        <td data-label="Gateway">Ethereum Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/3.jpg" alt="" loading="lazy"></div>
+                            <span>R_Patel</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 12, 2024</td>
+                        <td data-label="Amount" style="color:#0A84FF; font-weight:600;">$10,000</td>
+                        <td data-label="Gateway">USDT — TRC20</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/6.jpg" alt="" loading="lazy"></div>
+                            <span>E_Nguyen</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 14, 2024</td>
+                        <td data-label="Amount" style="color:#0A84FF; font-weight:600;">$6,500</td>
+                        <td data-label="Gateway">Bitcoin Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/7.jpg" alt="" loading="lazy"></div>
+                            <span>J_Song</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 15, 2024</td>
+                        <td data-label="Amount" style="color:#0A84FF; font-weight:600;">$3,200</td>
+                        <td data-label="Gateway">Solana Network</td>
+                      </tr>
+                      <tr>
+                        <td data-label="Trader">
+                          <div class="user">
+                            <div class="thumb"><img src="assets/images/investor/8.jpg" alt="" loading="lazy"></div>
+                            <span>P_Laurent</span>
+                          </div>
+                        </td>
+                        <td data-label="Timestamp">Dec 16, 2024</td>
+                        <td data-label="Amount" style="color:#0A84FF; font-weight:600;">$8,750</td>
+                        <td data-label="Gateway">Ethereum Network</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -1130,20 +1779,85 @@
           <div class="col-xl-6 col-lg-8 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Hall of Fame</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Top AI</span><b style="color:#00D4FF;"> Traders</b></h2>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Top AI</span><b style="color:#00D4FF;">
+                  Traders</b></h2>
               <p style="color:rgba(232,234,246,0.65);">Our highest-performing members. Their bots never sleep.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center mb-none-30">
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/1.jpg"></div><div class="investor-card__content"><h6 class="name">James Hartwell</h6><span class="amount f-size-14">Portfolio — $1,500,355</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/2.jpg"></div><div class="investor-card__content"><h6 class="name">Daniel Kim</h6><span class="amount f-size-14">Portfolio — $1,280,900</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/3.jpg"></div><div class="investor-card__content"><h6 class="name">Leah Sonnenberg</h6><span class="amount f-size-14">Portfolio — $978,420</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/4.jpg"></div><div class="investor-card__content"><h6 class="name">Tenzin Johar</h6><span class="amount f-size-14">Portfolio — $845,710</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/5.jpg"></div><div class="investor-card__content"><h6 class="name">Samuel Hung</h6><span class="amount f-size-14">Portfolio — $720,150</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/6.jpg"></div><div class="investor-card__content"><h6 class="name">Alex Johansson</h6><span class="amount f-size-14">Portfolio — $615,880</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/7.jpg"></div><div class="investor-card__content"><h6 class="name">Jun-ah Song</h6><span class="amount f-size-14">Portfolio — $540,200</span></div></div></div>
-          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4"><div class="investor-card border-radius--5"><div class="investor-card__thumb bg_img background-position-y-top" data-background="assets/images/investor/8.jpg"></div><div class="investor-card__content"><h6 class="name">Prof. Ed Laurent</h6><span class="amount f-size-14">Portfolio — $490,675</span></div></div></div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/1.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">James Hartwell</h6><span class="amount f-size-14">Portfolio — $1,500,355</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/2.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Daniel Kim</h6><span class="amount f-size-14">Portfolio — $1,280,900</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/3.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Leah Sonnenberg</h6><span class="amount f-size-14">Portfolio — $978,420</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/4.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Tenzin Johar</h6><span class="amount f-size-14">Portfolio — $845,710</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d1">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/5.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Samuel Hung</h6><span class="amount f-size-14">Portfolio — $720,150</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d2">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/6.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Alex Johansson</h6><span class="amount f-size-14">Portfolio — $615,880</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d3">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/7.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Jun-ah Song</h6><span class="amount f-size-14">Portfolio — $540,200</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 ats-fade-up ats-d4">
+            <div class="investor-card border-radius--5">
+              <div class="investor-card__thumb bg_img background-position-y-top"
+                data-background="assets/images/investor/8.jpg"></div>
+              <div class="investor-card__content">
+                <h6 class="name">Prof. Ed Laurent</h6><span class="amount f-size-14">Portfolio — $490,675</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1155,15 +1869,39 @@
         <div class="row justify-content-center">
           <div class="col-xl-9 ats-fade-up">
             <div class="cta-wrapper bg_img border-radius--10 text-center" data-background="assets/images/bg/bg-9.png">
-              <div style="display:inline-flex; align-items:center; gap:8px; padding:5px 16px; background:rgba(0,255,179,0.1); border:1px solid rgba(0,255,179,0.3); border-radius:20px; font-size:11px; color:#00FFB3; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px;"><span class="cta-live-dot"></span>AI Bots Currently Active</div>
-              <h2 class="title mb-3" style="font-size:36px;">Launch Your AI Trading Bot Today</h2>
-              <p style="color:rgba(232,234,246,0.85); max-width:600px; margin:0 auto; font-size:16px; line-height:1.8;">Join 48,000+ traders who have automated their wealth-building with ATS. Your capital working at machine speed — around the clock.</p>
-              <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin:28px 0;">
-                <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">$2.4B+</div><div style="font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px;">Volume Traded</div></div>
-                <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">94.7%</div><div style="font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px;">Win Rate</div></div>
-                <div style="text-align:center;"><div style="font-size:24px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">48K+</div><div style="font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px;">Active Traders</div></div>
+              <div
+                style="display:inline-flex; align-items:center; gap:8px; padding:5px 16px; background:rgba(0,255,179,0.1); border:1px solid rgba(0,255,179,0.3); border-radius:20px; font-size:11px; color:#00FFB3; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px;">
+                <span class="cta-live-dot"></span>AI Bots Currently Active
               </div>
-              <a href="registration.html" class="cmn-btn mt-2"><i class="las la-rocket" style="margin-right:8px;"></i>Get Started — It's Free</a>
+              <h2 class="title mb-3" style="font-size:36px;">Launch Your AI Trading Bot Today</h2>
+              <p style="color:rgba(232,234,246,0.85); max-width:600px; margin:0 auto; font-size:16px; line-height:1.8;">
+                Join 48,000+ traders who have automated their wealth-building with ATS. Your capital working at machine
+                speed — around the clock.</p>
+              <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin:28px 0;">
+                <div style="text-align:center;">
+                  <div style="font-size:24px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $2.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px;">
+                    Volume Traded</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:24px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    94.7%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px;">
+                    Win Rate</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:24px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    48K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.5); text-transform:uppercase; letter-spacing:1px;">
+                    Active Traders</div>
+                </div>
+              </div>
+              <a href="registration.html" class="cmn-btn mt-2"><i class="las la-rocket"
+                  style="margin-right:8px;"></i>Get Started — It's Free</a>
             </div>
           </div>
         </div>
@@ -1178,8 +1916,10 @@
           <div class="col-lg-7 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">Supported Networks</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Payment</span><b style="color:#00D4FF;"> Methods</b></h2>
-              <p style="color:rgba(232,234,246,0.65);">Fund your ATS account with all major cryptocurrencies. Instant deposits, zero friction.</p>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Payment</span><b style="color:#00D4FF;">
+                  Methods</b></h2>
+              <p style="color:rgba(232,234,246,0.65);">Fund your ATS account with all major cryptocurrencies. Instant
+                deposits, zero friction.</p>
             </div>
           </div>
         </div>
@@ -1188,23 +1928,23 @@
             <div class="ats-payment-carousel">
               <div class="ats-payment-track">
                 <!-- Original -->
-                <div class="ats-pay-item"><img src="assets/images/brand/1.png" alt="Bitcoin"  loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/1.png" alt="Bitcoin" loading="lazy"></div>
                 <div class="ats-pay-item"><img src="assets/images/brand/2.png" alt="Ethereum" loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/3.png" alt="USDT"     loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/4.png" alt="BNB"      loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/5.png" alt="Solana"   loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/3.png" alt="USDT" loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/4.png" alt="BNB" loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/5.png" alt="Solana" loading="lazy"></div>
                 <div class="ats-pay-item"><img src="assets/images/brand/6.png" alt="Litecoin" loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/7.png" alt="XRP"      loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/8.png" alt="USDC"     loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/7.png" alt="XRP" loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/8.png" alt="USDC" loading="lazy"></div>
                 <!-- Duplicate for seamless loop -->
-                <div class="ats-pay-item"><img src="assets/images/brand/1.png" alt="Bitcoin"  loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/1.png" alt="Bitcoin" loading="lazy"></div>
                 <div class="ats-pay-item"><img src="assets/images/brand/2.png" alt="Ethereum" loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/3.png" alt="USDT"     loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/4.png" alt="BNB"      loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/5.png" alt="Solana"   loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/3.png" alt="USDT" loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/4.png" alt="BNB" loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/5.png" alt="Solana" loading="lazy"></div>
                 <div class="ats-pay-item"><img src="assets/images/brand/6.png" alt="Litecoin" loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/7.png" alt="XRP"      loading="lazy"></div>
-                <div class="ats-pay-item"><img src="assets/images/brand/8.png" alt="USDC"     loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/7.png" alt="XRP" loading="lazy"></div>
+                <div class="ats-pay-item"><img src="assets/images/brand/8.png" alt="USDC" loading="lazy"></div>
               </div>
             </div>
           </div>
@@ -1220,15 +1960,64 @@
           <div class="col-lg-6 text-center ats-fade-up">
             <div class="section-header">
               <span class="section-top-title">AI Market Intelligence</span>
-              <h2 class="section-title mt-2"><span class="font-weight-normal">Latest</span><b style="color:#00D4FF;"> Market Insights</b></h2>
+              <h2 class="section-title mt-2"><span class="font-weight-normal">Latest</span><b style="color:#00D4FF;">
+                  Market Insights</b></h2>
               <p style="color:rgba(232,234,246,0.65);">Latest insights from the ATS trading intelligence engine.</p>
             </div>
           </div>
         </div>
         <div class="row justify-content-center mb-none-30">
-          <div class="col-lg-4 col-md-6 mb-30 ats-fade-up ats-d1"><div class="blog-card"><div class="blog-card__thumb"><img src="assets/images/blog/1.jpg" alt="Market Analysis" loading="lazy"></div><div class="blog-card__content"><h4 class="blog-card__title mb-3"><a href="#0" style="color:#ffffff;">Bitcoin Reaches New ATH — AI Predicts 40% Further Upside</a></h4><ul class="blog-card__meta d-flex flex-wrap mb-4"><li><i class="las la-robot"></i> <a href="#0">ATS AI Engine</a></li><li><i class="las la-calendar"></i> <a href="#0">20 Nov, 2024</a></li></ul><p style="color:rgba(232,234,246,0.7); font-size:14px;">Neural network detected strong accumulation patterns signaling institutional buying pressure.</p><a href="blog.html" class="cmn-btn btn-md mt-4"><i class="las la-chart-line" style="margin-right:5px;"></i>Read Analysis</a></div></div></div>
-          <div class="col-lg-4 col-md-6 mb-30 ats-fade-up ats-d2"><div class="blog-card"><div class="blog-card__thumb"><img src="assets/images/blog/2.jpg" alt="Trading Strategy" loading="lazy"></div><div class="blog-card__content"><h4 class="blog-card__title mb-3"><a href="#0" style="color:#ffffff;">How ATS AI Generated 340% ROI During Market Volatility</a></h4><ul class="blog-card__meta d-flex flex-wrap mb-4"><li><i class="las la-robot"></i> <a href="#0">ATS Research Team</a></li><li><i class="las la-calendar"></i> <a href="#0">18 Nov, 2024</a></li></ul><p style="color:rgba(232,234,246,0.7); font-size:14px;">How our Apex Elite bot turned volatility into profit with counter-trend strategies.</p><a href="blog.html" class="cmn-btn btn-md mt-4"><i class="las la-chart-line" style="margin-right:5px;"></i>Read Analysis</a></div></div></div>
-          <div class="col-lg-4 col-md-6 mb-30 ats-fade-up ats-d3"><div class="blog-card"><div class="blog-card__thumb"><img src="assets/images/blog/3.jpg" alt="DeFi Report" loading="lazy"></div><div class="blog-card__content"><h4 class="blog-card__title mb-3"><a href="#0" style="color:#ffffff;">DeFi 2.0 — Why AI Bots Outperform Human Traders by 8x</a></h4><ul class="blog-card__meta d-flex flex-wrap mb-4"><li><i class="las la-robot"></i> <a href="#0">Quant Division</a></li><li><i class="las la-calendar"></i> <a href="#0">15 Nov, 2024</a></li></ul><p style="color:rgba(232,234,246,0.7); font-size:14px;">Why algorithmic AI trading outperforms expert human traders across all market conditions.</p><a href="blog.html" class="cmn-btn btn-md mt-4"><i class="las la-chart-line" style="margin-right:5px;"></i>Read Analysis</a></div></div></div>
+          <div class="col-lg-4 col-md-6 mb-30 ats-fade-up ats-d1">
+            <div class="blog-card">
+              <div class="blog-card__thumb"><img src="assets/images/blog/1.jpg" alt="Market Analysis" loading="lazy">
+              </div>
+              <div class="blog-card__content">
+                <h4 class="blog-card__title mb-3"><a href="#0" style="color:#ffffff;">Bitcoin Reaches New ATH — AI
+                    Predicts 40% Further Upside</a></h4>
+                <ul class="blog-card__meta d-flex flex-wrap mb-4">
+                  <li><i class="las la-robot"></i> <a href="#0">ATS AI Engine</a></li>
+                  <li><i class="las la-calendar"></i> <a href="#0">20 Nov, 2024</a></li>
+                </ul>
+                <p style="color:rgba(232,234,246,0.7); font-size:14px;">Neural network detected strong accumulation
+                  patterns signaling institutional buying pressure.</p><a href="blog.html"
+                  class="cmn-btn btn-md mt-4"><i class="las la-chart-line" style="margin-right:5px;"></i>Read
+                  Analysis</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-30 ats-fade-up ats-d2">
+            <div class="blog-card">
+              <div class="blog-card__thumb"><img src="assets/images/blog/2.jpg" alt="Trading Strategy" loading="lazy">
+              </div>
+              <div class="blog-card__content">
+                <h4 class="blog-card__title mb-3"><a href="#0" style="color:#ffffff;">How ATS AI Generated 340% ROI
+                    During Market Volatility</a></h4>
+                <ul class="blog-card__meta d-flex flex-wrap mb-4">
+                  <li><i class="las la-robot"></i> <a href="#0">ATS Research Team</a></li>
+                  <li><i class="las la-calendar"></i> <a href="#0">18 Nov, 2024</a></li>
+                </ul>
+                <p style="color:rgba(232,234,246,0.7); font-size:14px;">How our Apex Elite bot turned volatility into
+                  profit with counter-trend strategies.</p><a href="blog.html" class="cmn-btn btn-md mt-4"><i
+                    class="las la-chart-line" style="margin-right:5px;"></i>Read Analysis</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-30 ats-fade-up ats-d3">
+            <div class="blog-card">
+              <div class="blog-card__thumb"><img src="assets/images/blog/3.jpg" alt="DeFi Report" loading="lazy"></div>
+              <div class="blog-card__content">
+                <h4 class="blog-card__title mb-3"><a href="#0" style="color:#ffffff;">DeFi 2.0 — Why AI Bots Outperform
+                    Human Traders by 8x</a></h4>
+                <ul class="blog-card__meta d-flex flex-wrap mb-4">
+                  <li><i class="las la-robot"></i> <a href="#0">Quant Division</a></li>
+                  <li><i class="las la-calendar"></i> <a href="#0">15 Nov, 2024</a></li>
+                </ul>
+                <p style="color:rgba(232,234,246,0.7); font-size:14px;">Why algorithmic AI trading outperforms expert
+                  human traders across all market conditions.</p><a href="blog.html" class="cmn-btn btn-md mt-4"><i
+                    class="las la-chart-line" style="margin-right:5px;"></i>Read Analysis</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1242,7 +2031,9 @@
             <div class="subscribe-wrapper bg_img" data-background="assets/images/bg/bg-5.jpg">
               <div class="row align-items-center">
                 <div class="col-lg-5">
-                  <span style="font-size:11px; color:#00FFB3; font-weight:700; text-transform:uppercase; letter-spacing:2px; display:block; margin-bottom:8px;"><i class="las la-robot" style="margin-right:5px;"></i>AI Market Signals</span>
+                  <span
+                    style="font-size:11px; color:#00FFB3; font-weight:700; text-transform:uppercase; letter-spacing:2px; display:block; margin-bottom:8px;"><i
+                      class="las la-robot" style="margin-right:5px;"></i>AI Market Signals</span>
                   <h2 class="title" style="color:#ffffff;">Get Daily AI Trade Signals</h2>
                 </div>
                 <div class="col-lg-7 mt-lg-0 mt-4">
@@ -1266,7 +2057,9 @@
           <div class="row justify-content-center">
             <div class="col-lg-12 text-center">
               <a href="index.html" class="footer-logo"><img src="assets/images/logo.png" alt="ATS" loading="lazy"></a>
-              <p style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">AI-Powered Trading That Works 24/7</p>
+              <p
+                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+                AI-Powered Trading That Works 24/7</p>
               <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="plan.html">AI Trading Plans</a></li>
@@ -1274,11 +2067,36 @@
                 <li><a href="#0">Terms &amp; Conditions</a></li>
                 <li><a href="#0">Risk Disclosure</a></li>
               </ul>
-              <div style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
-                <div style="text-align:center;"><div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">$5.4B+</div><div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Volume Traded</div></div>
-                <div style="text-align:center;"><div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">88K+</div><div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Active Traders</div></div>
-                <div style="text-align:center;"><div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">99.99%</div><div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">System Uptime</div></div>
-                <div style="text-align:center;"><div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">99.99%</div><div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">AI Win Rate</div></div>
+              <div
+                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $5.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Volume Traded</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    88K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Active Traders</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    System Uptime</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    AI Win Rate</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1288,14 +2106,19 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6 text-md-left text-center">
-              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights reserved.</p>
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
+                reserved.</p>
             </div>
             <div class="col-md-6">
               <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i class="lab la-twitter"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i class="lab la-telegram-plane"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="lab la-linkedin-in"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i class="lab la-discord"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
+                      class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
+                      class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
+                      class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
+                      class="lab la-discord"></i></a></li>
               </ul>
             </div>
           </div>
@@ -1314,293 +2137,294 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-  /* ============================================================
-     1. LIVE BINANCE WEBSOCKET TICKER
-     Connects to Binance public stream — free, no API key needed.
-     Auto-reconnects on disconnect with backoff.
-  ============================================================ */
-  (function () {
-    'use strict';
+    /* ============================================================
+       1. LIVE BINANCE WEBSOCKET TICKER
+       Connects to Binance public stream — free, no API key needed.
+       Auto-reconnects on disconnect with backoff.
+    ============================================================ */
+    (function () {
+      'use strict';
 
-    var PAIRS = [
-      ['btcusdt',  'BTC/USD'],
-      ['ethusdt',  'ETH/USD'],
-      ['solusdt',  'SOL/USD'],
-      ['bnbusdt',  'BNB/USD'],
-      ['xrpusdt',  'XRP/USD'],
-      ['dogeusdt', 'DOGE/USD'],
-      ['adausdt',  'ADA/USD'],
-      ['maticusdt','MATIC/USD'],
-    ];
+      var PAIRS = [
+        ['btcusdt', 'BTC/USD'],
+        ['ethusdt', 'ETH/USD'],
+        ['solusdt', 'SOL/USD'],
+        ['bnbusdt', 'BNB/USD'],
+        ['xrpusdt', 'XRP/USD'],
+        ['dogeusdt', 'DOGE/USD'],
+        ['adausdt', 'ADA/USD'],
+        ['maticusdt', 'MATIC/USD'],
+      ];
 
-    var CARD_MAP = { btcusdt: 'btcCard', ethusdt: 'ethCard', solusdt: 'solCard', bnbusdt: 'bnbCard' };
+      var CARD_MAP = { btcusdt: 'btcCard', ethusdt: 'ethCard', solusdt: 'solCard', bnbusdt: 'bnbCard' };
 
-    var live       = {};
-    var ws         = null;
-    var retryMs    = 3000;
-    var buildTimer = null;
+      var live = {};
+      var ws = null;
+      var retryMs = 3000;
+      var buildTimer = null;
 
-    function fmtPrice(p) {
-      p = parseFloat(p);
-      if (isNaN(p)) return '—';
-      if (p >= 1000) return '$' + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-      if (p >= 1)    return '$' + p.toFixed(4);
-      return '$' + p.toFixed(6);
-    }
+      function fmtPrice(p) {
+        p = parseFloat(p);
+        if (isNaN(p)) return '—';
+        if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (p >= 1) return '$' + p.toFixed(4);
+        return '$' + p.toFixed(6);
+      }
 
-    function fmtChange(c) {
-      c = parseFloat(c);
-      if (isNaN(c)) return '';
-      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
-    }
+      function fmtChange(c) {
+        c = parseFloat(c);
+        if (isNaN(c)) return '';
+        return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      }
 
-    function buildTicker() {
-      var el = document.getElementById('atsTickerInner');
+      function buildTicker() {
+        var el = document.getElementById('atsTickerInner');
+        if (!el) return;
+        var half = '';
+        PAIRS.forEach(function (p) {
+          var sym = p[0], lbl = p[1];
+          var d = live[sym] || {};
+          var pr = d.price ? fmtPrice(d.price) : '—';
+          var ch = d.change !== undefined ? parseFloat(d.change) : null;
+          var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+          var ct = ch !== null ? fmtChange(ch) : '';
+          half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+          if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+          half += '</span><span class="ticker-sep">·</span>';
+        });
+        el.innerHTML = half + half; /* duplicate for seamless CSS loop */
+      }
+
+      function scheduleBuild() {
+        if (buildTimer) return;
+        buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+      }
+
+      function connect() {
+        var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+        try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+        catch (e) { retry(); return; }
+
+        ws.onopen = function () { retryMs = 3000; };
+        ws.onclose = function () { retry(); };
+        ws.onerror = function () { };
+
+        ws.onmessage = function (e) {
+          try {
+            var m = JSON.parse(e.data);
+            if (!m || !m.data) return;
+            var sym = (m.data.s || '').toLowerCase();
+            live[sym] = { price: m.data.c, change: m.data.P };
+            scheduleBuild();
+            /* Update stat cards */
+            var cardId = CARD_MAP[sym];
+            if (cardId) {
+              var card = document.getElementById(cardId);
+              if (card) card.textContent = fmtPrice(m.data.c);
+            }
+          } catch (err) { /* ignore */ }
+        };
+      }
+
+      function retry() {
+        setTimeout(connect, retryMs);
+        retryMs = Math.min(retryMs * 1.5, 30000);
+      }
+
+      connect();
+      buildTicker(); /* show placeholder immediately */
+    }());
+
+
+    /* ============================================================
+       2. AI RETURN CALCULATOR — CORRECT FORMULA, BUTTON-TRIGGERED
+       ——————————————————————————————————————————————————————————
+       Plan option value format: "minInvest:hourlyRate:totalHours:days"
+  
+       FORMULA:
+         Hourly Profit = Investment × (hourlyRate / 100)
+         Daily Profit  = Hourly Profit × 24
+         Total Profit  = Hourly Profit × totalHours
+         Total Return  = Investment + Total Profit
+         ROI           = (Total Profit / Investment) × 100
+    ============================================================ */
+
+    var ATS_PLAN_NAMES = {
+      '200:26.04:48:2': 'Beginner Access',
+      '300:26.04:48:2': 'Premium Access',
+      '400:26.04:48:2': 'Massive Growth',
+      '500:26.04:48:2': 'Trading Mastery',
+      '600:17.36:72:3': 'Elite Trader',
+      '700:17.36:72:3': 'Professional Level',
+      '900:17.36:72:3': 'VIP Access',
+      '10000:17.36:72:3': 'Hack Bot Automation',
+    };
+
+    /* Count up animation */
+    function atsCountUp(id, target, prefix, suffix, decimals) {
+      var el = document.getElementById(id);
       if (!el) return;
-      var half = '';
-      PAIRS.forEach(function (p) {
-        var sym = p[0], lbl = p[1];
-        var d   = live[sym] || {};
-        var pr  = d.price  ? fmtPrice(d.price) : '—';
-        var ch  = d.change !== undefined ? parseFloat(d.change) : null;
-        var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
-        var ct  = ch !== null ? fmtChange(ch) : '';
-        half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
-        if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
-        half += '</span><span class="ticker-sep">·</span>';
-      });
-      el.innerHTML = half + half; /* duplicate for seamless CSS loop */
+      var dur = 900, t0 = null;
+      function tick(ts) {
+        if (!t0) t0 = ts;
+        var prog = Math.min((ts - t0) / dur, 1);
+        var ease = 1 - Math.pow(1 - prog, 3);
+        var val = target * ease;
+        el.textContent = prefix + val.toLocaleString('en-US', {
+          minimumFractionDigits: decimals, maximumFractionDigits: decimals
+        }) + suffix;
+        if (prog < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
     }
 
-    function scheduleBuild() {
-      if (buildTimer) return;
-      buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
-    }
+    /* Main calculator — called ONLY by button click */
+    function atsRunCalc() {
+      var planEl = document.getElementById('atsCalcPlan');
+      var amtEl = document.getElementById('atsCalcAmount');
+      var errEl = document.getElementById('atsCalcError');
+      var resDiv = document.getElementById('atsCalcResults');
 
-    function connect() {
-      var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
-      try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
-      catch (e) { retry(); return; }
+      /* Reset error */
+      errEl.style.display = 'none';
+      errEl.textContent = '';
 
-      ws.onopen  = function () { retryMs = 3000; };
-      ws.onclose = function () { retry(); };
-      ws.onerror = function () {};
+      /* Parse plan */
+      var parts = planEl.value.split(':');
+      var minInvest = parseFloat(parts[0]);
+      var hourlyRate = parseFloat(parts[1]); /* e.g. 26.04 */
+      var totalHours = parseInt(parts[2]);   /* e.g. 48    */
+      var days = parseInt(parts[3]);   /* e.g. 2     */
+      var planName = ATS_PLAN_NAMES[planEl.value] || 'Selected Plan';
 
-      ws.onmessage = function (e) {
-        try {
-          var m = JSON.parse(e.data);
-          if (!m || !m.data) return;
-          var sym = (m.data.s || '').toLowerCase();
-          live[sym] = { price: m.data.c, change: m.data.P };
-          scheduleBuild();
-          /* Update stat cards */
-          var cardId = CARD_MAP[sym];
-          if (cardId) {
-            var card = document.getElementById(cardId);
-            if (card) card.textContent = fmtPrice(m.data.c);
-          }
-        } catch (err) { /* ignore */ }
-      };
-    }
+      /* Parse amount */
+      var raw = (amtEl.value || '').trim();
+      var amount = parseFloat(raw);
 
-    function retry() {
-      setTimeout(connect, retryMs);
-      retryMs = Math.min(retryMs * 1.5, 30000);
-    }
+      /* Validate */
+      if (raw === '' || isNaN(amount) || amount <= 0) {
+        errEl.textContent = '⚠ Please enter a valid investment amount greater than zero.';
+        errEl.style.display = 'block';
+        resDiv.classList.remove('visible');
+        return;
+      }
 
-    connect();
-    buildTicker(); /* show placeholder immediately */
-  }());
+      if (amount < minInvest) {
+        errEl.textContent = '⚠ Minimum investment for ' + planName + ' is $' +
+          minInvest.toLocaleString('en-US', { minimumFractionDigits: 0 }) + '.';
+        errEl.style.display = 'block';
+        resDiv.classList.remove('visible');
+        return;
+      }
 
+      /* ── CORRECT CALCULATIONS ── */
+      var hourlyProfit = amount * (hourlyRate / 100);
+      var dailyProfit = hourlyProfit * 24;
+      var totalProfit = hourlyProfit * totalHours;
+      var totalReturn = amount + totalProfit;
+      var roi = (totalProfit / amount) * 100;
 
-  /* ============================================================
-     2. AI RETURN CALCULATOR — CORRECT FORMULA, BUTTON-TRIGGERED
-     ——————————————————————————————————————————————————————————
-     Plan option value format: "minInvest:hourlyRate:totalHours:days"
+      /* Set plan badge */
+      document.getElementById('atsCalcPlanName').textContent = planName;
 
-     FORMULA:
-       Hourly Profit = Investment × (hourlyRate / 100)
-       Daily Profit  = Hourly Profit × 24
-       Total Profit  = Hourly Profit × totalHours
-       Total Return  = Investment + Total Profit
-       ROI           = (Total Profit / Investment) × 100
-  ============================================================ */
-
-  var ATS_PLAN_NAMES = {
-    '200:26.04:48:2':   'Beginner Access',
-    '300:26.04:48:2':   'Premium Access',
-    '400:26.04:48:2':   'Massive Growth',
-    '500:26.04:48:2':   'Trading Mastery',
-    '600:17.36:72:3':   'Elite Trader',
-    '700:17.36:72:3':   'Professional Level',
-    '900:17.36:72:3':   'VIP Access',
-    '10000:17.36:72:3': 'Hack Bot Automation',
-  };
-
-  /* Count up animation */
-  function atsCountUp(id, target, prefix, suffix, decimals) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var dur = 900, t0 = null;
-    function tick(ts) {
-      if (!t0) t0 = ts;
-      var prog = Math.min((ts - t0) / dur, 1);
-      var ease = 1 - Math.pow(1 - prog, 3);
-      var val  = target * ease;
-      el.textContent = prefix + val.toLocaleString('en-US', {
-        minimumFractionDigits: decimals, maximumFractionDigits: decimals
-      }) + suffix;
-      if (prog < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  /* Main calculator — called ONLY by button click */
-  function atsRunCalc() {
-    var planEl  = document.getElementById('atsCalcPlan');
-    var amtEl   = document.getElementById('atsCalcAmount');
-    var errEl   = document.getElementById('atsCalcError');
-    var resDiv  = document.getElementById('atsCalcResults');
-
-    /* Reset error */
-    errEl.style.display = 'none';
-    errEl.textContent   = '';
-
-    /* Parse plan */
-    var parts      = planEl.value.split(':');
-    var minInvest  = parseFloat(parts[0]);
-    var hourlyRate = parseFloat(parts[1]); /* e.g. 26.04 */
-    var totalHours = parseInt(parts[2]);   /* e.g. 48    */
-    var days       = parseInt(parts[3]);   /* e.g. 2     */
-    var planName   = ATS_PLAN_NAMES[planEl.value] || 'Selected Plan';
-
-    /* Parse amount */
-    var raw    = (amtEl.value || '').trim();
-    var amount = parseFloat(raw);
-
-    /* Validate */
-    if (raw === '' || isNaN(amount) || amount <= 0) {
-      errEl.textContent   = '⚠ Please enter a valid investment amount greater than zero.';
-      errEl.style.display = 'block';
+      /* Show results with CSS animation */
       resDiv.classList.remove('visible');
-      return;
+      void resDiv.offsetWidth; /* trigger reflow so animation fires fresh */
+      resDiv.classList.add('visible');
+
+      /* Animate numeric fields */
+      atsCountUp('atsResHourly', hourlyProfit, '$', '', 2);
+      atsCountUp('atsResDaily', dailyProfit, '$', '', 2);
+      atsCountUp('atsResProfit', totalProfit, '$', '', 2);
+      atsCountUp('atsResTotal', totalReturn, '$', '', 2);
+      atsCountUp('atsResRoi', roi, '', '%', 2);
+
+      /* Static text fields */
+      document.getElementById('atsResDuration').textContent = days + ' Days';
+      document.getElementById('atsResRate').textContent = hourlyRate + '%/hr';
+      document.getElementById('atsResHours').textContent = totalHours + ' hrs';
     }
 
-    if (amount < minInvest) {
-      errEl.textContent   = '⚠ Minimum investment for ' + planName + ' is $' +
-        minInvest.toLocaleString('en-US', {minimumFractionDigits:0}) + '.';
-      errEl.style.display = 'block';
-      resDiv.classList.remove('visible');
-      return;
-    }
-
-    /* ── CORRECT CALCULATIONS ── */
-    var hourlyProfit = amount * (hourlyRate / 100);
-    var dailyProfit  = hourlyProfit * 24;
-    var totalProfit  = hourlyProfit * totalHours;
-    var totalReturn  = amount + totalProfit;
-    var roi          = (totalProfit / amount) * 100;
-
-    /* Set plan badge */
-    document.getElementById('atsCalcPlanName').textContent = planName;
-
-    /* Show results with CSS animation */
-    resDiv.classList.remove('visible');
-    void resDiv.offsetWidth; /* trigger reflow so animation fires fresh */
-    resDiv.classList.add('visible');
-
-    /* Animate numeric fields */
-    atsCountUp('atsResHourly', hourlyProfit, '$', '',    2);
-    atsCountUp('atsResDaily',  dailyProfit,  '$', '',    2);
-    atsCountUp('atsResProfit', totalProfit,  '$', '',    2);
-    atsCountUp('atsResTotal',  totalReturn,  '$', '',    2);
-    atsCountUp('atsResRoi',    roi,          '',  '%',   2);
-
-    /* Static text fields */
-    document.getElementById('atsResDuration').textContent = days + ' Days';
-    document.getElementById('atsResRate').textContent     = hourlyRate + '%/hr';
-    document.getElementById('atsResHours').textContent    = totalHours + ' hrs';
-  }
-
-  /* Allow Enter key on input */
-  document.addEventListener('DOMContentLoaded', function () {
-    var amtEl = document.getElementById('atsCalcAmount');
-    if (amtEl) {
-      amtEl.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') atsRunCalc();
-      });
-    }
-  });
-
-
-  /* ============================================================
-     3. INTERSECTION OBSERVER — Fade-up animations
-     Triggers only when element enters viewport.
-     Unobserves after first trigger (once only).
-  ============================================================ */
-  (function () {
-    'use strict';
-
-    if (!('IntersectionObserver' in window)) {
-      /* Fallback: show everything */
-      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-        el.classList.add('ats-visible');
-      });
-      return;
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ats-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
-    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-      observer.observe(el);
+    /* Allow Enter key on input */
+    document.addEventListener('DOMContentLoaded', function () {
+      var amtEl = document.getElementById('atsCalcAmount');
+      if (amtEl) {
+        amtEl.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') atsRunCalc();
+        });
+      }
     });
 
-    /* Lazy-load images with data-src */
-    if ('IntersectionObserver' in window) {
-      var imgObs = new IntersectionObserver(function (entries) {
+
+    /* ============================================================
+       3. INTERSECTION OBSERVER — Fade-up animations
+       Triggers only when element enters viewport.
+       Unobserves after first trigger (once only).
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      if (!('IntersectionObserver' in window)) {
+        /* Fallback: show everything */
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            var img = entry.target;
-            if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
-            imgObs.unobserve(img);
+            entry.target.classList.add('ats-visible');
+            observer.unobserve(entry.target);
           }
         });
-      }, { rootMargin: '200px' });
-      document.querySelectorAll('img[data-src]').forEach(function (img) { imgObs.observe(img); });
-    }
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
-  }());
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        observer.observe(el);
+      });
 
-
-  /* ============================================================
-     4. PERFORMANCE — passive listeners, rAF scroll, debounced resize
-  ============================================================ */
-  (function () {
-    'use strict';
-    var ticking = false;
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(function () { ticking = false; });
-        ticking = true;
+      /* Lazy-load images with data-src */
+      if ('IntersectionObserver' in window) {
+        var imgObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var img = entry.target;
+              if (img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); }
+              imgObs.unobserve(img);
+            }
+          });
+        }, { rootMargin: '200px' });
+        document.querySelectorAll('img[data-src]').forEach(function (img) { imgObs.observe(img); });
       }
-    }, { passive: true });
 
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () { /* resize-sensitive logic here */ }, 150);
-    }, { passive: true });
-  }());
+    }());
+
+
+    /* ============================================================
+       4. PERFORMANCE — passive listeners, rAF scroll, debounced resize
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { /* resize-sensitive logic here */ }, 150);
+      }, { passive: true });
+    }());
 
   </script>
 
 </body>
+
 </html>

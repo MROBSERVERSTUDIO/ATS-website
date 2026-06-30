@@ -26,7 +26,10 @@
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* Full viewport account section */
     .account-section {
@@ -45,7 +48,7 @@
       transform: translate(-50%, -50%);
       width: 600px;
       height: 600px;
-      background: radial-gradient(ellipse, rgba(10,132,255,0.08) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(10, 132, 255, 0.08) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -60,17 +63,26 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: rgba(232,234,246,0.6);
+      color: rgba(232, 234, 246, 0.6);
       font-size: 13px;
       font-weight: 600;
       transition: color 0.3s;
     }
 
-    .ats-back-home:hover { color: #00D4FF; }
-    .ats-back-home img { height: 26px; width: auto; }
+    .ats-back-home:hover {
+      color: #00D4FF;
+    }
+
+    .ats-back-home img {
+      height: 26px;
+      width: auto;
+    }
 
     @media (max-width: 575px) {
-      .ats-back-home { top: 18px; left: 18px; }
+      .ats-back-home {
+        top: 18px;
+        left: 18px;
+      }
     }
 
     /* Card */
@@ -81,10 +93,12 @@
     }
 
     /* Card header title */
-    .account-card__header .section-title { font-size: 28px !important; }
+    .account-card__header .section-title {
+      font-size: 28px !important;
+    }
 
     .account-card__header p {
-      color: rgba(232,234,246,0.75);
+      color: rgba(232, 234, 246, 0.75);
       font-size: 14px;
       margin-top: 10px;
       line-height: 1.7;
@@ -100,25 +114,37 @@
       letter-spacing: 1px;
     }
 
-    .account-card__body .form-group { margin-bottom: 20px; }
+    .account-card__body .form-group {
+      margin-bottom: 20px;
+    }
 
     /* Input focus state — matches platform-wide input styling */
     .account-card__body .form-control:focus {
-      border-color: rgba(0,212,255,0.5) !important;
-      box-shadow: 0 0 0 3px rgba(10,132,255,0.1);
+      border-color: rgba(0, 212, 255, 0.5) !important;
+      box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
     }
 
     .form-check-label {
-      color: rgba(232,234,246,0.65);
+      color: rgba(232, 234, 246, 0.65);
       font-size: 13px;
       text-transform: none;
       letter-spacing: 0;
       font-weight: 400;
     }
 
-    .account-card__body .f-size-14 { color: rgba(232,234,246,0.55); font-size: 13px; }
-    .account-card__body .f-size-14 a { color: #00D4FF; font-weight: 600; }
-    .account-card__body .f-size-14 a:hover { color: #00FFB3; }
+    .account-card__body .f-size-14 {
+      color: rgba(232, 234, 246, 0.55);
+      font-size: 13px;
+    }
+
+    .account-card__body .f-size-14 a {
+      color: #00D4FF;
+      font-weight: 600;
+    }
+
+    .account-card__body .f-size-14 a:hover {
+      color: #00FFB3;
+    }
 
     /* Forgot password link */
     .ats-forgot-link {
@@ -126,11 +152,17 @@
       text-align: center;
       margin-top: 16px;
       font-size: 13px;
-      color: rgba(232,234,246,0.45);
+      color: rgba(232, 234, 246, 0.45);
     }
 
-    .ats-forgot-link a { color: rgba(10,132,255,0.8); font-size: 13px; }
-    .ats-forgot-link a:hover { color: #00D4FF; }
+    .ats-forgot-link a {
+      color: rgba(10, 132, 255, 0.8);
+      font-size: 13px;
+    }
+
+    .ats-forgot-link a:hover {
+      color: #00D4FF;
+    }
 
     /* Security badges strip */
     .ats-security-strip {
@@ -140,7 +172,7 @@
       flex-wrap: wrap;
       margin-top: 20px;
       padding-top: 16px;
-      border-top: 1px solid rgba(10,132,255,0.12);
+      border-top: 1px solid rgba(10, 132, 255, 0.12);
     }
 
     .ats-security-strip .badge-item {
@@ -148,12 +180,15 @@
       align-items: center;
       gap: 5px;
       font-size: 11px;
-      color: rgba(232,234,246,0.4);
+      color: rgba(232, 234, 246, 0.4);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .ats-security-strip .badge-item i { color: #00FFB3; font-size: 13px; }
+    .ats-security-strip .badge-item i {
+      color: #00FFB3;
+      font-size: 13px;
+    }
 
     /* AI live dot in header */
     .ats-live-dot {
@@ -174,22 +209,34 @@
       height: 7px;
       background: #00FFB3;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,255,179,0.8);
+      box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
       animation: loginPulse 1.5s ease-in-out infinite;
     }
 
     @keyframes loginPulse {
-      0%,100% { opacity:1; box-shadow: 0 0 8px rgba(0,255,179,0.8); }
-      50%      { opacity:0.4; box-shadow: 0 0 3px rgba(0,255,179,0.3); }
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      }
+
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px rgba(0, 255, 179, 0.3);
+      }
     }
 
     /* Submit button full width */
-    .account-card__body .cmn-btn { width: 100%; justify-content: center; }
+    .account-card__body .cmn-btn {
+      width: 100%;
+      justify-content: center;
+    }
 
     /* Inline form validation error (consistent with contact.html .error state) */
     .account-card__body .form-control.error {
-      border-color: rgba(255,77,109,0.6) !important;
-      box-shadow: 0 0 0 3px rgba(255,77,109,0.1);
+      border-color: rgba(255, 77, 109, 0.6) !important;
+      box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
     }
 
     .ats-login-error {
@@ -198,12 +245,15 @@
       font-size: 13px;
       margin-bottom: 16px;
       padding: 10px 14px;
-      background: rgba(255,77,109,0.08);
-      border: 1px solid rgba(255,77,109,0.25);
+      background: rgba(255, 77, 109, 0.08);
+      border: 1px solid rgba(255, 77, 109, 0.25);
       border-radius: 8px;
     }
 
-    .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size:20px; }
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
   </style>
 </head>
 
@@ -235,6 +285,8 @@
 
   <div class="page-wrapper">
 
+
+
     <!-- ============================================================
          ACCOUNT / LOGIN SECTION
          No header/ticker on this page by design — auth screens
@@ -257,8 +309,7 @@
 
               <!-- Card header
                    BG IMAGE → bg-6.jpg / overlay--one -->
-              <div class="account-card__header bg_img overlay--one"
-                data-background="assets/images/bg/bg-6.jpg">
+              <div class="account-card__header bg_img overlay--one" data-background="assets/images/bg/bg-6.jpg">
 
                 <div class="ats-live-dot">AI Engine Active</div>
 
@@ -286,7 +337,8 @@
               <div class="account-card__body">
 
                 <h3 class="text-center">
-                  <i class="las la-sign-in-alt" style="font-size:20px; margin-right:8px; -webkit-text-fill-color:#00D4FF;"></i>
+                  <i class="las la-sign-in-alt"
+                    style="font-size:20px; margin-right:8px; -webkit-text-fill-color:#00D4FF;"></i>
                   Sign In
                 </h3>
 
@@ -302,7 +354,8 @@
                       <i class="las la-user" style="color:#0A84FF; margin-right:5px;"></i>
                       Username
                     </label>
-                    <input type="text" name="username" id="login-username" class="form-control" placeholder="Enter your username">
+                    <input type="text" name="username" id="login-username" class="form-control"
+                      placeholder="Enter your username">
                   </div>
 
                   <div class="form-group">
@@ -310,7 +363,8 @@
                       <i class="las la-lock" style="color:#0A84FF; margin-right:5px;"></i>
                       Password
                     </label>
-                    <input type="password" name="password" id="login-password" class="form-control" placeholder="Enter your password">
+                    <input type="password" name="password" id="login-password" class="form-control"
+                      placeholder="Enter your password">
                   </div>
 
                   <div class="form-row">
@@ -376,58 +430,59 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-  /* ============================================================
-     INTERSECTION OBSERVER — Fade-up for the login card
-     Same implementation as index.html
-  ============================================================ */
-  (function () {
-    'use strict';
+    /* ============================================================
+       INTERSECTION OBSERVER — Fade-up for the login card
+       Same implementation as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
 
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-        el.classList.add('ats-visible');
-      });
-      return;
-    }
-
-    var fadeObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ats-visible');
-          fadeObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-      fadeObs.observe(el);
-    });
-
-  }());
-
-
-  /* ============================================================
-     PERFORMANCE — passive listeners, debounced resize
-  ============================================================ */
-  (function () {
-    'use strict';
-    var ticking = false;
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(function () { ticking = false; });
-        ticking = true;
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
+        return;
       }
-    }, { passive: true });
 
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
-    }, { passive: true });
-  }());
+      var fadeObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ats-visible');
+            fadeObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        fadeObs.observe(el);
+      });
+
+    }());
+
+
+    /* ============================================================
+       PERFORMANCE — passive listeners, debounced resize
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+      }, { passive: true });
+    }());
 
   </script>
 
 </body>
+
 </html>
