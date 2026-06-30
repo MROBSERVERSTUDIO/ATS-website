@@ -19,6 +19,109 @@
        ATS Registration Page — Consistent with index.html
     ================================================ */
 
+    /* ── TICKER (same as index.html / about.html) ── */
+    .ats-ticker-bar {
+      background: rgba(10, 132, 255, 0.06);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.15);
+      padding: 8px 0;
+      font-size: 12px;
+      color: rgba(232, 234, 246, 0.7);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      display: block !important;
+      visibility: visible !important;
+      position: relative;
+      z-index: 10;
+      margin-top: 72px;
+    }
+
+    .ats-ticker-bar .ticker-inner {
+      display: inline-flex;
+      gap: 30px;
+      white-space: nowrap;
+      animation: tickerScroll 60s linear infinite;
+      will-change: transform;
+    }
+
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
+
+    .ats-ticker-bar .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232, 234, 246, 0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up {
+      color: #00FFB3;
+    }
+
+    .ats-ticker-bar .ticker-item .down {
+      color: #ff4d6d;
+    }
+
+    .ats-ticker-bar .ticker-sep {
+      color: rgba(10, 132, 255, 0.35);
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 575px) {
+      .ats-ticker-bar {
+        font-size: 11px;
+        padding: 7px 0;
+      }
+
+      .ats-ticker-bar .ticker-inner {
+        gap: 18px;
+      }
+    }
+
+    /* ── INNER HERO / BREADCRUMB (same as about.html) ── */
+    .inner-hero .page-title {
+      background: linear-gradient(135deg, #ffffff 0%, #00D4FF 60%, #0A84FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 48px;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 767px) {
+      .inner-hero .page-title {
+        font-size: 34px;
+      }
+    }
+
     /* ── FADE-UP (same as index.html) ── */
     .ats-fade-up {
       opacity: 0;
@@ -244,6 +347,15 @@
     .ats-terms-note a { color: rgba(10, 132, 255, 0.7); font-size: 12px; }
     .ats-terms-note a:hover { color: #00D4FF; }
 
+    .footer__bottom p {
+      color: rgba(232, 234, 246, 0.5);
+      font-size: 14px;
+    }
+
+    .footer__bottom .base--color {
+      color: #00D4FF !important;
+    }
+
     .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size: 20px; }
   </style>
 </head>
@@ -277,9 +389,104 @@
   <div class="page-wrapper">
 
     <!-- ============================================================
+         HEADER — identical to index.html / about.html
+    ============================================================ -->
+    <header class="header">
+      <div class="header__bottom">
+        <div class="container">
+          <nav class="navbar navbar-expand-xl p-0 align-items-center">
+
+            <a class="site-logo site-title" href="index.html">
+              <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
+            </a>
+
+            <ul class="account-menu mobile-acc-menu">
+              <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+            </ul>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="menu-toggle"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav main-menu m-auto">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="plan.html">AI Plans</a></li>
+                <li class="menu_has_children"><a href="#0">Blog</a>
+                  <ul class="sub-menu">
+                    <li><a href="blog.html">Market Analysis</a></li>
+                    <li><a href="blog-details.html">Trade Insights</a></li>
+                  </ul>
+                </li>
+
+                <div class="nav-right">
+                  <ul class="account-menu ml-3">
+                    <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+                  </ul>
+                  <select class="select d-inline-block w-auto ml-xl-3">
+                    <option>Eng</option>
+                    <option>Ban</option>
+                    <option>Hin</option>
+                  </select>
+                </div>
+            </div>
+
+          </nav>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ============================================================
+         LIVE BINANCE TICKER — same as index.html / about.html
+    ============================================================ -->
+    <div class="ats-ticker-bar" id="atsTicker">
+      <div class="container-fluid px-0">
+        <div class="ticker-inner" id="atsTickerInner">
+          <span class="ticker-item">
+            <span class="symbol">Loading live prices</span>
+            <span class="price">—</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         INNER HERO / BREADCRUMB — same pattern as about.html
+         BG IMAGE → bg-1.jpg
+    ============================================================ -->
+    <section class="inner-hero bg_img" data-background="assets/images/bg/bg-1.jpg">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+
+            <span class="section-top-title mb-3" style="display:block;">Join ATS</span>
+
+            <h2 class="page-title">Registration</h2>
+
+            <ul class="page-breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li>Registration</li>
+            </ul>
+
+            <div style="margin-top:20px;">
+              <a href="index.html" class="border-btn"><i class="las la-arrow-left" style="margin-right:6px;"></i>Back to Home</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
          ACCOUNT / REGISTRATION SECTION
-         No header/ticker by design — auth screens stay focused.
-         Same UX rationale applied as login.html.
+         Original focused auth layout preserved exactly — only the
+         discreet logo link is kept alongside the new full header above.
          BG IMAGE → bg-5.jpg
     ============================================================ -->
     <div class="account-section bg_img" data-background="assets/images/bg/bg-5.jpg">
@@ -420,6 +627,95 @@
     </div>
     <!-- account section end -->
 
+
+    <!-- ============================================================
+         FOOTER — identical to index.html / about.html
+         BG IMAGE → bg-7.jpg
+    ============================================================ -->
+    <footer class="footer bg_img ats-fade-up" data-background="assets/images/bg/bg-7.jpg">
+      <div class="footer__top">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-12 text-center">
+
+              <a href="index.html" class="footer-logo">
+                <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
+              </a>
+
+              <p
+                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+                AI-Powered Trading That Works 24/7
+              </p>
+
+              <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="plan.html">AI Trading Plans</a></li>
+                <li><a href="#0">Privacy Policy</a></li>
+                <li><a href="#0">Terms &amp; Conditions</a></li>
+                <li><a href="#0">Risk Disclosure</a></li>
+              </ul>
+
+              <div
+                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $5.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Volume Traded</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    88K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Active Traders</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    System Uptime</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    AI Win Rate</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-md-left text-center">
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
+                reserved.</p>
+            </div>
+            <div class="col-md-6">
+              <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
+                      class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
+                      class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
+                      class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
+                      class="lab la-discord"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
   </div><!-- page-wrapper end -->
 
   <!-- Scripts — all preserved exactly -->
@@ -432,7 +728,97 @@
 
   <script>
   /* ============================================================
-     INTERSECTION OBSERVER — Fade-up for the registration card
+     1. LIVE BINANCE WEBSOCKET TICKER — same as index.html / about.html
+        Required by the new header's ticker bar.
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    var PAIRS = [
+      ['btcusdt', 'BTC/USD'],
+      ['ethusdt', 'ETH/USD'],
+      ['solusdt', 'SOL/USD'],
+      ['bnbusdt', 'BNB/USD'],
+      ['xrpusdt', 'XRP/USD'],
+      ['dogeusdt', 'DOGE/USD'],
+      ['adausdt', 'ADA/USD'],
+      ['maticusdt', 'MATIC/USD'],
+    ];
+
+    var live = {};
+    var ws = null;
+    var retryMs = 3000;
+    var buildTimer = null;
+
+    function fmtPrice(p) {
+      p = parseFloat(p);
+      if (isNaN(p)) return '—';
+      if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (p >= 1) return '$' + p.toFixed(4);
+      return '$' + p.toFixed(6);
+    }
+
+    function fmtChange(c) {
+      c = parseFloat(c);
+      if (isNaN(c)) return '';
+      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+    }
+
+    function buildTicker() {
+      var el = document.getElementById('atsTickerInner');
+      if (!el) return;
+      var half = '';
+      PAIRS.forEach(function (p) {
+        var sym = p[0], lbl = p[1];
+        var d = live[sym] || {};
+        var pr = d.price ? fmtPrice(d.price) : '—';
+        var ch = d.change !== undefined ? parseFloat(d.change) : null;
+        var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+        var ct = ch !== null ? fmtChange(ch) : '';
+        half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+        if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+        half += '</span><span class="ticker-sep">·</span>';
+      });
+      el.innerHTML = half + half;
+    }
+
+    function scheduleBuild() {
+      if (buildTimer) return;
+      buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+    }
+
+    function connect() {
+      var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+      try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+      catch (e) { retry(); return; }
+
+      ws.onopen = function () { retryMs = 3000; };
+      ws.onclose = function () { retry(); };
+      ws.onerror = function () { };
+
+      ws.onmessage = function (e) {
+        try {
+          var m = JSON.parse(e.data);
+          if (!m || !m.data) return;
+          var sym = (m.data.s || '').toLowerCase();
+          live[sym] = { price: m.data.c, change: m.data.P };
+          scheduleBuild();
+        } catch (err) { /* ignore */ }
+      };
+    }
+
+    function retry() {
+      setTimeout(connect, retryMs);
+      retryMs = Math.min(retryMs * 1.5, 30000);
+    }
+
+    connect();
+    buildTicker();
+  }());
+
+
+  /* ============================================================
+     2. INTERSECTION OBSERVER — Fade-up for the registration card / footer
   ============================================================ */
   (function () {
     'use strict';
@@ -461,7 +847,7 @@
 
 
   /* ============================================================
-     PASSWORD STRENGTH METER
+     3. PASSWORD STRENGTH METER
      Lightweight client-side feedback — common on premium
      fintech signup forms. Does not replace server-side validation.
   ============================================================ */
@@ -514,7 +900,7 @@
 
 
   /* ============================================================
-     PERFORMANCE — passive listeners, debounced resize
+     4. PERFORMANCE — passive listeners, debounced resize
   ============================================================ */
   (function () {
     'use strict';
