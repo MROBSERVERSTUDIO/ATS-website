@@ -4,28 +4,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATS - Market Analysis | AI-Powered Trading That Works 24/7</title>
+  <title>ATS - Trade Insights | AI-Powered Trading That Works 24/7</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
-  <!-- bootstrap 4 -->
   <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-  <!-- fontawesome 5 -->
   <link rel="stylesheet" href="assets/css/all.min.css">
-  <!-- line-awesome webfont -->
   <link rel="stylesheet" href="assets/css/line-awesome.min.css">
   <link rel="stylesheet" href="assets/css/vendor/animate.min.css">
-  <!-- slick slider css -->
   <link rel="stylesheet" href="assets/css/vendor/slick.css">
   <link rel="stylesheet" href="assets/css/vendor/dots.css">
-  <!-- ATS main css -->
   <link rel="stylesheet" href="assets/css/main.css">
 
   <style>
     /* ================================================
-       ATS Blog Details Page — Inline Enhancements
-       Background images handled by data-background + app.js
+       ATS Blog Details — Consistent with index.html
     ================================================ */
 
-    /* Article meta bar */
+    /* ── TICKER (same as index.html) ── */
+    .ats-ticker-bar {
+      background: rgba(10,132,255,0.06);
+      border-bottom: 1px solid rgba(10,132,255,0.15);
+      padding: 8px 0;
+      font-size: 12px;
+      color: rgba(232,234,246,0.7);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      display: block !important;
+      visibility: visible !important;
+      position: relative;
+      z-index: 10;
+      margin-top: 72px;
+    }
+
+    .ats-ticker-bar .ticker-inner {
+      display: inline-flex;
+      gap: 30px;
+      white-space: nowrap;
+      animation: tickerScroll 60s linear infinite;
+      will-change: transform;
+    }
+
+    .ats-ticker-bar:hover .ticker-inner { animation-play-state: paused; }
+
+    .ats-ticker-bar .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ats-ticker-bar .ticker-item .symbol { color: rgba(232,234,246,0.5); font-weight: 600; }
+    .ats-ticker-bar .ticker-item .price  { color: #e8eaf6; font-weight: 700; font-family: "Josefin Sans", sans-serif; }
+    .ats-ticker-bar .ticker-item .change { font-weight: 600; font-size: 11px; }
+    .ats-ticker-bar .ticker-item .up     { color: #00FFB3; }
+    .ats-ticker-bar .ticker-item .down   { color: #ff4d6d; }
+    .ats-ticker-bar .ticker-sep          { color: rgba(10,132,255,0.35); }
+
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @media (max-width: 575px) {
+      .ats-ticker-bar { font-size: 11px; padding: 7px 0; }
+      .ats-ticker-bar .ticker-inner { gap: 18px; }
+    }
+
+    /* ── IO FADE-UP ANIMATIONS (same as index.html) ── */
+    .ats-fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
+
+    .ats-d1 { transition-delay: 0.05s; }
+    .ats-d2 { transition-delay: 0.12s; }
+    .ats-d3 { transition-delay: 0.19s; }
+    .ats-d4 { transition-delay: 0.26s; }
+
+    /* Reading progress indicator — fixed below ticker so it doesn't clash */
+    .ats-reading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #0A84FF, #00FFB3);
+      z-index: 99999;
+      transition: width 0.1s linear;
+    }
+
+    /* ── ARTICLE META BAR ── */
     .ats-article-meta {
       display: flex;
       flex-wrap: wrap;
@@ -44,19 +117,9 @@
       color: rgba(232, 234, 246, 0.55);
     }
 
-    .ats-article-meta .meta-item i {
-      color: #00FFB3;
-      font-size: 15px;
-    }
-
-    .ats-article-meta .meta-item a {
-      color: #00D4FF;
-      font-size: 13px;
-    }
-
-    .ats-article-meta .meta-item a:hover {
-      color: #0A84FF;
-    }
+    .ats-article-meta .meta-item i { color: #00FFB3; font-size: 15px; }
+    .ats-article-meta .meta-item a { color: #00D4FF; font-size: 13px; }
+    .ats-article-meta .meta-item a:hover { color: #0A84FF; }
 
     /* AI tag label on article */
     .ats-article-tag {
@@ -75,6 +138,40 @@
       margin-bottom: 16px;
     }
 
+    /* AI confidence badge — new element matching ATS branding */
+    .ats-confidence-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(10,132,255,0.08);
+      border: 1px solid rgba(10,132,255,0.25);
+      border-radius: 12px;
+      margin: 24px 0;
+    }
+
+    .ats-confidence-badge .conf-icon {
+      width: 36px; height: 36px;
+      background: rgba(0,255,179,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #00FFB3;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .ats-confidence-badge .conf-text {
+      font-size: 13px;
+      color: rgba(232,234,246,0.75);
+    }
+
+    .ats-confidence-badge .conf-text strong {
+      color: #00FFB3;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
     /* Blog details content paragraphs */
     .blog-details__content p {
       color: rgba(232, 234, 246, 0.8);
@@ -82,7 +179,6 @@
       margin-top: 20px;
     }
 
-    /* Blog details title */
     .blog-details__title {
       font-size: 28px !important;
       background: linear-gradient(135deg, #ffffff 0%, #00D4FF 100%);
@@ -126,11 +222,9 @@
     }
 
     /* Form group spacing */
-    .comment-form .form-group {
-      margin-bottom: 20px;
-    }
+    .comment-form .form-group { margin-bottom: 20px; }
 
-    /* Sidebar widget card wrapper */
+    /* Sidebar widget card wrapper — glassmorphism */
     .sidebar .widget {
       background: rgba(20, 27, 52, 0.7);
       border: 1px solid rgba(10, 132, 255, 0.15);
@@ -138,49 +232,36 @@
       padding: 24px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.3s ease;
     }
 
-    .sidebar .widget+.widget {
-      margin-top: 24px !important;
+    .sidebar .widget:hover {
+      border-color: rgba(0,212,255,0.3);
     }
 
-    /* Sidebar widget title override spacing */
-    .sidebar .widget-title {
-      margin-bottom: 20px !important;
-    }
+    .sidebar .widget + .widget { margin-top: 24px !important; }
+    .sidebar .widget-title { margin-bottom: 20px !important; }
 
-    /* Footer copyright */
-    .footer__bottom p {
-      color: rgba(232, 234, 246, 0.5);
-      font-size: 14px;
-    }
-
-    .footer__bottom .base--color {
-      color: #00D4FF !important;
-    }
-
-    /* Scroll rocket */
-    .scroll-to-top .scroll-icon i {
-      transform: rotate(0deg) !important;
-      font-size: 20px;
-    }
+    /* Footer */
+    .footer__bottom p            { color: rgba(232, 234, 246, 0.5); font-size: 14px; }
+    .footer__bottom .base--color { color: #00D4FF !important; }
+    .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size: 20px; }
 
     /* Share post caption */
-    .blog-details__footer .caption {
-      color: #ffffff;
-      font-size: 20px;
+    .blog-details__footer .caption { color: #ffffff; font-size: 20px; }
+
+    /* CTA live dot */
+    .cta-live-dot {
+      width: 7px; height: 7px;
+      background: #00FFB3; border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0,255,179,0.8);
+      animation: pulseDot 1.5s infinite;
+      display: inline-block;
     }
 
-    /* Reading progress indicator */
-    .ats-reading-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
-      background: linear-gradient(90deg, #0A84FF, #00FFB3);
-      z-index: 99999;
-      transition: width 0.1s linear;
+    @keyframes pulseDot {
+      0%,100% { opacity:1; box-shadow:0 0 8px rgba(0,255,179,0.8); }
+      50%      { opacity:0.4; box-shadow:0 0 3px rgba(0,255,179,0.3); }
     }
   </style>
 </head>
@@ -229,9 +310,7 @@
             </a>
 
             <ul class="account-menu mobile-acc-menu">
-              <li class="icon">
-                <a href="login.html"><i class="las la-user"></i></a>
-              </li>
+              <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
             </ul>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -261,9 +340,7 @@
 
               <div class="nav-right">
                 <ul class="account-menu ml-3">
-                  <li class="icon">
-                    <a href="login.html"><i class="las la-user"></i></a>
-                  </li>
+                  <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
                 </ul>
                 <select class="select d-inline-block w-auto ml-xl-3">
                   <option>Eng</option>
@@ -277,22 +354,33 @@
         </div>
       </div>
     </header>
-    <!-- header end -->
+
+
+    <!-- ============================================================
+         LIVE BINANCE TICKER — same as index.html
+    ============================================================ -->
+    <div class="ats-ticker-bar" id="atsTicker">
+      <div class="container-fluid px-0">
+        <div class="ticker-inner" id="atsTickerInner">
+          <span class="ticker-item">
+            <span class="symbol">Loading live prices</span>
+            <span class="price">—</span>
+          </span>
+        </div>
+      </div>
+    </div>
 
 
     <!-- ============================================================
          INNER HERO
-         BG IMAGE → replace bg-1.jpg with dark AI/trading banner
-         inner-hero::before overlay darkens it automatically via main.css
+         BG IMAGE → bg-1.jpg
     ============================================================ -->
     <section class="inner-hero bg_img" data-background="assets/images/bg/bg-1.jpg">
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
 
-            <span class="section-top-title mb-3" style="display:block;">
-              AI Market Intelligence
-            </span>
+            <span class="section-top-title mb-3" style="display:block;">AI Market Intelligence</span>
 
             <h2 class="page-title" style="
               font-size: 42px;
@@ -313,25 +401,22 @@
         </div>
       </div>
     </section>
-    <!-- inner hero end -->
 
 
     <!-- ============================================================
          BLOG DETAILS SECTION
-         No bg image — clean dark section
     ============================================================ -->
     <section class="pt-150 pb-150">
       <div class="container">
         <div class="row">
 
           <!-- ── MAIN ARTICLE COLUMN ── -->
-          <div class="col-lg-8">
+          <div class="col-lg-8 ats-fade-up">
             <div class="blog-details-wrapper">
 
-              <!-- Article featured image
-                   BLOG IMAGE → replace blog/1.jpg with AI trading / market chart photo -->
+              <!-- Article featured image -->
               <div class="blog-details__thumb">
-                <img src="assets/images/blog/1.jpg" alt="Bitcoin Reaches New ATH — AI Predicts 40% Further Upside">
+                <img src="assets/images/blog/1.jpg" alt="Bitcoin Reaches New ATH — AI Predicts 40% Further Upside" loading="lazy">
                 <div class="post__date">
                   <span class="date">20</span>
                   <span class="month">Nov</span>
@@ -340,12 +425,10 @@
 
               <div class="blog-details__content">
 
-                <!-- AI tag label -->
                 <div class="ats-article-tag">
                   <i class="las la-robot"></i> ATS AI Engine Analysis
                 </div>
 
-                <!-- Article meta -->
                 <div class="ats-article-meta">
                   <span class="meta-item">
                     <i class="las la-user"></i>
@@ -375,6 +458,14 @@
                   on-chain data points in the last 48 hours to arrive at this high-confidence
                   signal, registering a 91.4% probability score for continued upside momentum.</p>
 
+                <!-- AI confidence badge -->
+                <div class="ats-confidence-badge">
+                  <div class="conf-icon"><i class="las la-brain"></i></div>
+                  <div class="conf-text">
+                    AI Confidence Score: <strong>91.4%</strong> — Based on 2.3M on-chain data points analyzed across 47 exchanges
+                  </div>
+                </div>
+
                 <p>The confluence of multiple technical indicators — including a historic golden
                   cross on the weekly chart, whale wallet accumulation exceeding $840M in 72 hours,
                   and declining exchange reserves — paints a compelling picture for Bitcoin's
@@ -399,11 +490,12 @@
                   scenarios, capital drawdowns are minimized while profit capture is maximized
                   across all active bot deployments.</p>
 
-                <p>For traders currently running Alpha Bot or Infinity AI strategies, this market
-                  phase represents an optimal window to consider upgrading to higher-tier plans
-                  such as Neural Pro or Apex Elite, which are specifically calibrated for
-                  high-momentum bull market conditions. Our AI signal confidence for this cycle
-                  is among the highest we have recorded since the 2020 bull run analysis.</p>
+                <p>For traders currently running Beginner Access or Premium Access strategies, this
+                  market phase represents an optimal window to consider upgrading to higher-tier
+                  plans such as Elite Trader or Hack Bot Automation, which are specifically
+                  calibrated for high-momentum bull market conditions. Our AI signal confidence
+                  for this cycle is among the highest we have recorded since the 2020 bull run
+                  analysis.</p>
 
               </div>
 
@@ -423,14 +515,13 @@
 
 
             <!-- ── COMMENTS AREA ── -->
-            <div class="comments-area">
+            <div class="comments-area ats-fade-up">
               <h3 class="title">2 Comments</h3>
               <ul class="comments-list">
 
                 <li class="single-comment">
                   <div class="single-comment__thumb">
-                    <!-- COMMENT AVATAR 1 — replace with user avatar -->
-                    <img src="assets/images/testimonial/1.jpg" alt="Marcus Chen">
+                    <img src="assets/images/testimonial/1.jpg" alt="Marcus Chen" loading="lazy">
                   </div>
                   <div class="single-comment__content">
                     <h6 class="name">Marcus Chen</h6>
@@ -438,7 +529,7 @@
                     <a href="#0" class="reply-btn"><i class="fa fa-share"></i></a>
                     <p style="color:rgba(232,234,246,0.75);">
                       Exactly what I've been watching on-chain. The exchange outflow data has
-                      been screaming accumulation for two weeks. My Neural Pro bot caught the
+                      been screaming accumulation for two weeks. My Trading Mastery bot caught the
                       initial leg — excited to see how it handles the continuation.
                     </p>
                   </div>
@@ -446,16 +537,15 @@
 
                 <li class="single-comment">
                   <div class="single-comment__thumb">
-                    <!-- COMMENT AVATAR 2 — replace with user avatar -->
-                    <img src="assets/images/testimonial/2.jpg" alt="Sarah Mitchell">
+                    <img src="assets/images/testimonial/2.jpg" alt="Sarah Mitchell" loading="lazy">
                   </div>
                   <div class="single-comment__content">
                     <h6 class="name">Sarah Mitchell</h6>
                     <span class="date">1 day ago</span>
                     <a href="#0" class="reply-btn"><i class="fa fa-share"></i></a>
                     <p style="color:rgba(232,234,246,0.75);">
-                      The 91.4% confidence score is remarkable. Just upgraded to Apex Elite
-                      after reading this — can't afford to miss this cycle with a basic bot.
+                      The 91.4% confidence score is remarkable. Just upgraded to Elite Trader
+                      after reading this — can't afford to miss this cycle with a basic plan.
                       The ATS team's analysis is always ahead of the curve.
                     </p>
                   </div>
@@ -467,7 +557,7 @@
 
 
             <!-- ── COMMENT FORM ── -->
-            <div class="comment-form-area">
+            <div class="comment-form-area ats-fade-up">
               <h3 class="title">Leave a Comment</h3>
               <form class="comment-form">
                 <div class="row">
@@ -508,7 +598,7 @@
 
 
           <!-- ── SIDEBAR COLUMN ── -->
-          <div class="col-lg-4 pl-lg-5">
+          <div class="col-lg-4 pl-lg-5 ats-fade-up ats-d2">
             <div class="sidebar">
 
               <!-- Search widget -->
@@ -553,8 +643,7 @@
 
                   <li class="small-post-single">
                     <div class="thumb">
-                      <!-- SIDEBAR IMAGE 1 — replace with market/chart photo -->
-                      <img src="assets/images/blog/1.jpg" alt="BTC Analysis">
+                      <img src="assets/images/blog/1.jpg" alt="BTC Analysis" loading="lazy">
                     </div>
                     <div class="content">
                       <h6 class="post-title">
@@ -566,8 +655,7 @@
 
                   <li class="small-post-single">
                     <div class="thumb">
-                      <!-- SIDEBAR IMAGE 2 -->
-                      <img src="assets/images/blog/2.jpg" alt="DeFi Report">
+                      <img src="assets/images/blog/2.jpg" alt="DeFi Report" loading="lazy">
                     </div>
                     <div class="content">
                       <h6 class="post-title">
@@ -579,8 +667,7 @@
 
                   <li class="small-post-single">
                     <div class="thumb">
-                      <!-- SIDEBAR IMAGE 3 -->
-                      <img src="assets/images/blog/3.jpg" alt="Ethereum Signal">
+                      <img src="assets/images/blog/3.jpg" alt="Ethereum Signal" loading="lazy">
                     </div>
                     <div class="content">
                       <h6 class="post-title">
@@ -592,8 +679,7 @@
 
                   <li class="small-post-single">
                     <div class="thumb">
-                      <!-- SIDEBAR IMAGE 4 -->
-                      <img src="assets/images/blog/1.jpg" alt="Solana Signal">
+                      <img src="assets/images/blog/1.jpg" alt="Solana Signal" loading="lazy">
                     </div>
                     <div class="content">
                       <h6 class="post-title">
@@ -649,63 +735,47 @@
 
 
     <!-- ============================================================
-         FOOTER
-         BG IMAGE → replace bg-7.jpg with dark space / abstract image
-         footer::before in main.css darkens it automatically
+         FOOTER — identical to index.html
+         BG IMAGE → bg-7.jpg
     ============================================================ -->
-    <footer class="footer bg_img" data-background="assets/images/bg/bg-7.jpg">
+    <footer class="footer bg_img ats-fade-up" data-background="assets/images/bg/bg-7.jpg">
       <div class="footer__top">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-12 text-center">
 
               <a href="#0" class="footer-logo">
-                <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
+                <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
               </a>
 
-              <p
-                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+              <p style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
                 AI-Powered Trading That Works 24/7
               </p>
 
               <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="#0">AI Trading Plans</a></li>
+                <li><a href="plan.html">AI Trading Plans</a></li>
                 <li><a href="#0">Privacy Policy</a></li>
                 <li><a href="#0">Terms &amp; Conditions</a></li>
                 <li><a href="#0">Risk Disclosure</a></li>
               </ul>
 
-              <!-- Footer stats strip -->
-              <div
-                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+              <div style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
-                    $2.4B+</div>
-                  <div
-                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
-                    Volume Traded</div>
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">$5.4B+</div>
+                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Volume Traded</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
-                    48K+</div>
-                  <div
-                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
-                    Active Traders</div>
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">88K+</div>
+                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">Active Traders</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
-                    99.99%</div>
-                  <div
-                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
-                    System Uptime</div>
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">99.99%</div>
+                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">System Uptime</div>
                 </div>
                 <div style="text-align:center;">
-                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
-                    94.7%</div>
-                  <div
-                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
-                    AI Win Rate</div>
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">99.99%</div>
+                  <div style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">AI Win Rate</div>
                 </div>
               </div>
 
@@ -718,30 +788,24 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6 text-md-left text-center">
-              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
-                reserved.</p>
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights reserved.</p>
             </div>
             <div class="col-md-6">
               <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
-                      class="lab la-twitter"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
-                      class="lab la-telegram-plane"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
-                      class="lab la-linkedin-in"></i></a></li>
-                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
-                      class="lab la-discord"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i class="lab la-discord"></i></a></li>
               </ul>
             </div>
           </div>
         </div>
       </div>
     </footer>
-    <!-- footer end -->
 
   </div><!-- page-wrapper end -->
 
-  <!-- Scripts — all preserved exactly as original -->
+  <!-- Scripts — all preserved exactly -->
   <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
   <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
   <script src="assets/js/vendor/slick.min.js"></script>
@@ -749,16 +813,180 @@
   <script src="assets/js/contact.js"></script>
   <script src="assets/js/app.js"></script>
 
-  <!-- Reading progress bar script -->
   <script>
-    window.addEventListener('scroll', function () {
-      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      var progress = (scrollTop / scrollHeight) * 100;
-      document.getElementById('readingBar').style.width = progress + '%';
+  /* ============================================================
+     1. LIVE BINANCE WEBSOCKET TICKER — same as index.html
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    var PAIRS = [
+      ['btcusdt',  'BTC/USD'],
+      ['ethusdt',  'ETH/USD'],
+      ['solusdt',  'SOL/USD'],
+      ['bnbusdt',  'BNB/USD'],
+      ['xrpusdt',  'XRP/USD'],
+      ['dogeusdt', 'DOGE/USD'],
+      ['adausdt',  'ADA/USD'],
+      ['maticusdt','MATIC/USD'],
+    ];
+
+    var live       = {};
+    var ws         = null;
+    var retryMs    = 3000;
+    var buildTimer = null;
+
+    function fmtPrice(p) {
+      p = parseFloat(p);
+      if (isNaN(p)) return '—';
+      if (p >= 1000) return '$' + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      if (p >= 1)    return '$' + p.toFixed(4);
+      return '$' + p.toFixed(6);
+    }
+
+    function fmtChange(c) {
+      c = parseFloat(c);
+      if (isNaN(c)) return '';
+      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+    }
+
+    function buildTicker() {
+      var el = document.getElementById('atsTickerInner');
+      if (!el) return;
+      var half = '';
+      PAIRS.forEach(function (p) {
+        var sym = p[0], lbl = p[1];
+        var d   = live[sym] || {};
+        var pr  = d.price  ? fmtPrice(d.price) : '—';
+        var ch  = d.change !== undefined ? parseFloat(d.change) : null;
+        var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+        var ct  = ch !== null ? fmtChange(ch) : '';
+        half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+        if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+        half += '</span><span class="ticker-sep">·</span>';
+      });
+      el.innerHTML = half + half;
+    }
+
+    function scheduleBuild() {
+      if (buildTimer) return;
+      buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+    }
+
+    function connect() {
+      var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+      try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+      catch (e) { retry(); return; }
+
+      ws.onopen  = function () { retryMs = 3000; };
+      ws.onclose = function () { retry(); };
+      ws.onerror = function () {};
+
+      ws.onmessage = function (e) {
+        try {
+          var m = JSON.parse(e.data);
+          if (!m || !m.data) return;
+          var sym = (m.data.s || '').toLowerCase();
+          live[sym] = { price: m.data.c, change: m.data.P };
+          scheduleBuild();
+        } catch (err) { /* ignore */ }
+      };
+    }
+
+    function retry() {
+      setTimeout(connect, retryMs);
+      retryMs = Math.min(retryMs * 1.5, 30000);
+    }
+
+    connect();
+    buildTicker();
+  }());
+
+
+  /* ============================================================
+     2. INTERSECTION OBSERVER — Fade-up + lazy images
+        Same implementation as index.html
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        el.classList.add('ats-visible');
+      });
+      return;
+    }
+
+    var fadeObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('ats-visible');
+          fadeObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+      fadeObs.observe(el);
     });
+
+    var imgObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target;
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          }
+          imgObs.unobserve(img);
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    document.querySelectorAll('img[data-src]').forEach(function (img) {
+      imgObs.observe(img);
+    });
+
+  }());
+
+
+  /* ============================================================
+     3. PERFORMANCE — passive listeners, rAF scroll, debounced resize
+        Same as index.html — reading bar uses rAF-throttled scroll
+  ============================================================ */
+  (function () {
+    'use strict';
+    var ticking = false;
+    var readingBar = document.getElementById('readingBar');
+
+    function updateReadingBar() {
+      var scrollTop    = document.documentElement.scrollTop || document.body.scrollTop;
+      var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var progress     = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      if (readingBar) readingBar.style.width = progress + '%';
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          updateReadingBar();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+    }, { passive: true });
+
+    /* Initial paint */
+    updateReadingBar();
+  }());
+
   </script>
 
 </body>
-
 </html>

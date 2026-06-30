@@ -6,29 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ATS - Login | AI-Powered Trading That Works 24/7</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
-  <!-- bootstrap 4 -->
   <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-  <!-- fontawesome 5 -->
   <link rel="stylesheet" href="assets/css/all.min.css">
-  <!-- line-awesome webfont -->
   <link rel="stylesheet" href="assets/css/line-awesome.min.css">
   <link rel="stylesheet" href="assets/css/vendor/animate.min.css">
-  <!-- slick slider css -->
   <link rel="stylesheet" href="assets/css/vendor/slick.css">
   <link rel="stylesheet" href="assets/css/vendor/dots.css">
-  <!-- ATS main css -->
   <link rel="stylesheet" href="assets/css/main.css">
 
   <style>
     /* ================================================
-       ATS Login Page — Inline Enhancements
-       Background images handled by data-background + app.js
+       ATS Login Page — Consistent with index.html
     ================================================ */
 
-    /* Full viewport account section
-       BG IMAGE → replace bg-5.jpg with dark AI/neural network image */
+    /* ── FADE-UP (same as index.html) ── */
+    .ats-fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
+
+    /* Full viewport account section */
     .account-section {
       position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
     }
 
     /* Subtle radial glow behind the card */
@@ -45,12 +50,39 @@
       z-index: 0;
     }
 
-    /* Card header title */
-    .account-card__header .section-title {
-      font-size: 28px !important;
+    /* Quick back-to-home link — small addition for navigability
+       without cluttering the focused login layout */
+    .ats-back-home {
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(232,234,246,0.6);
+      font-size: 13px;
+      font-weight: 600;
+      transition: color 0.3s;
     }
 
-    /* Card header subtitle */
+    .ats-back-home:hover { color: #00D4FF; }
+    .ats-back-home img { height: 26px; width: auto; }
+
+    @media (max-width: 575px) {
+      .ats-back-home { top: 18px; left: 18px; }
+    }
+
+    /* Card */
+    .account-card {
+      position: relative;
+      z-index: 2;
+      transition: box-shadow 0.4s ease;
+    }
+
+    /* Card header title */
+    .account-card__header .section-title { font-size: 28px !important; }
+
     .account-card__header p {
       color: rgba(232,234,246,0.75);
       font-size: 14px;
@@ -68,12 +100,14 @@
       letter-spacing: 1px;
     }
 
-    /* Form group spacing */
-    .account-card__body .form-group {
-      margin-bottom: 20px;
+    .account-card__body .form-group { margin-bottom: 20px; }
+
+    /* Input focus state — matches platform-wide input styling */
+    .account-card__body .form-control:focus {
+      border-color: rgba(0,212,255,0.5) !important;
+      box-shadow: 0 0 0 3px rgba(10,132,255,0.1);
     }
 
-    /* Remember me label */
     .form-check-label {
       color: rgba(232,234,246,0.65);
       font-size: 13px;
@@ -82,20 +116,9 @@
       font-weight: 400;
     }
 
-    /* Sign up link text */
-    .account-card__body .f-size-14 {
-      color: rgba(232,234,246,0.55);
-      font-size: 13px;
-    }
-
-    .account-card__body .f-size-14 a {
-      color: #00D4FF;
-      font-weight: 600;
-    }
-
-    .account-card__body .f-size-14 a:hover {
-      color: #00FFB3;
-    }
+    .account-card__body .f-size-14 { color: rgba(232,234,246,0.55); font-size: 13px; }
+    .account-card__body .f-size-14 a { color: #00D4FF; font-weight: 600; }
+    .account-card__body .f-size-14 a:hover { color: #00FFB3; }
 
     /* Forgot password link */
     .ats-forgot-link {
@@ -106,14 +129,8 @@
       color: rgba(232,234,246,0.45);
     }
 
-    .ats-forgot-link a {
-      color: rgba(10,132,255,0.8);
-      font-size: 13px;
-    }
-
-    .ats-forgot-link a:hover {
-      color: #00D4FF;
-    }
+    .ats-forgot-link a { color: rgba(10,132,255,0.8); font-size: 13px; }
+    .ats-forgot-link a:hover { color: #00D4FF; }
 
     /* Security badges strip */
     .ats-security-strip {
@@ -136,10 +153,7 @@
       letter-spacing: 0.5px;
     }
 
-    .ats-security-strip .badge-item i {
-      color: #00FFB3;
-      font-size: 13px;
-    }
+    .ats-security-strip .badge-item i { color: #00FFB3; font-size: 13px; }
 
     /* AI live dot in header */
     .ats-live-dot {
@@ -170,12 +184,25 @@
     }
 
     /* Submit button full width */
-    .account-card__body .cmn-btn {
-      width: 100%;
-      justify-content: center;
+    .account-card__body .cmn-btn { width: 100%; justify-content: center; }
+
+    /* Inline form validation error (consistent with contact.html .error state) */
+    .account-card__body .form-control.error {
+      border-color: rgba(255,77,109,0.6) !important;
+      box-shadow: 0 0 0 3px rgba(255,77,109,0.1);
     }
 
-    /* Scroll rocket */
+    .ats-login-error {
+      display: none;
+      color: #ff4d6d;
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: rgba(255,77,109,0.08);
+      border: 1px solid rgba(255,77,109,0.25);
+      border-radius: 8px;
+    }
+
     .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size:20px; }
   </style>
 </head>
@@ -210,23 +237,29 @@
 
     <!-- ============================================================
          ACCOUNT / LOGIN SECTION
-         BG IMAGE → replace bg-5.jpg with dark AI/abstract background
-         e.g. neural network, dark trading dashboard, circuit paths
+         No header/ticker on this page by design — auth screens
+         stay focused and distraction-free, matching standard SaaS UX.
+         A discreet logo + back-to-home link replaces the full nav.
     ============================================================ -->
     <div class="account-section bg_img" data-background="assets/images/bg/bg-5.jpg">
+
+      <!-- Discreet logo / back-to-home — keeps brand presence
+           without pulling focus from the login form -->
+      <a href="index.html" class="ats-back-home">
+        <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
+      </a>
+
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-5 col-lg-7">
 
-            <div class="account-card">
+            <div class="account-card ats-fade-up">
 
               <!-- Card header
-                   BG IMAGE → replace bg-6.jpg with dark glowing ATS branded image
-                   overlay--one class darkens it automatically -->
+                   BG IMAGE → bg-6.jpg / overlay--one -->
               <div class="account-card__header bg_img overlay--one"
                 data-background="assets/images/bg/bg-6.jpg">
 
-                <!-- AI live indicator -->
                 <div class="ats-live-dot">AI Engine Active</div>
 
                 <h2 class="section-title">
@@ -257,14 +290,19 @@
                   Sign In
                 </h3>
 
-                <form class="mt-4">
+                <!-- Error placeholder — shown by backend/JS on failed login -->
+                <div class="ats-login-error" id="loginError">
+                  ⚠ Invalid username or password. Please try again.
+                </div>
+
+                <form class="mt-4" id="atsLoginForm">
 
                   <div class="form-group">
                     <label>
                       <i class="las la-user" style="color:#0A84FF; margin-right:5px;"></i>
                       Username
                     </label>
-                    <input type="text" class="form-control" placeholder="Enter your username">
+                    <input type="text" name="username" id="login-username" class="form-control" placeholder="Enter your username">
                   </div>
 
                   <div class="form-group">
@@ -272,7 +310,7 @@
                       <i class="las la-lock" style="color:#0A84FF; margin-right:5px;"></i>
                       Password
                     </label>
-                    <input type="password" class="form-control" placeholder="Enter your password">
+                    <input type="password" name="password" id="login-password" class="form-control" placeholder="Enter your password">
                   </div>
 
                   <div class="form-row">
@@ -290,7 +328,7 @@
                   </div>
 
                   <div class="mt-3">
-                    <button class="cmn-btn">
+                    <button class="cmn-btn" type="submit">
                       <i class="las la-rocket" style="margin-right:6px;"></i>Login Now
                     </button>
                   </div>
@@ -329,13 +367,67 @@
 
   </div><!-- page-wrapper end -->
 
-  <!-- Scripts — all preserved exactly as original -->
+  <!-- Scripts — all preserved exactly -->
   <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
   <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
   <script src="assets/js/vendor/slick.min.js"></script>
   <script src="assets/js/vendor/wow.min.js"></script>
   <script src="assets/js/contact.js"></script>
   <script src="assets/js/app.js"></script>
+
+  <script>
+  /* ============================================================
+     INTERSECTION OBSERVER — Fade-up for the login card
+     Same implementation as index.html
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        el.classList.add('ats-visible');
+      });
+      return;
+    }
+
+    var fadeObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('ats-visible');
+          fadeObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+      fadeObs.observe(el);
+    });
+
+  }());
+
+
+  /* ============================================================
+     PERFORMANCE — passive listeners, debounced resize
+  ============================================================ */
+  (function () {
+    'use strict';
+    var ticking = false;
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () { ticking = false; });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+    }, { passive: true });
+  }());
+
+  </script>
 
 </body>
 </html>
