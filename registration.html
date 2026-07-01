@@ -131,11 +131,18 @@
 
     .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
 
+    /* ── ROOT OVERFLOW LOCK — stops any element causing right-side
+       dead space / horizontal scroll on mobile & tablet ── */
+    html, body { max-width: 100%; overflow-x: hidden; }
+    .page-wrapper { max-width: 100%; overflow-x: hidden; }
+    .full-wh { max-width: 100vw; overflow: hidden; }
+
     .account-section {
       position: relative;
       min-height: 100vh;
       display: flex;
       align-items: center;
+      overflow: hidden; /* clips the 600px glow so it never bleeds right */
     }
 
     .account-section::after {
@@ -357,6 +364,128 @@
     }
 
     .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size: 20px; }
+
+    /* ================================================
+       RESPONSIVE FIXES — Mobile & Tablet
+    ================================================ */
+
+    /* ── Ticker: adjust top margin to match collapsed header height ── */
+    @media (max-width: 1199px) { .ats-ticker-bar { margin-top: 65px; } }
+    @media (max-width: 991px)  { .ats-ticker-bar { margin-top: 60px; } }
+    @media (max-width: 767px)  { .ats-ticker-bar { margin-top: 58px; } }
+    @media (max-width: 575px)  { .ats-ticker-bar { margin-top: 54px; } }
+
+    /* ── Inner hero ── */
+    @media (max-width: 991px) {
+      .inner-hero { padding-top: 50px !important; padding-bottom: 50px !important; }
+      .inner-hero .page-title { font-size: 38px; }
+    }
+
+    @media (max-width: 767px) {
+      .inner-hero { padding-top: 40px !important; padding-bottom: 40px !important; }
+      .inner-hero .page-title { font-size: 32px; }
+      .inner-hero .section-top-title { font-size: 11px; }
+      .inner-hero .border-btn { font-size: 13px; padding: 10px 18px; }
+    }
+
+    @media (max-width: 575px) {
+      .inner-hero { padding-top: 30px !important; padding-bottom: 30px !important; }
+      .inner-hero .page-title { font-size: 26px; }
+      .page-breadcrumb { flex-wrap: wrap; }
+      .inner-hero .border-btn { display: block; text-align: center; }
+    }
+
+    /* ── Account section: add vertical padding so content doesn't
+       hide behind the absolutely-positioned logo link ── */
+    @media (max-width: 991px) {
+      .account-section {
+        align-items: flex-start;
+        padding-top: 80px;
+        padding-bottom: 60px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .account-section {
+        padding-top: 68px;
+        padding-bottom: 48px;
+      }
+    }
+
+    /* ── Account card column: becomes full-width on tablet/mobile ── */
+    @media (max-width: 991px) {
+      .account-section .col-xl-5,
+      .account-section .col-lg-7 {
+        width: 100%;
+        max-width: 540px;
+        flex: 0 0 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .account-section .col-xl-5,
+      .account-section .col-lg-7 {
+        max-width: 100%;
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+    }
+
+    /* ── Card header: scale title down ── */
+    @media (max-width: 767px) {
+      .account-card__header .section-title { font-size: 22px !important; }
+      .account-card__header .section-title span { font-size: 26px !important; }
+      .account-card__header p { font-size: 13px; }
+    }
+
+    @media (max-width: 575px) {
+      .account-card__header .section-title { font-size: 20px !important; }
+      .account-card__header .section-title span { font-size: 22px !important; }
+    }
+
+    /* ── Card body: tighter padding, comfortable touch targets ── */
+    @media (max-width: 575px) {
+      .account-card__body { padding: 24px 20px !important; }
+      .account-card__body h3 { font-size: 18px; }
+      .account-card__body .form-group { margin-bottom: 16px; }
+      .account-card__body .form-control { font-size: 14px; padding: 10px 14px; }
+      .account-card__body label { font-size: 12px; }
+      .account-card__body .cmn-btn { padding: 14px 20px; font-size: 14px; }
+    }
+
+    /* ── Benefits strip wraps on small screens ── */
+    @media (max-width: 480px) {
+      .ats-benefits-strip { gap: 10px; }
+      .ats-benefits-strip .benefit { font-size: 10px; }
+    }
+
+    /* ── Remember-me / Login link row stacks on very small screens ── */
+    @media (max-width: 480px) {
+      .account-card__body .form-row { flex-direction: column; }
+      .account-card__body .form-row .col-sm-6 { width: 100%; max-width: 100%; flex: 0 0 100%; }
+      .account-card__body .form-row .text-sm-right { text-align: left !important; margin-top: 4px; }
+    }
+
+    /* ── Security badge strip wraps on very narrow screens ── */
+    @media (max-width: 400px) {
+      .ats-security-strip { gap: 10px; }
+      .ats-security-strip .badge-item { font-size: 10px; }
+    }
+
+    /* ── Hide the floating logo-back-home link on mobile
+       (the border-btn in inner-hero already covers navigation) ── */
+    @media (max-width: 575px) {
+      .ats-back-home { display: none; }
+    }
+
+    /* ── Footer bottom row centres on small screens ── */
+    @media (max-width: 767px) {
+      .footer__bottom .col-md-6 { text-align: center !important; }
+      .footer__bottom p { text-align: center; }
+      .social-link-list { justify-content: center !important; margin-top: 8px; }
+    }
   </style>
 </head>
 
@@ -491,9 +620,6 @@
     ============================================================ -->
     <div class="account-section bg_img" data-background="assets/images/bg/bg-5.jpg">
 
-      <a href="index.html" class="ats-back-home">
-        <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
-      </a>
 
       <div class="container">
         <div class="row justify-content-center">
