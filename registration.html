@@ -129,20 +129,53 @@
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    .ats-fade-up.ats-visible { opacity: 1; transform: translateY(0); }
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    /* ── ROOT OVERFLOW LOCK — stops any element causing right-side
-       dead space / horizontal scroll on mobile & tablet ── */
-    html, body { max-width: 100%; overflow-x: hidden; }
-    .page-wrapper { max-width: 100%; overflow-x: hidden; }
-    .full-wh { max-width: 100vw; overflow: hidden; }
+    /* ════════════════════════════════════════════════════════
+       ROOT OVERFLOW + SMOOTH SCROLL FIX
+       Prevents ANY element from causing right-side dead space.
+       Uses overflow-x only so vertical momentum scroll stays alive.
+    ════════════════════════════════════════════════════════ */
+    html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      /* Smooth momentum / rubber-band scroll on iOS Safari */
+      -webkit-overflow-scrolling: touch;
+    }
 
+    body {
+      /* main.css already sets this; repeating for specificity */
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    .page-wrapper {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      position: relative;
+    }
+
+    /* Star-field wrapper must never affect layout width */
+    .full-wh,
+    .bg-animation {
+      overflow: hidden;
+      max-width: 100vw;
+    }
+
+    /* Full viewport account section.
+       CRITICAL: overflow-x ONLY — overflow:hidden blocks touch-scroll
+       inertia on iOS/Android. Glow is clipped by body overflow-x:hidden. */
     .account-section {
       position: relative;
       min-height: 100vh;
       display: flex;
       align-items: center;
-      overflow: hidden; /* clips the 600px glow so it never bleeds right */
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
     .account-section::after {
@@ -167,17 +200,26 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: rgba(232,234,246,0.6);
+      color: rgba(232, 234, 246, 0.6);
       font-size: 13px;
       font-weight: 600;
       transition: color 0.3s;
     }
 
-    .ats-back-home:hover { color: #00FFB3; }
-    .ats-back-home img { height: 26px; width: auto; }
+    .ats-back-home:hover {
+      color: #00FFB3;
+    }
+
+    .ats-back-home img {
+      height: 26px;
+      width: auto;
+    }
 
     @media (max-width: 575px) {
-      .ats-back-home { top: 18px; left: 18px; }
+      .ats-back-home {
+        top: 18px;
+        left: 18px;
+      }
     }
 
     .account-card {
@@ -185,7 +227,9 @@
       z-index: 2;
     }
 
-    .account-card__header .section-title { font-size: 28px !important; }
+    .account-card__header .section-title {
+      font-size: 28px !important;
+    }
 
     .account-card__header p {
       color: rgba(232, 234, 246, 0.75);
@@ -203,18 +247,20 @@
       letter-spacing: 1px;
     }
 
-    .account-card__body .form-group { margin-bottom: 18px; }
+    .account-card__body .form-group {
+      margin-bottom: 18px;
+    }
 
     /* Input focus state — matches platform-wide styling */
     .account-card__body .form-control:focus {
-      border-color: rgba(0,255,179,0.5) !important;
-      box-shadow: 0 0 0 3px rgba(0,255,179,0.1);
+      border-color: rgba(0, 255, 179, 0.5) !important;
+      box-shadow: 0 0 0 3px rgba(0, 255, 179, 0.1);
     }
 
     /* Inline validation error state */
     .account-card__body .form-control.error {
-      border-color: rgba(255,77,109,0.6) !important;
-      box-shadow: 0 0 0 3px rgba(255,77,109,0.1);
+      border-color: rgba(255, 77, 109, 0.6) !important;
+      box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
     }
 
     .ats-reg-error {
@@ -223,8 +269,8 @@
       font-size: 13px;
       margin-bottom: 16px;
       padding: 10px 14px;
-      background: rgba(255,77,109,0.08);
-      border: 1px solid rgba(255,77,109,0.25);
+      background: rgba(255, 77, 109, 0.08);
+      border: 1px solid rgba(255, 77, 109, 0.25);
       border-radius: 8px;
     }
 
@@ -236,11 +282,24 @@
       font-weight: 400;
     }
 
-    .account-card__body .f-size-14 { color: rgba(232, 234, 246, 0.55); font-size: 13px; }
-    .account-card__body .f-size-14 a { color: #00D4FF; font-weight: 600; }
-    .account-card__body .f-size-14 a:hover { color: #00FFB3; }
+    .account-card__body .f-size-14 {
+      color: rgba(232, 234, 246, 0.55);
+      font-size: 13px;
+    }
 
-    .account-card__body .cmn-btn { width: 100%; justify-content: center; }
+    .account-card__body .f-size-14 a {
+      color: #00D4FF;
+      font-weight: 600;
+    }
+
+    .account-card__body .f-size-14 a:hover {
+      color: #00FFB3;
+    }
+
+    .account-card__body .cmn-btn {
+      width: 100%;
+      justify-content: center;
+    }
 
     .ats-live-dot {
       display: inline-flex;
@@ -265,8 +324,17 @@
     }
 
     @keyframes regPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(0, 255, 179, 0.8); }
-      50%       { opacity: 0.4; box-shadow: 0 0 3px rgba(0, 255, 179, 0.3); }
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      }
+
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px rgba(0, 255, 179, 0.3);
+      }
     }
 
     .ats-benefits-strip {
@@ -289,7 +357,10 @@
       letter-spacing: 0.5px;
     }
 
-    .ats-benefits-strip .benefit i { color: #00FFB3; font-size: 14px; }
+    .ats-benefits-strip .benefit i {
+      color: #00FFB3;
+      font-size: 14px;
+    }
 
     /* Password strength meter — new addition, common on premium fintech signup forms */
     .ats-pw-strength {
@@ -298,11 +369,13 @@
       margin-bottom: 18px;
     }
 
-    .ats-pw-strength.show { display: block; }
+    .ats-pw-strength.show {
+      display: block;
+    }
 
     .ats-pw-strength .bar-track {
       height: 4px;
-      background: rgba(10,132,255,0.1);
+      background: rgba(10, 132, 255, 0.1);
       border-radius: 4px;
       overflow: hidden;
     }
@@ -316,7 +389,7 @@
 
     .ats-pw-strength .bar-label {
       font-size: 11px;
-      color: rgba(232,234,246,0.45);
+      color: rgba(232, 234, 246, 0.45);
       margin-top: 6px;
       display: block;
     }
@@ -341,7 +414,10 @@
       letter-spacing: 0.5px;
     }
 
-    .ats-security-strip .badge-item i { color: #00FFB3; font-size: 13px; }
+    .ats-security-strip .badge-item i {
+      color: #00FFB3;
+      font-size: 13px;
+    }
 
     .ats-terms-note {
       text-align: center;
@@ -351,8 +427,14 @@
       line-height: 1.6;
     }
 
-    .ats-terms-note a { color: rgba(10, 132, 255, 0.7); font-size: 12px; }
-    .ats-terms-note a:hover { color: #00D4FF; }
+    .ats-terms-note a {
+      color: rgba(10, 132, 255, 0.7);
+      font-size: 12px;
+    }
+
+    .ats-terms-note a:hover {
+      color: #00D4FF;
+    }
 
     .footer__bottom p {
       color: rgba(232, 234, 246, 0.5);
@@ -363,36 +445,96 @@
       color: #00D4FF !important;
     }
 
-    .scroll-to-top .scroll-icon i { transform: rotate(0deg) !important; font-size: 20px; }
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
 
     /* ================================================
        RESPONSIVE FIXES — Mobile & Tablet
     ================================================ */
 
     /* ── Ticker: adjust top margin to match collapsed header height ── */
-    @media (max-width: 1199px) { .ats-ticker-bar { margin-top: 65px; } }
-    @media (max-width: 991px)  { .ats-ticker-bar { margin-top: 60px; } }
-    @media (max-width: 767px)  { .ats-ticker-bar { margin-top: 58px; } }
-    @media (max-width: 575px)  { .ats-ticker-bar { margin-top: 54px; } }
+    @media (max-width: 1199px) {
+      .ats-ticker-bar {
+        margin-top: 65px;
+      }
+    }
 
-    /* ── Inner hero ── */
     @media (max-width: 991px) {
-      .inner-hero { padding-top: 50px !important; padding-bottom: 50px !important; }
-      .inner-hero .page-title { font-size: 38px; }
+      .ats-ticker-bar {
+        margin-top: 60px;
+      }
     }
 
     @media (max-width: 767px) {
-      .inner-hero { padding-top: 40px !important; padding-bottom: 40px !important; }
-      .inner-hero .page-title { font-size: 32px; }
-      .inner-hero .section-top-title { font-size: 11px; }
-      .inner-hero .border-btn { font-size: 13px; padding: 10px 18px; }
+      .ats-ticker-bar {
+        margin-top: 58px;
+      }
     }
 
     @media (max-width: 575px) {
-      .inner-hero { padding-top: 30px !important; padding-bottom: 30px !important; }
-      .inner-hero .page-title { font-size: 26px; }
-      .page-breadcrumb { flex-wrap: wrap; }
-      .inner-hero .border-btn { display: block; text-align: center; }
+      .ats-ticker-bar {
+        margin-top: 54px;
+      }
+    }
+
+    /* ── Inner hero ── */
+    @media (max-width: 991px) {
+      .inner-hero {
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+      }
+
+      .inner-hero .page-title {
+        font-size: 38px;
+      }
+
+      /* Ensure the breadcrumb column never overflows */
+      .inner-hero .col-lg-7 {
+        max-width: 100%;
+        flex: 0 0 100%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .inner-hero {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+      }
+
+      .inner-hero .page-title {
+        font-size: 32px;
+      }
+
+      .inner-hero .section-top-title {
+        font-size: 11px;
+      }
+
+      .inner-hero .border-btn {
+        font-size: 13px;
+        padding: 10px 18px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .inner-hero {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+      }
+
+      .inner-hero .page-title {
+        font-size: 26px;
+      }
+
+      .page-breadcrumb {
+        flex-wrap: wrap;
+      }
+
+      .inner-hero .border-btn {
+        display: block;
+        text-align: center;
+      }
     }
 
     /* ── Account section: add vertical padding so content doesn't
@@ -402,6 +544,8 @@
         align-items: flex-start;
         padding-top: 80px;
         padding-bottom: 60px;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
       }
     }
 
@@ -414,6 +558,7 @@
 
     /* ── Account card column: becomes full-width on tablet/mobile ── */
     @media (max-width: 991px) {
+
       .account-section .col-xl-5,
       .account-section .col-lg-7 {
         width: 100%;
@@ -425,6 +570,7 @@
     }
 
     @media (max-width: 575px) {
+
       .account-section .col-xl-5,
       .account-section .col-lg-7 {
         max-width: 100%;
@@ -435,56 +581,120 @@
 
     /* ── Card header: scale title down ── */
     @media (max-width: 767px) {
-      .account-card__header .section-title { font-size: 22px !important; }
-      .account-card__header .section-title span { font-size: 26px !important; }
-      .account-card__header p { font-size: 13px; }
+      .account-card__header .section-title {
+        font-size: 22px !important;
+      }
+
+      .account-card__header .section-title span {
+        font-size: 26px !important;
+      }
+
+      .account-card__header p {
+        font-size: 13px;
+      }
     }
 
     @media (max-width: 575px) {
-      .account-card__header .section-title { font-size: 20px !important; }
-      .account-card__header .section-title span { font-size: 22px !important; }
+      .account-card__header .section-title {
+        font-size: 20px !important;
+      }
+
+      .account-card__header .section-title span {
+        font-size: 22px !important;
+      }
     }
 
     /* ── Card body: tighter padding, comfortable touch targets ── */
     @media (max-width: 575px) {
-      .account-card__body { padding: 24px 20px !important; }
-      .account-card__body h3 { font-size: 18px; }
-      .account-card__body .form-group { margin-bottom: 16px; }
-      .account-card__body .form-control { font-size: 14px; padding: 10px 14px; }
-      .account-card__body label { font-size: 12px; }
-      .account-card__body .cmn-btn { padding: 14px 20px; font-size: 14px; }
+      .account-card__body {
+        padding: 24px 20px !important;
+      }
+
+      .account-card__body h3 {
+        font-size: 18px;
+      }
+
+      .account-card__body .form-group {
+        margin-bottom: 16px;
+      }
+
+      .account-card__body .form-control {
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+
+      .account-card__body label {
+        font-size: 12px;
+      }
+
+      .account-card__body .cmn-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+      }
     }
 
     /* ── Benefits strip wraps on small screens ── */
     @media (max-width: 480px) {
-      .ats-benefits-strip { gap: 10px; }
-      .ats-benefits-strip .benefit { font-size: 10px; }
+      .ats-benefits-strip {
+        gap: 10px;
+      }
+
+      .ats-benefits-strip .benefit {
+        font-size: 10px;
+      }
     }
 
     /* ── Remember-me / Login link row stacks on very small screens ── */
     @media (max-width: 480px) {
-      .account-card__body .form-row { flex-direction: column; }
-      .account-card__body .form-row .col-sm-6 { width: 100%; max-width: 100%; flex: 0 0 100%; }
-      .account-card__body .form-row .text-sm-right { text-align: left !important; margin-top: 4px; }
+      .account-card__body .form-row {
+        flex-direction: column;
+      }
+
+      .account-card__body .form-row .col-sm-6 {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+      }
+
+      .account-card__body .form-row .text-sm-right {
+        text-align: left !important;
+        margin-top: 4px;
+      }
     }
 
     /* ── Security badge strip wraps on very narrow screens ── */
     @media (max-width: 400px) {
-      .ats-security-strip { gap: 10px; }
-      .ats-security-strip .badge-item { font-size: 10px; }
+      .ats-security-strip {
+        gap: 10px;
+      }
+
+      .ats-security-strip .badge-item {
+        font-size: 10px;
+      }
     }
 
     /* ── Hide the floating logo-back-home link on mobile
        (the border-btn in inner-hero already covers navigation) ── */
     @media (max-width: 575px) {
-      .ats-back-home { display: none; }
+      .ats-back-home {
+        display: none;
+      }
     }
 
     /* ── Footer bottom row centres on small screens ── */
     @media (max-width: 767px) {
-      .footer__bottom .col-md-6 { text-align: center !important; }
-      .footer__bottom p { text-align: center; }
-      .social-link-list { justify-content: center !important; margin-top: 8px; }
+      .footer__bottom .col-md-6 {
+        text-align: center !important;
+      }
+
+      .footer__bottom p {
+        text-align: center;
+      }
+
+      .social-link-list {
+        justify-content: center !important;
+        margin-top: 8px;
+      }
     }
   </style>
 </head>
@@ -603,7 +813,8 @@
             </ul>
 
             <div style="margin-top:20px;">
-              <a href="index.html" class="border-btn"><i class="las la-arrow-left" style="margin-right:6px;"></i>Back to Home</a>
+              <a href="index.html" class="border-btn"><i class="las la-arrow-left" style="margin-right:6px;"></i>Back to
+                Home</a>
             </div>
 
           </div>
@@ -620,6 +831,9 @@
     ============================================================ -->
     <div class="account-section bg_img" data-background="assets/images/bg/bg-5.jpg">
 
+      <a href="index.html" class="ats-back-home">
+
+      </a>
 
       <div class="container">
         <div class="row justify-content-center">
@@ -657,7 +871,8 @@
               <div class="account-card__body">
 
                 <h3 class="text-center">
-                  <i class="las la-robot" style="font-size:20px; margin-right:8px; -webkit-text-fill-color:#00FFB3;"></i>
+                  <i class="las la-robot"
+                    style="font-size:20px; margin-right:8px; -webkit-text-fill-color:#00FFB3;"></i>
                   Create Account
                 </h3>
 
@@ -680,7 +895,8 @@
                       <i class="las la-user" style="color:#0A84FF; margin-right:5px;"></i>
                       Full Name
                     </label>
-                    <input type="text" name="full_name" id="reg-fullname" class="form-control" placeholder="Enter your full name">
+                    <input type="text" name="full_name" id="reg-fullname" class="form-control"
+                      placeholder="Enter your full name">
                   </div>
 
                   <div class="form-group">
@@ -688,7 +904,8 @@
                       <i class="las la-envelope" style="color:#0A84FF; margin-right:5px;"></i>
                       Email Address
                     </label>
-                    <input type="email" name="email" id="reg-email" class="form-control" placeholder="Enter your email address">
+                    <input type="email" name="email" id="reg-email" class="form-control"
+                      placeholder="Enter your email address">
                   </div>
 
                   <div class="form-group">
@@ -696,11 +913,14 @@
                       <i class="las la-lock" style="color:#0A84FF; margin-right:5px;"></i>
                       Password
                     </label>
-                    <input type="password" name="password" id="reg-password" class="form-control" placeholder="Create a strong password">
+                    <input type="password" name="password" id="reg-password" class="form-control"
+                      placeholder="Create a strong password">
 
                     <!-- Password strength meter -->
                     <div class="ats-pw-strength" id="pwStrength">
-                      <div class="bar-track"><div class="bar-fill" id="pwBarFill"></div></div>
+                      <div class="bar-track">
+                        <div class="bar-fill" id="pwBarFill"></div>
+                      </div>
                       <span class="bar-label" id="pwBarLabel">Password strength</span>
                     </div>
                   </div>
@@ -853,200 +1073,201 @@
   <script src="assets/js/app.js"></script>
 
   <script>
-  /* ============================================================
-     1. LIVE BINANCE WEBSOCKET TICKER — same as index.html / about.html
-        Required by the new header's ticker bar.
-  ============================================================ */
-  (function () {
-    'use strict';
+    /* ============================================================
+       1. LIVE BINANCE WEBSOCKET TICKER — same as index.html / about.html
+          Required by the new header's ticker bar.
+    ============================================================ */
+    (function () {
+      'use strict';
 
-    var PAIRS = [
-      ['btcusdt', 'BTC/USD'],
-      ['ethusdt', 'ETH/USD'],
-      ['solusdt', 'SOL/USD'],
-      ['bnbusdt', 'BNB/USD'],
-      ['xrpusdt', 'XRP/USD'],
-      ['dogeusdt', 'DOGE/USD'],
-      ['adausdt', 'ADA/USD'],
-      ['maticusdt', 'MATIC/USD'],
-    ];
+      var PAIRS = [
+        ['btcusdt', 'BTC/USD'],
+        ['ethusdt', 'ETH/USD'],
+        ['solusdt', 'SOL/USD'],
+        ['bnbusdt', 'BNB/USD'],
+        ['xrpusdt', 'XRP/USD'],
+        ['dogeusdt', 'DOGE/USD'],
+        ['adausdt', 'ADA/USD'],
+        ['maticusdt', 'MATIC/USD'],
+      ];
 
-    var live = {};
-    var ws = null;
-    var retryMs = 3000;
-    var buildTimer = null;
+      var live = {};
+      var ws = null;
+      var retryMs = 3000;
+      var buildTimer = null;
 
-    function fmtPrice(p) {
-      p = parseFloat(p);
-      if (isNaN(p)) return '—';
-      if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      if (p >= 1) return '$' + p.toFixed(4);
-      return '$' + p.toFixed(6);
-    }
+      function fmtPrice(p) {
+        p = parseFloat(p);
+        if (isNaN(p)) return '—';
+        if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (p >= 1) return '$' + p.toFixed(4);
+        return '$' + p.toFixed(6);
+      }
 
-    function fmtChange(c) {
-      c = parseFloat(c);
-      if (isNaN(c)) return '';
-      return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
-    }
+      function fmtChange(c) {
+        c = parseFloat(c);
+        if (isNaN(c)) return '';
+        return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      }
 
-    function buildTicker() {
-      var el = document.getElementById('atsTickerInner');
-      if (!el) return;
-      var half = '';
-      PAIRS.forEach(function (p) {
-        var sym = p[0], lbl = p[1];
-        var d = live[sym] || {};
-        var pr = d.price ? fmtPrice(d.price) : '—';
-        var ch = d.change !== undefined ? parseFloat(d.change) : null;
-        var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
-        var ct = ch !== null ? fmtChange(ch) : '';
-        half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
-        if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
-        half += '</span><span class="ticker-sep">·</span>';
-      });
-      el.innerHTML = half + half;
-    }
+      function buildTicker() {
+        var el = document.getElementById('atsTickerInner');
+        if (!el) return;
+        var half = '';
+        PAIRS.forEach(function (p) {
+          var sym = p[0], lbl = p[1];
+          var d = live[sym] || {};
+          var pr = d.price ? fmtPrice(d.price) : '—';
+          var ch = d.change !== undefined ? parseFloat(d.change) : null;
+          var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+          var ct = ch !== null ? fmtChange(ch) : '';
+          half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+          if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+          half += '</span><span class="ticker-sep">·</span>';
+        });
+        el.innerHTML = half + half;
+      }
 
-    function scheduleBuild() {
-      if (buildTimer) return;
-      buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
-    }
+      function scheduleBuild() {
+        if (buildTimer) return;
+        buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+      }
 
-    function connect() {
-      var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
-      try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
-      catch (e) { retry(); return; }
+      function connect() {
+        var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+        try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+        catch (e) { retry(); return; }
 
-      ws.onopen = function () { retryMs = 3000; };
-      ws.onclose = function () { retry(); };
-      ws.onerror = function () { };
+        ws.onopen = function () { retryMs = 3000; };
+        ws.onclose = function () { retry(); };
+        ws.onerror = function () { };
 
-      ws.onmessage = function (e) {
-        try {
-          var m = JSON.parse(e.data);
-          if (!m || !m.data) return;
-          var sym = (m.data.s || '').toLowerCase();
-          live[sym] = { price: m.data.c, change: m.data.P };
-          scheduleBuild();
-        } catch (err) { /* ignore */ }
-      };
-    }
+        ws.onmessage = function (e) {
+          try {
+            var m = JSON.parse(e.data);
+            if (!m || !m.data) return;
+            var sym = (m.data.s || '').toLowerCase();
+            live[sym] = { price: m.data.c, change: m.data.P };
+            scheduleBuild();
+          } catch (err) { /* ignore */ }
+        };
+      }
 
-    function retry() {
-      setTimeout(connect, retryMs);
-      retryMs = Math.min(retryMs * 1.5, 30000);
-    }
+      function retry() {
+        setTimeout(connect, retryMs);
+        retryMs = Math.min(retryMs * 1.5, 30000);
+      }
 
-    connect();
-    buildTicker();
-  }());
-
-
-  /* ============================================================
-     2. INTERSECTION OBSERVER — Fade-up for the registration card / footer
-  ============================================================ */
-  (function () {
-    'use strict';
-
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-        el.classList.add('ats-visible');
-      });
-      return;
-    }
-
-    var fadeObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('ats-visible');
-          fadeObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.ats-fade-up').forEach(function (el) {
-      fadeObs.observe(el);
-    });
-
-  }());
+      connect();
+      buildTicker();
+    }());
 
 
-  /* ============================================================
-     3. PASSWORD STRENGTH METER
-     Lightweight client-side feedback — common on premium
-     fintech signup forms. Does not replace server-side validation.
-  ============================================================ */
-  (function () {
-    'use strict';
+    /* ============================================================
+       2. INTERSECTION OBSERVER — Fade-up for the registration card / footer
+    ============================================================ */
+    (function () {
+      'use strict';
 
-    var pwInput   = document.getElementById('reg-password');
-    var strengthEl = document.getElementById('pwStrength');
-    var barFill    = document.getElementById('pwBarFill');
-    var barLabel   = document.getElementById('pwBarLabel');
-
-    if (!pwInput) return;
-
-    function scorePassword(pw) {
-      var score = 0;
-      if (!pw) return 0;
-      if (pw.length >= 8) score += 25;
-      if (pw.length >= 12) score += 15;
-      if (/[A-Z]/.test(pw)) score += 20;
-      if (/[0-9]/.test(pw)) score += 20;
-      if (/[^A-Za-z0-9]/.test(pw)) score += 20;
-      return Math.min(score, 100);
-    }
-
-    pwInput.addEventListener('input', function () {
-      var val = pwInput.value;
-
-      if (!val) {
-        strengthEl.classList.remove('show');
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
         return;
       }
 
-      strengthEl.classList.add('show');
-      var score = scorePassword(val);
-      barFill.style.width = score + '%';
+      var fadeObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ats-visible');
+            fadeObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
 
-      if (score < 40) {
-        barFill.style.background = '#ff4d6d';
-        barLabel.textContent = 'Weak password';
-      } else if (score < 70) {
-        barFill.style.background = '#ffd700';
-        barLabel.textContent = 'Medium strength';
-      } else {
-        barFill.style.background = '#00FFB3';
-        barLabel.textContent = 'Strong password';
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        fadeObs.observe(el);
+      });
+
+    }());
+
+
+    /* ============================================================
+       3. PASSWORD STRENGTH METER
+       Lightweight client-side feedback — common on premium
+       fintech signup forms. Does not replace server-side validation.
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      var pwInput = document.getElementById('reg-password');
+      var strengthEl = document.getElementById('pwStrength');
+      var barFill = document.getElementById('pwBarFill');
+      var barLabel = document.getElementById('pwBarLabel');
+
+      if (!pwInput) return;
+
+      function scorePassword(pw) {
+        var score = 0;
+        if (!pw) return 0;
+        if (pw.length >= 8) score += 25;
+        if (pw.length >= 12) score += 15;
+        if (/[A-Z]/.test(pw)) score += 20;
+        if (/[0-9]/.test(pw)) score += 20;
+        if (/[^A-Za-z0-9]/.test(pw)) score += 20;
+        return Math.min(score, 100);
       }
-    });
 
-  }());
+      pwInput.addEventListener('input', function () {
+        var val = pwInput.value;
+
+        if (!val) {
+          strengthEl.classList.remove('show');
+          return;
+        }
+
+        strengthEl.classList.add('show');
+        var score = scorePassword(val);
+        barFill.style.width = score + '%';
+
+        if (score < 40) {
+          barFill.style.background = '#ff4d6d';
+          barLabel.textContent = 'Weak password';
+        } else if (score < 70) {
+          barFill.style.background = '#ffd700';
+          barLabel.textContent = 'Medium strength';
+        } else {
+          barFill.style.background = '#00FFB3';
+          barLabel.textContent = 'Strong password';
+        }
+      });
+
+    }());
 
 
-  /* ============================================================
-     4. PERFORMANCE — passive listeners, debounced resize
-  ============================================================ */
-  (function () {
-    'use strict';
-    var ticking = false;
+    /* ============================================================
+       4. PERFORMANCE — passive listeners, debounced resize
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
 
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(function () { ticking = false; });
-        ticking = true;
-      }
-    }, { passive: true });
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
 
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
-    }, { passive: true });
-  }());
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+      }, { passive: true });
+    }());
 
   </script>
 
 </body>
+
 </html>
