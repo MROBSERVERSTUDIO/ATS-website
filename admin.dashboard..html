@@ -2664,7 +2664,7 @@
                 </div>
                 <div class="topbar-right">
                     <div
-                        style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(0,255,179,0.06);border:1px solid rgba(0,255,179,0.18);border-radius:8px;font-size:12px;color:var(--accent);font-weight:600;flex-shrink:0;">
+                        style="display:flex;align-items:center;gap:6px;background:rgba(0,255,179,0.06);border:1px solid rgba(0,255,179,0.18);border-radius:8px;font-size:12px;color:var(--accent);font-weight:600;flex-shrink:0;">
                         <div class="pulse-dot" style="width:6px;height:6px;"></div>
                         <span id="onlineCount">247 Online</span>
                     </div>
@@ -4955,9 +4955,9 @@
         /* ─── GREETING ─── */
         function setGreeting() {
             var now = new Date(), h = now.getHours();
-            var g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+            var g = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
             var gEl = qs('#greetingText'), dEl = qs('#greetingDate');
-            if (gEl) gEl.textContent = g + ', Administrator \uD83D\uDC4B';
+            if (gEl) gEl.textContent = g + ',';
             if (dEl) dEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         }
 

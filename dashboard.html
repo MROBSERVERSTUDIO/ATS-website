@@ -4527,7 +4527,7 @@
       var h = now.getHours();
       var greet = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
       var gEl = qs('#greetingText'); var dEl = qs('#greetingDate');
-      if (gEl) gEl.textContent = greet + ', ' + ATS_CONFIG.traderName + ' \uD83D\uDC4B';
+      if (gEl) gEl.textContent = greet + ', ' + ATS_CONFIG.traderName + '';
       if (dEl) dEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
 
