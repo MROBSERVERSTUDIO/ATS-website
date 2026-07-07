@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATS - Contact Us | AI-Powered Trading That Works 24/7</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
+  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/vendor/animate.min.css">
+  <link rel="stylesheet" href="assets/css/vendor/slick.css">
+  <link rel="stylesheet" href="assets/css/vendor/dots.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <style>
+    /* ================================================
+       ATS Contact Page — Consistent with index.html
+    ================================================ */
+
+    /* ── TICKER (same as index.html) ── */
+    .ats-ticker-bar {
+      background: rgba(10, 132, 255, 0.06);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.15);
+      padding: 8px 0;
+      font-size: 12px;
+      color: rgba(232, 234, 246, 0.7);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      display: block !important;
+      visibility: visible !important;
+      position: relative;
+      z-index: 10;
+      margin-top: 72px;
+    }
+
+    .ats-ticker-bar .ticker-inner {
+      display: inline-flex;
+      gap: 30px;
+      white-space: nowrap;
+      animation: tickerScroll 60s linear infinite;
+      will-change: transform;
+    }
+
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
+
+    .ats-ticker-bar .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232, 234, 246, 0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up {
+      color: #00FFB3;
+    }
+
+    .ats-ticker-bar .ticker-item .down {
+      color: #ff4d6d;
+    }
+
+    .ats-ticker-bar .ticker-sep {
+      color: rgba(10, 132, 255, 0.35);
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 575px) {
+      .ats-ticker-bar {
+        font-size: 11px;
+        padding: 7px 0;
+      }
+
+      .ats-ticker-bar .ticker-inner {
+        gap: 18px;
+      }
+    }
+
+    /* ── IO FADE-UP ANIMATIONS (same as index.html) ── */
+    .ats-fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ats-d1 {
+      transition-delay: 0.05s;
+    }
+
+    .ats-d2 {
+      transition-delay: 0.12s;
+    }
+
+    .ats-d3 {
+      transition-delay: 0.19s;
+    }
+
+    /* Contact form heading */
+    .contact-form-wrapper h2 {
+      background: linear-gradient(135deg, #ffffff 0%, #00D4FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      font-size: 38px;
+    }
+
+    .contact-form-wrapper>span {
+      color: rgba(232, 234, 246, 0.55);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      display: block;
+      margin-top: 6px;
+    }
+
+    /* Quick support headings */
+    .quick-support-head h2 {
+      background: linear-gradient(135deg, #ffffff 0%, #00D4FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      font-size: 36px;
+    }
+
+    .quick-support-head>span {
+      color: rgba(232, 234, 246, 0.55);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      display: block;
+      margin-top: 6px;
+    }
+
+    /* Contact thumb — left panel of contact card */
+    .contact-thumb {
+      min-height: 480px;
+      position: relative;
+      border-radius: 16px 0 0 16px;
+      overflow: hidden;
+    }
+
+    .contact-thumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+          rgba(10, 132, 255, 0.25) 0%,
+          rgba(11, 16, 32, 0.7) 100%);
+      z-index: 1;
+    }
+
+    .contact-thumb::after {
+      content: 'ATS';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: "Josefin Sans", sans-serif;
+      font-size: 80px;
+      font-weight: 700;
+      color: rgba(10, 132, 255, 0.15);
+      letter-spacing: 8px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Form group spacing */
+    .contact-form .form-group {
+      margin-bottom: 18px;
+    }
+
+    /* Form validation states — works with contact.js's .error class */
+    .contact-form .form-control.error {
+      border-color: rgba(255, 77, 109, 0.6) !important;
+      box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
+    }
+
+    .contact-form .form-control.error::placeholder {
+      color: #ff4d6d;
+    }
+
+    /* AJAX response alerts (contact.js injects .email-success) */
+    .contact-form .email-success {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .contact-form .alert-success.email-success {
+      background: rgba(0, 255, 179, 0.1);
+      border: 1px solid rgba(0, 255, 179, 0.3);
+      color: #00FFB3;
+    }
+
+    .contact-form .alert-danger.email-success {
+      background: rgba(255, 77, 109, 0.1);
+      border: 1px solid rgba(255, 77, 109, 0.3);
+      color: #ff4d6d;
+    }
+
+    /* Contact items icon color */
+    .contact-item {
+      transition: transform 0.3s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .contact-item i {
+      font-size: 28px;
+      background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.8));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .contact-item a {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .contact-item a:hover {
+      color: #ffffff !important;
+      text-decoration: underline;
+    }
+
+    .contact-item p {
+      color: rgba(255, 255, 255, 0.8) !important;
+      font-size: 14px;
+    }
+
+    /* Social channels strip */
+    .ats-contact-social {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .ats-contact-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(10, 132, 255, 0.1);
+      border: 1px solid rgba(10, 132, 255, 0.25);
+      border-radius: 8px;
+      color: #00D4FF;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .ats-contact-social a:hover {
+      background: rgba(10, 132, 255, 0.2);
+      border-color: rgba(0, 212, 255, 0.4);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);
+    }
+
+    /* Response time badge */
+    .ats-response-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: rgba(0, 255, 179, 0.1);
+      border: 1px solid rgba(0, 255, 179, 0.3);
+      border-radius: 20px;
+      font-size: 11px;
+      color: #00FFB3;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+
+    .ats-response-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #00FFB3;
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0, 255, 179, 0.8);
+      animation: ctaPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes ctaPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    /* Footer */
+    .footer__bottom p {
+      color: rgba(232, 234, 246, 0.5);
+      font-size: 14px;
+    }
+
+    .footer__bottom .base--color {
+      color: #00D4FF !important;
+    }
+
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="preloader-container">
+      <span class="animated-preloader"></span>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <div class="scroll-to-top">
+    <span class="scroll-icon">
+      <i class="fa fa-rocket" aria-hidden="true"></i>
+    </span>
+  </div>
+
+  <!-- Star Field Background -->
+  <div class="full-wh">
+    <div class="bg-animation">
+      <div id='stars'></div>
+      <div id='stars2'></div>
+      <div id='stars3'></div>
+      <div id='stars4'></div>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+
+    <!-- ============================================================
+         HEADER
+    ============================================================ -->
+    <header class="header">
+      <div class="header__bottom">
+        <div class="container">
+          <nav class="navbar navbar-expand-xl p-0 align-items-center">
+
+            <a class="site-logo site-title" href="index.html">
+              <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
+            </a>
+
+            <ul class="account-menu mobile-acc-menu">
+              <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+            </ul>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="menu-toggle"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav main-menu m-auto">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="plan.html">AI Plans</a></li>
+                <li class="menu_has_children"><a href="#0">Blog</a>
+                  <ul class="sub-menu">
+                    <li><a href="blog.html">Market Analysis</a></li>
+                    <li><a href="blog-details.html">Trade Insights</a></li>
+                  </ul>
+                </li>
+
+              <div class="nav-right">
+                <ul class="account-menu ml-3">
+                  <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+                </ul>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ============================================================
+         LIVE BINANCE TICKER — same as index.html
+    ============================================================ -->
+    <div class="ats-ticker-bar" id="atsTicker">
+      <div class="container-fluid px-0">
+        <div class="ticker-inner" id="atsTickerInner">
+          <span class="ticker-item">
+            <span class="symbol">Loading live prices</span>
+            <span class="price">—</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         INNER HERO
+         BG IMAGE → bg-1.jpg
+    ============================================================ -->
+    <section class="inner-hero bg_img" data-background="assets/images/bg/bg-1.jpg">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+
+            <span class="section-top-title mb-3" style="display:block;">We're Here To Help</span>
+
+            <h2 class="page-title" style="
+              font-size: 42px;
+              background: linear-gradient(135deg, #ffffff 0%, #00D4FF 60%, #0A84FF 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              line-height: 1.2;
+            ">Contact Us</h2>
+
+            <ul class="page-breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li>Contact</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         CONTACT SECTION
+    ============================================================ -->
+    <section class="pt-120 pb-120">
+      <div class="container">
+
+        <!-- ── CONTACT FORM CARD ── -->
+        <div class="contact-wrapper ats-fade-up">
+          <div class="row">
+
+            <!-- Left panel — decorative bg image -->
+            <div class="col-lg-6 contact-thumb bg_img" data-background="assets/images/bg/bg-1.jpg">
+            </div>
+
+            <!-- Right panel — contact form -->
+            <div class="col-lg-6 contact-form-wrapper">
+
+              <div class="ats-response-badge">
+                AI Support — Avg Response &lt; 2 Min
+              </div>
+
+              <h2 class="font-weight-bold">Contact.</h2>
+              <h2 class="font-weight-bold">Get In Touch.</h2>
+              <span>Leave us a message and our AI support team will respond instantly</span>
+
+              <!-- NOTE: id/name attributes preserved exactly for contact.js compatibility -->
+              <form class="contact-form mt-4" id="contact_form_submit">
+                <div class="form-row">
+
+                  <div class="form-group col-lg-6">
+                    <input type="text" name="contact-name" id="contact-name" placeholder="Full Name"
+                      class="form-control">
+                  </div>
+
+                  <div class="form-group col-lg-6">
+                    <input type="email" name="contact-email" id="contact-email" placeholder="Email Address"
+                      class="form-control">
+                  </div>
+
+                  <div class="form-group col-lg-12">
+                    <textarea class="form-control" name="contact-message" id="contact-message"
+                      placeholder="How can we help you? Describe your query..."></textarea>
+                  </div>
+
+                  <div class="col-lg-12">
+                    <button type="submit" class="cmn-btn">
+                      <i class="las la-paper-plane" style="margin-right:6px;"></i>Send Message
+                    </button>
+                  </div>
+
+                </div>
+              </form>
+
+              <!-- Social channels -->
+              <div class="ats-contact-social mt-4">
+                <a href="#0">
+                  <i class="lab la-telegram-plane"></i> Telegram
+                </a>
+                <a href="#0">
+                  <i class="lab la-discord"></i> Discord
+                </a>
+                <a href="#0">
+                  <i class="lab la-twitter"></i> Twitter / X
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- contact-wrapper end -->
+
+
+        <!-- ── QUICK SUPPORT CARDS ── -->
+        <div class="pt-120">
+          <div class="row justify-content-center">
+
+            <div class="col-lg-10 mb-50 quick-support-head ats-fade-up">
+              <span class="section-top-title mb-2" style="display:block;">Multiple Channels</span>
+              <h2 class="font-weight-bold">Quick</h2>
+              <h2 class="font-weight-bold">Support.</h2>
+              <span>Reach the ATS team through your preferred channel — we're available 24/7</span>
+            </div>
+
+            <div class="col-lg-10">
+              <div class="row mb-none-30">
+
+                <!-- Phone support -->
+                <div class="col-md-4 col-sm-6 mb-30 ats-fade-up ats-d1">
+                  <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <h5 class="mt-2">Call Us</h5>
+                    <div class="mt-4">
+                      <p><a href="tel:+15554588472">+1 (555) 458-8472</a></p>
+                      <p><a href="tel:+15559874521">+1 (555) 987-4521</a></p>
+                    </div>
+                    <p
+                      style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:10px; text-transform:uppercase; letter-spacing:1px;">
+                      Mon – Fri, 9AM – 6PM EST
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Email support -->
+                <div class="col-md-4 col-sm-6 mb-30 ats-fade-up ats-d2">
+                  <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <h5 class="mt-2">Email Us</h5>
+                    <div class="mt-4">
+                      <p><a href="mailto:support@ats-trading.io">support@ats-trading.io</a></p>
+                      <p><a href="mailto:invest@ats-trading.io">invest@ats-trading.io</a></p>
+                    </div>
+                    <p
+                      style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:10px; text-transform:uppercase; letter-spacing:1px;">
+                      Response within 2 minutes via AI
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Office address -->
+                <div class="col-md-4 col-sm-6 mb-30 ats-fade-up ats-d3">
+                  <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h5 class="mt-2">Headquarters</h5>
+                    <div class="mt-4">
+                      <p>Level 42, One Canada Square</p>
+                      <p>Canary Wharf, London E14 5AB</p>
+                    </div>
+                    <p
+                      style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:10px; text-transform:uppercase; letter-spacing:1px;">
+                      UK Financial District
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- quick support end -->
+
+      </div>
+    </section>
+    <!-- contact section end -->
+
+
+    <!-- ============================================================
+         FOOTER — identical to index.html
+         BG IMAGE → bg-7.jpg
+    ============================================================ -->
+    <footer class="footer bg_img ats-fade-up" data-background="assets/images/bg/bg-7.jpg">
+      <div class="footer__top">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-12 text-center">
+
+              <a href="#0" class="footer-logo">
+                <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
+              </a>
+
+              <p
+                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+                AI-Powered Trading That Works 24/7
+              </p>
+
+              <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="plan.html">AI Trading Plans</a></li>
+                <li><a href="#0">Privacy Policy</a></li>
+                <li><a href="#0">Terms &amp; Conditions</a></li>
+                <li><a href="#0">Risk Disclosure</a></li>
+              </ul>
+
+              <div
+                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $5.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Volume Traded</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    88K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Active Traders</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    System Uptime</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    AI Win Rate</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-md-left text-center">
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
+                reserved.</p>
+            </div>
+            <div class="col-md-6">
+              <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
+                      class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
+                      class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
+                      class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
+                      class="lab la-discord"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- page-wrapper end -->
+
+  <!-- Scripts — all preserved exactly -->
+  <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+  <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/vendor/slick.min.js"></script>
+  <script src="assets/js/vendor/wow.min.js"></script>
+  <script src="assets/js/contact.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    /* ============================================================
+       1. LIVE BINANCE WEBSOCKET TICKER — same as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      var PAIRS = [
+        ['btcusdt', 'BTC/USD'],
+        ['ethusdt', 'ETH/USD'],
+        ['solusdt', 'SOL/USD'],
+        ['bnbusdt', 'BNB/USD'],
+        ['xrpusdt', 'XRP/USD'],
+        ['dogeusdt', 'DOGE/USD'],
+        ['adausdt', 'ADA/USD'],
+        ['maticusdt', 'MATIC/USD'],
+      ];
+
+      var live = {};
+      var ws = null;
+      var retryMs = 3000;
+      var buildTimer = null;
+
+      function fmtPrice(p) {
+        p = parseFloat(p);
+        if (isNaN(p)) return '—';
+        if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (p >= 1) return '$' + p.toFixed(4);
+        return '$' + p.toFixed(6);
+      }
+
+      function fmtChange(c) {
+        c = parseFloat(c);
+        if (isNaN(c)) return '';
+        return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      }
+
+      function buildTicker() {
+        var el = document.getElementById('atsTickerInner');
+        if (!el) return;
+        var half = '';
+        PAIRS.forEach(function (p) {
+          var sym = p[0], lbl = p[1];
+          var d = live[sym] || {};
+          var pr = d.price ? fmtPrice(d.price) : '—';
+          var ch = d.change !== undefined ? parseFloat(d.change) : null;
+          var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+          var ct = ch !== null ? fmtChange(ch) : '';
+          half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+          if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+          half += '</span><span class="ticker-sep">·</span>';
+        });
+        el.innerHTML = half + half;
+      }
+
+      function scheduleBuild() {
+        if (buildTimer) return;
+        buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+      }
+
+      function connect() {
+        var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+        try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+        catch (e) { retry(); return; }
+
+        ws.onopen = function () { retryMs = 3000; };
+        ws.onclose = function () { retry(); };
+        ws.onerror = function () { };
+
+        ws.onmessage = function (e) {
+          try {
+            var m = JSON.parse(e.data);
+            if (!m || !m.data) return;
+            var sym = (m.data.s || '').toLowerCase();
+            live[sym] = { price: m.data.c, change: m.data.P };
+            scheduleBuild();
+          } catch (err) { /* ignore */ }
+        };
+      }
+
+      function retry() {
+        setTimeout(connect, retryMs);
+        retryMs = Math.min(retryMs * 1.5, 30000);
+      }
+
+      connect();
+      buildTicker();
+    }());
+
+
+    /* ============================================================
+       2. INTERSECTION OBSERVER — Fade-up + lazy images
+          Same implementation as index.html
+    ============================================================ */
+    (function () {
+      'use strict';
+
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
+        return;
+      }
+
+      var fadeObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ats-visible');
+            fadeObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+        fadeObs.observe(el);
+      });
+
+      var imgObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+            }
+            imgObs.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+
+      document.querySelectorAll('img[data-src]').forEach(function (img) {
+        imgObs.observe(img);
+      });
+
+    }());
+
+
+    /* ============================================================
+       3. PERFORMANCE — passive listeners, rAF scroll, debounced resize
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { /* resize logic */ }, 150);
+      }, { passive: true });
+    }());
+
+  </script>
+
+</body>
+
+</html>

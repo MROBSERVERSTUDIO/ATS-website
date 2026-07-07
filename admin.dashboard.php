@@ -1,0 +1,5062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="ATS Admin Control Panel">
+    <meta name="theme-color" content="#0B1020">
+    <title>ATS Admin — Control Panel</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.1/apexcharts.min.js"></script>
+
+    <style>
+        /* ============================================================
+       ATS ADMIN DASHBOARD — CSS
+       Same design tokens as User Dashboard.
+       Admin-specific accent: purple badge on sidebar logo.
+    ============================================================ */
+
+        :root {
+            --primary: #0A84FF;
+            --secondary: #00D4FF;
+            --accent: #00FFB3;
+            --danger: #ff4d6d;
+            --warning: #ffd700;
+            --purple: #9333ea;
+            --bg-main: #0B1020;
+            --bg-card: rgba(20, 27, 52, 0.85);
+            --bg-card-solid: #141B34;
+            --border: rgba(10, 132, 255, 0.15);
+            --border-hover: rgba(0, 212, 255, 0.35);
+            --text: #e8eaf6;
+            --text-muted: rgba(232, 234, 246, 0.5);
+            --radius: 14px;
+            --radius-sm: 8px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-blue: 0 8px 32px rgba(10, 132, 255, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-w: 270px;
+            --ticker-h: 36px;
+            --z-sidebar: 300;
+            --z-overlay: 299;
+            --z-notif: 9000;
+            --z-toast: 700;
+            --z-modal: 8000;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--text);
+            font-family: 'Exo', 'Josefin Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.scroll-locked {
+            overflow: hidden !important;
+            padding-right: var(--sb-w, 0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(10, 132, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(10, 132, 255, 0.5);
+        }
+
+        /* ── TICKER ── */
+        .ats-ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--ticker-h);
+            z-index: 400;
+            background: rgba(11, 16, 32, 0.97);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ticker-inner {
+            display: inline-flex;
+            align-items: center;
+            gap: 26px;
+            padding-left: 16px;
+            animation: tickScroll 60s linear infinite;
+            will-change: transform;
+        }
+
+        .ats-ticker:hover .ticker-inner {
+            animation-play-state: paused;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .ticker-item .ts {
+            color: var(--text-muted);
+        }
+
+        .ticker-item .tp {
+            color: var(--text);
+            font-family: 'Josefin Sans', monospace;
+        }
+
+        .ticker-item .tu {
+            color: var(--accent);
+        }
+
+        .ticker-item .td {
+            color: var(--danger);
+        }
+
+        .t-sep {
+            color: rgba(10, 132, 255, 0.3);
+            font-size: 10px;
+        }
+
+        @keyframes tickScroll {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        /* ── LAYOUT ── */
+        .admin-shell {
+            display: flex;
+            min-height: 100vh;
+            padding-top: var(--ticker-h);
+        }
+
+        /* ── SIDEBAR ── */
+        .admin-sidebar {
+            position: fixed;
+            top: var(--ticker-h);
+            left: 0;
+            width: var(--sidebar-w);
+            height: calc(100vh - var(--ticker-h));
+            background: rgba(14, 20, 40, 0.98);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: var(--z-sidebar);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .admin-sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(10, 132, 255, 0.2);
+        }
+
+        @media (max-width: 820px) {
+            .admin-sidebar {
+                /* top: 0;
+                height: 100vh; */
+                transform: translateX(-100%);
+            }
+
+            .admin-sidebar.open {
+                transform: translateX(0);
+            }
+        }
+
+        .sidebar-brand {
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-brand .brand-logo img {
+            height: 30px;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, var(--purple), var(--primary));
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-close-btn {
+            display: none;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted) !important;
+            font-size: 18px !important;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .sidebar-close-btn:hover {
+            color: var(--danger) !important;
+        }
+
+        @media (max-width: 820px) {
+            .sidebar-close-btn {
+                display: flex;
+            }
+        }
+
+        /* AI Status */
+        .sidebar-ai-status {
+            margin: 14px;
+            padding: 12px 14px;
+            background: rgba(0, 255, 179, 0.06);
+            border: 1px solid rgba(0, 255, 179, 0.18);
+            border-radius: var(--radius-sm);
+        }
+
+        .ai-status-label {
+            font-size: 10px;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ai-status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-status-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .ai-status-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 8px rgba(0, 255, 179, 0.8)
+            }
+
+            50% {
+                opacity: 0.4;
+                box-shadow: 0 0 3px rgba(0, 255, 179, 0.3)
+            }
+        }
+
+        .sidebar-section-label {
+            padding: 14px 20px 6px;
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            user-select: none;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        .sidebar-nav li a:hover,
+        .sidebar-nav li a.active {
+            color: var(--secondary);
+            background: rgba(10, 132, 255, 0.08);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-nav li a i {
+            font-size: 17px;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-nav li a .nav-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 10px;
+            line-height: 1.4;
+        }
+
+        /* Sidebar overlay */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(3px);
+            z-index: var(--z-overlay);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ── MAIN ── */
+        .admin-main {
+            flex: 1;
+            margin-left: var(--sidebar-w);
+            min-width: 0;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        @media (max-width: 820px) {
+            .admin-main {
+                margin-left: 0;
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-main {
+                padding: 10px;
+            }
+        }
+
+        /* ── TOPBAR ── */
+        .admin-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: nowrap;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .hamburger-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 22px;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .hamburger-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--secondary);
+        }
+
+        @media (max-width: 820px) {
+            .hamburger-btn {
+                display: flex;
+            }
+        }
+
+        .topbar-greeting h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .topbar-greeting p {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .topbar-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 18px;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .topbar-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--secondary);
+        }
+
+        .topbar-btn .dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid var(--bg-main);
+        }
+
+        .topbar-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--purple), var(--primary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            font-family: 'Josefin Sans', sans-serif;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .topbar-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* ── CARD BASE ── */
+        .a-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(12px);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .a-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-blue);
+        }
+
+        .a-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .a-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px 12px;
+            border-bottom: 1px solid var(--border);
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .card-title i {
+            color: var(--secondary);
+            font-size: 16px;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        /* ── STAT CARDS ── */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1199px) {
+            .stat-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 899px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 599px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 7px;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 16px 14px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-blue);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
+        .sc-blue::after {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .sc-green::after {
+            background: linear-gradient(90deg, #00b37a, var(--accent));
+        }
+
+        .sc-cyan::after {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+        }
+
+        .sc-gold::after {
+            background: linear-gradient(90deg, var(--warning), #ff8c00);
+        }
+
+        .sc-purple::after {
+            background: linear-gradient(90deg, var(--purple), var(--primary));
+        }
+
+        .sc-red::after {
+            background: linear-gradient(90deg, var(--danger), var(--purple));
+        }
+
+        .sc-teal::after {
+            background: linear-gradient(90deg, #00b4d8, var(--accent));
+        }
+
+        .sc-pink::after {
+            background: linear-gradient(90deg, #ec4899, var(--danger));
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 12px;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .sc-blue .stat-icon {
+            background: rgba(10, 132, 255, 0.15);
+            color: var(--primary);
+        }
+
+        .sc-green .stat-icon {
+            background: rgba(0, 255, 179, 0.12);
+            color: var(--accent);
+        }
+
+        .sc-cyan .stat-icon {
+            background: rgba(0, 212, 255, 0.12);
+            color: var(--secondary);
+        }
+
+        .sc-gold .stat-icon {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .sc-purple .stat-icon {
+            background: rgba(147, 51, 234, 0.12);
+            color: var(--purple);
+        }
+
+        .sc-red .stat-icon {
+            background: rgba(255, 77, 109, 0.12);
+            color: var(--danger);
+        }
+
+        .sc-teal .stat-icon {
+            background: rgba(0, 180, 216, 0.12);
+            color: #00b4d8;
+        }
+
+        .sc-pink .stat-icon {
+            background: rgba(236, 72, 153, 0.12);
+            color: #ec4899;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            line-height: 1;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 479px) {
+            .stat-value {
+                font-size: 17px;
+            }
+        }
+
+        @media (max-width: 359px) {
+            .stat-value {
+                font-size: 15px;
+            }
+
+            .stat-card {
+                padding: 12px 10px 10px;
+            }
+        }
+
+        .stat-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .stat-trend.up {
+            color: var(--accent);
+        }
+
+        .stat-trend.down {
+            color: var(--danger);
+        }
+
+        .stat-trend.flat {
+            color: var(--text-muted);
+        }
+
+        .stat-mini {
+            height: 40px !important;
+            min-height: 40px;
+            overflow: hidden;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .stat-mini .apexcharts-legend,
+        .stat-mini .apexcharts-toolbar {
+            display: none !important;
+        }
+
+        /* ── SECTION HEAD ── */
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .section-head h5 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .section-head h5 i {
+            color: var(--secondary);
+        }
+
+        /* ── BUTTONS ── */
+        .btn-a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Josefin Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            white-space: nowrap;
+            min-height: 42px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .btn-a.primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(10, 132, 255, 0.4);
+        }
+
+        .btn-a.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(10, 132, 255, 0.5);
+        }
+
+        .btn-a.success {
+            background: linear-gradient(135deg, #00b37a, var(--accent));
+            color: #fff;
+        }
+
+        .btn-a.danger {
+            background: linear-gradient(135deg, #cc2b44, var(--danger));
+            color: #fff;
+        }
+
+        .btn-a.warning {
+            background: linear-gradient(135deg, #cc9a00, var(--warning));
+            color: #000;
+        }
+
+        .btn-a.purple {
+            background: linear-gradient(135deg, #7c22d4, var(--purple));
+            color: #fff;
+        }
+
+        .btn-a.outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        .btn-a.outline:hover {
+            background: rgba(10, 132, 255, 0.1);
+        }
+
+        .btn-a.sm {
+            padding: 6px 12px;
+            font-size: 11px;
+            min-height: 34px;
+        }
+
+        .btn-a.full {
+            width: 100%;
+        }
+
+        .btn-a:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ── BADGE ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .badge.success {
+            background: rgba(0, 255, 179, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0, 255, 179, 0.3);
+        }
+
+        .badge.danger {
+            background: rgba(255, 77, 109, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+        }
+
+        .badge.warning {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .badge.info {
+            background: rgba(10, 132, 255, 0.12);
+            color: var(--secondary);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        .badge.purple {
+            background: rgba(147, 51, 234, 0.12);
+            color: var(--purple);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+        }
+
+        /* ── TABLE ── */
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
+        }
+
+        .a-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .a-table th {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+            background: rgba(10, 132, 255, 0.04);
+        }
+
+        .a-table td {
+            padding: 13px 14px;
+            font-size: 13px;
+            color: var(--text);
+            border-bottom: 1px solid rgba(10, 132, 255, 0.06);
+            white-space: nowrap;
+        }
+
+        .a-table tr:hover td {
+            background: rgba(10, 132, 255, 0.04);
+        }
+
+        .a-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ── TABS ── */
+        .a-tabs {
+            display: flex;
+            gap: 3px;
+            background: rgba(10, 132, 255, 0.06);
+            border-radius: 10px;
+            padding: 3px;
+            flex-wrap: wrap;
+        }
+
+        .a-tab-btn {
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: transparent;
+            white-space: nowrap;
+            min-height: 34px;
+        }
+
+        .a-tab-btn.active {
+            background: rgba(10, 132, 255, 0.2);
+            color: var(--secondary);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+        }
+
+        .a-tab-pane {
+            display: none;
+        }
+
+        .a-tab-pane.active {
+            display: block;
+        }
+
+        /* ── FORM CONTROLS ── */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        @media (max-width: 599px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .a-input,
+        .a-select,
+        .a-textarea {
+            width: 100%;
+            background: rgba(11, 16, 32, 0.8);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            font-family: inherit;
+            min-height: 42px;
+        }
+
+        .a-input:focus,
+        .a-select:focus,
+        .a-textarea:focus {
+            outline: none;
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
+        }
+
+        .a-textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon .a-input {
+            padding-left: 40px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        /* Toggle */
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            min-height: 42px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 132, 255, 0.15);
+            border-radius: 24px;
+            border: 1px solid rgba(10, 132, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        .toggle-thumb {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .toggle-switch input:checked~.toggle-track {
+            background: rgba(0, 255, 179, 0.2);
+            border-color: rgba(0, 255, 179, 0.4);
+        }
+
+        .toggle-switch input:checked~.toggle-thumb {
+            transform: translateX(20px);
+            background: var(--accent);
+        }
+
+        /* ── SEARCH ROW ── */
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .search-row .input-with-icon {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        /* ── PAGINATION ── */
+        .a-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 14px 0 4px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            background: transparent;
+            transition: var(--transition);
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: rgba(10, 132, 255, 0.15);
+            border-color: rgba(10, 132, 255, 0.3);
+            color: var(--secondary);
+        }
+
+        /* ── ACTIVITY LOG ── */
+        .log-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(10, 132, 255, 0.06);
+        }
+
+        .log-item:last-child {
+            border-bottom: none;
+        }
+
+        .log-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .log-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .log-action {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .log-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ── PLAN CARD ── */
+        .plan-admin-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .plan-admin-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-blue);
+        }
+
+        .plan-admin-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .pac-starter::before {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .pac-elite::before {
+            background: linear-gradient(90deg, var(--warning), #ff8c00);
+        }
+
+        .pac-vip::before {
+            background: linear-gradient(90deg, var(--danger), var(--purple));
+        }
+
+        .pac-unlimited::before {
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+        }
+
+        .plan-admin-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        /* ── QUICK ACTION GRID ── */
+        .qa-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .qa-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .qa-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .qa-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-blue);
+        }
+
+        .qa-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .qa-btn:hover .qa-icon {
+            transform: scale(1.12);
+        }
+
+        .qa-deposits .qa-icon {
+            background: rgba(0, 255, 179, 0.12);
+            color: var(--accent);
+        }
+
+        .qa-withdrawals.qa-icon {
+            background: rgba(10, 132, 255, 0.12);
+            color: var(--primary);
+        }
+
+        .qa-plan .qa-icon {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .qa-blog .qa-icon {
+            background: rgba(147, 51, 234, 0.12);
+            color: var(--purple);
+        }
+
+        .qa-user .qa-icon {
+            background: rgba(0, 212, 255, 0.12);
+            color: var(--secondary);
+        }
+
+        .qa-notif .qa-icon {
+            background: rgba(255, 77, 109, 0.12);
+            color: var(--danger);
+        }
+
+        .qa-backup .qa-icon {
+            background: rgba(0, 180, 216, 0.12);
+            color: #00b4d8;
+        }
+
+        .qa-export .qa-icon {
+            background: rgba(236, 72, 153, 0.12);
+            color: #ec4899;
+        }
+
+        /* ── MODAL ── */
+        .a-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: var(--z-modal);
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .a-modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .a-modal {
+            background: rgba(14, 20, 40, 0.99);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            backdrop-filter: blur(16px);
+        }
+
+        .a-modal-overlay.open .a-modal {
+            transform: translateY(0);
+        }
+
+        .modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 22px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-head h5 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .modal-head h5 i {
+            color: var(--secondary);
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted) !important;
+            font-size: 18px !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--danger) !important;
+            background: rgba(255, 77, 109, 0.1);
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .modal-foot {
+            padding: 14px 22px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        /* ── NOTIFICATION DRAWER ── */
+        .notif-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: calc(var(--z-notif) - 1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .notif-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .notif-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: min(380px, 100vw);
+            height: 100vh;
+            background: rgba(14, 20, 40, 0.99);
+            border-left: 1px solid var(--border);
+            z-index: var(--z-notif);
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: visible;
+            backdrop-filter: blur(16px);
+        }
+
+        .notif-drawer.open {
+            right: 0;
+        }
+
+        .notif-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 18px 14px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            overflow: visible;
+        }
+
+        .notif-head h5 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Josefin Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .notif-head-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .notif-close-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            color: #fff !important;
+            font-size: 22px !important;
+            line-height: 1 !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: all !important;
+            position: relative !important;
+            z-index: 9999 !important;
+            transition: var(--transition);
+            font-family: Arial, sans-serif;
+        }
+
+        .notif-close-btn:hover {
+            background: rgba(255, 77, 109, 0.2) !important;
+            border-color: rgba(255, 77, 109, 0.5) !important;
+            color: var(--danger) !important;
+        }
+
+        .notif-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .notif-item {
+            display: flex;
+            gap: 11px;
+            padding: 13px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: rgba(10, 132, 255, 0.04);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .notif-item:hover {
+            border-color: var(--border);
+        }
+
+        .notif-item.unread {
+            border-color: rgba(10, 132, 255, 0.2);
+            background: rgba(10, 132, 255, 0.07);
+        }
+
+        .notif-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .notif-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notif-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .notif-msg {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .notif-time {
+            font-size: 11px;
+            color: rgba(232, 234, 246, 0.3);
+            margin-top: 5px;
+        }
+
+        .notif-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .notif-foot {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        /* ── TOAST ── */
+        .toast-container {
+            position: fixed;
+            top: 50px;
+            right: 18px;
+            z-index: var(--z-toast);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: min(340px, calc(100vw - 36px));
+            pointer-events: none;
+        }
+
+        .toast-item {
+            background: rgba(14, 20, 40, 0.97);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            box-shadow: var(--shadow-blue);
+            animation: toastIn 0.35s ease forwards;
+            pointer-events: all;
+            backdrop-filter: blur(12px);
+        }
+
+        .toast-item.removing {
+            animation: toastOut 0.3s ease forwards;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateX(0)
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(40px)
+            }
+        }
+
+        .toast-ico {
+            font-size: 19px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .toast-body .toast-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .toast-body .toast-msg {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .toast-item.success {
+            border-color: rgba(0, 255, 179, 0.3);
+        }
+
+        .toast-item.success .toast-ico {
+            color: var(--accent);
+        }
+
+        .toast-item.error {
+            border-color: rgba(255, 77, 109, 0.3);
+        }
+
+        .toast-item.error .toast-ico {
+            color: var(--danger);
+        }
+
+        .toast-item.info {
+            border-color: rgba(10, 132, 255, 0.3);
+        }
+
+        .toast-item.info .toast-ico {
+            color: var(--primary);
+        }
+
+        /* ── IO ANIMATIONS ── */
+        [data-anim] {
+            opacity: 0;
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        [data-anim="up"] {
+            transform: translateY(30px);
+        }
+
+        [data-anim="in"] {
+            transform: none;
+        }
+
+        [data-anim].vis {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .d1 {
+            transition-delay: .05s
+        }
+
+        .d2 {
+            transition-delay: .10s
+        }
+
+        .d3 {
+            transition-delay: .15s
+        }
+
+        .d4 {
+            transition-delay: .20s
+        }
+
+        /* ── UTILS ── */
+        .ats-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 16px 0;
+        }
+
+        .text-accent {
+            color: var(--accent) !important;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .text-cyan {
+            color: var(--secondary) !important;
+        }
+
+        .text-danger {
+            color: var(--danger) !important;
+        }
+
+        .text-muted-a {
+            color: var(--text-muted) !important;
+        }
+
+        .text-gold {
+            color: var(--warning) !important;
+        }
+
+        .fw-7 {
+            font-weight: 700;
+        }
+
+        .ff-j {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+
+        .mono {
+            font-family: monospace;
+        }
+
+        /* FAB */
+        .admin-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 600;
+        }
+
+        .fab-btn {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--purple), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(147, 51, 234, 0.5);
+            transition: var(--transition);
+            border: none;
+            position: relative;
+        }
+
+        .fab-btn::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid rgba(147, 51, 234, 0.3);
+            animation: fabRing 2s ease-in-out infinite;
+        }
+
+        @keyframes fabRing {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: .8
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: .3
+            }
+        }
+
+        .fab-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 62px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+
+        .admin-fab.open .fab-menu {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .fab-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(14, 20, 40, 0.97);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            min-height: 42px;
+        }
+
+        .fab-item:hover {
+            border-color: var(--border-hover);
+            color: var(--secondary);
+        }
+
+        .fab-item i {
+            color: var(--secondary);
+        }
+
+        /* Back to top */
+        .back-top {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 590;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .back-top.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .back-top:hover {
+            border-color: var(--border-hover);
+            color: var(--secondary);
+        }
+
+        .admin-footer {
+            text-align: center;
+            padding: 18px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 32px;
+        }
+
+        .admin-footer a {
+            color: var(--secondary);
+        }
+
+        /* Status indicator */
+        .status-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-dot.online {
+            background: var(--accent);
+            box-shadow: 0 0 6px rgba(0, 255, 179, 0.6);
+        }
+
+        .status-dot.offline {
+            background: var(--danger);
+        }
+
+        .status-dot.idle {
+            background: var(--warning);
+        }
+
+        /* Progress bar */
+        .prog-track {
+            height: 6px;
+            background: rgba(10, 132, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .prog-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* CMS Editor */
+        .cms-section {
+            background: rgba(10, 132, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .cms-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Rich text fake */
+        .rich-text {
+            min-height: 120px;
+            background: rgba(11, 16, 32, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            padding: 12px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            width: 100%;
+        }
+
+        .rich-text:focus {
+            outline: none;
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
+        }
+
+        /* Settings grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        @media (max-width: 599px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(10, 132, 255, 0.07);
+            gap: 12px;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .setting-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Plan editor color swatches */
+        .color-swatches {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .color-swatch.selected {
+            border-color: #fff;
+            transform: scale(1.15);
+        }
+
+        /* User avatar */
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+
+        /* Proof image preview */
+        .proof-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            cursor: zoom-in;
+            transition: var(--transition);
+        }
+
+        .proof-thumb:hover {
+            border-color: var(--border-hover);
+            transform: scale(1.05);
+        }
+
+        /* Referral tree */
+        .ref-tree-node {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(10, 132, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .ref-tree-node.level-1 {
+            margin-left: 0;
+        }
+
+        .ref-tree-node.level-2 {
+            margin-left: 24px;
+            border-color: rgba(147, 51, 234, 0.2);
+        }
+
+        .ref-tree-node.level-3 {
+            margin-left: 48px;
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        /* Maintenance mode banner */
+        .maintenance-banner {
+            background: rgba(255, 77, 109, 0.1);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--danger);
+        }
+
+        /* Online users counter */
+        .online-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(0, 255, 179, 0.06);
+            border: 1px solid rgba(0, 255, 179, 0.18);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Section tab content areas */
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- NOTIF OVERLAY -->
+    <div class="notif-overlay" id="notifOverlay"></div>
+
+    <!-- NOTIFICATION DRAWER -->
+    <div class="notif-drawer" id="notifDrawer">
+        <div class="notif-head">
+            <h5><i class="las la-bell" style="color:var(--secondary);"></i>Admin Notifications <span id="notifBadge"
+                    style="background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:none;">5</span>
+            </h5>
+            <div class="notif-head-actions">
+                <button
+                    style="font-size:11px;color:var(--primary);font-weight:700;background:none;border:none;cursor:pointer;padding:6px;"
+                    onclick="ADMIN.markAllRead()">Mark all read</button>
+                <button class="notif-close-btn" id="notifCloseBtn" onclick="ADMIN.closeNotif()"
+                    aria-label="Close">&#x00D7;</button>
+            </div>
+        </div>
+        <div class="notif-list" id="notifList">
+            <div class="notif-item unread">
+                <div class="notif-icon" style="background:rgba(255,215,0,0.1);color:var(--warning);"><i
+                        class="las la-exclamation-triangle"></i></div>
+                <div class="notif-body">
+                    <div class="notif-title">5 Deposits Pending Approval</div>
+                    <div class="notif-msg">Users are waiting for their deposits to be confirmed.</div>
+                    <div class="notif-time">2 min ago</div>
+                </div>
+                <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+                <div class="notif-icon" style="background:rgba(255,77,109,0.12);color:var(--danger);"><i
+                        class="las la-arrow-up"></i></div>
+                <div class="notif-body">
+                    <div class="notif-title">3 Withdrawal Requests</div>
+                    <div class="notif-msg">$4,200 in pending withdrawal requests require review.</div>
+                    <div class="notif-time">8 min ago</div>
+                </div>
+                <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+                <div class="notif-icon" style="background:rgba(10,132,255,0.12);color:var(--primary);"><i
+                        class="las la-user-plus"></i></div>
+                <div class="notif-body">
+                    <div class="notif-title">12 New Registrations</div>
+                    <div class="notif-msg">New users signed up in the last hour.</div>
+                    <div class="notif-time">1 hr ago</div>
+                </div>
+                <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+                <div class="notif-icon" style="background:rgba(147,51,234,0.12);color:var(--purple);"><i
+                        class="las la-headset"></i></div>
+                <div class="notif-body">
+                    <div class="notif-title">8 Open Support Tickets</div>
+                    <div class="notif-msg">Urgent tickets require administrator attention.</div>
+                    <div class="notif-time">2 hrs ago</div>
+                </div>
+                <div class="notif-dot"></div>
+            </div>
+            <div class="notif-item unread">
+                <div class="notif-icon" style="background:rgba(0,255,179,0.12);color:var(--accent);"><i
+                        class="las la-robot"></i></div>
+                <div class="notif-body">
+                    <div class="notif-title">AI Engine Performance Alert</div>
+                    <div class="notif-msg">AI confidence temporarily dropped to 88% — monitoring.</div>
+                    <div class="notif-time">3 hrs ago</div>
+                </div>
+                <div class="notif-dot"></div>
+            </div>
+        </div>
+        <div class="notif-foot">
+            <button class="btn-a outline full" onclick="ADMIN.clearAllNotifs()"
+                style="font-size:12px;min-height:36px;">&#x1F5D1; Clear All Notifications</button>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Edit Plan Modal -->
+    <div class="a-modal-overlay" id="editPlanModal">
+        <div class="a-modal">
+            <div class="modal-head">
+                <h5><i class="las la-edit"></i>Edit AI Trading Plan</h5>
+                <button class="modal-close" onclick="ADMIN.closeModal('editPlanModal')">&#x00D7;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Plan Name</label><input type="text"
+                            class="a-input" id="planName" value="Trading Mastery"></div>
+                    <div class="form-group"><label class="form-label">Status</label><select class="a-select"
+                            id="planStatus">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select></div>
+                    <div class="form-group"><label class="form-label">Min Investment ($)</label><input type="number"
+                            class="a-input" id="planMin" value="500"></div>
+                    <div class="form-group"><label class="form-label">Max Investment ($)</label><input type="number"
+                            class="a-input" id="planMax" value="4999"></div>
+                    <div class="form-group"><label class="form-label">Hourly ROI (%)</label><input type="number"
+                            class="a-input" id="planHourly" value="26.04" step="0.01"></div>
+                    <div class="form-group"><label class="form-label">Duration (Days)</label><input type="number"
+                            class="a-input" id="planDays" value="2"></div>
+                    <div class="form-group"><label class="form-label">Total Hours</label><input type="number"
+                            class="a-input" id="planHours" value="48"></div>
+                    <div class="form-group"><label class="form-label">Total Profit ($)</label><input type="number"
+                            class="a-input" id="planProfit" value="6250"></div>
+                    <div class="form-group"><label class="form-label">Risk Level</label><select class="a-select">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                        </select></div>
+                    <div class="form-group"><label class="form-label">AI Confidence (%)</label><input type="number"
+                            class="a-input" value="94.7" step="0.1"></div>
+                    <div class="form-group"><label class="form-label">Capital Return</label><select class="a-select">
+                            <option selected>Yes</option>
+                            <option>No</option>
+                        </select></div>
+                    <div class="form-group"><label class="form-label">Featured Plan</label><select class="a-select">
+                            <option>No</option>
+                            <option selected>Yes</option>
+                        </select></div>
+                </div>
+                <div class="form-group"><label class="form-label">Color Theme</label>
+                    <div class="color-swatches">
+                        <div class="color-swatch selected" style="background:linear-gradient(135deg,#0A84FF,#00D4FF)"
+                            title="Blue"></div>
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#ffd700,#ff8c00)"
+                            title="Gold"></div>
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#ff4d6d,#9333ea)"
+                            title="Red-Purple"></div>
+                        <div class="color-swatch" style="background:linear-gradient(135deg,#00FFB3,#00D4FF)"
+                            title="Green-Cyan"></div>
+                    </div>
+                </div>
+                <div
+                    style="background:rgba(0,255,179,0.05);border:1px solid rgba(0,255,179,0.15);border-radius:9px;padding:12px;margin-top:4px;font-size:12px;color:var(--text-muted);">
+                    <i class="las la-info-circle" style="color:var(--accent);"></i>
+                    Saving this plan automatically updates the <strong style="color:#fff;">User Dashboard
+                        calculator</strong>, <strong style="color:#fff;">Investment Plans page</strong>, and <strong
+                        style="color:#fff;">Home Page</strong> without code changes.
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-a outline" onclick="ADMIN.closeModal('editPlanModal')">Cancel</button>
+                <button class="btn-a primary" onclick="ADMIN.savePlan()"><i class="las la-save"></i> Save &
+                    Propagate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View User Modal -->
+    <div class="a-modal-overlay" id="viewUserModal">
+        <div class="a-modal">
+            <div class="modal-head">
+                <h5><i class="las la-user"></i>User Details</h5>
+                <button class="modal-close" onclick="ADMIN.closeModal('viewUserModal')">&#x00D7;</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+                    <div
+                        style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff;font-family:'Josefin Sans',sans-serif;">
+                        J</div>
+                    <div>
+                        <div style="font-size:16px;font-weight:700;color:#fff;">John Trader</div>
+                        <div style="font-size:13px;color:var(--text-muted);">trader@email.com</div>
+                        <div style="margin-top:4px;"><span class="badge success">Active</span><span class="badge info"
+                                style="margin-left:4px;">Verified</span></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <div class="form-label">Portfolio Balance</div>
+                        <div
+                            style="font-size:18px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                            $22,991.90</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Total Profit Earned</div>
+                        <div
+                            style="font-size:18px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                            $9,937.44</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Total Deposits</div>
+                        <div style="font-size:18px;font-weight:700;color:#fff;font-family:'Josefin Sans',sans-serif;">
+                            $2,000</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Total Withdrawals</div>
+                        <div
+                            style="font-size:18px;font-weight:700;color:var(--danger);font-family:'Josefin Sans',sans-serif;">
+                            $1,703</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Referrals</div>
+                        <div
+                            style="font-size:18px;font-weight:700;color:var(--purple);font-family:'Josefin Sans',sans-serif;">
+                            12</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Joined</div>
+                        <div style="font-size:14px;font-weight:600;color:#fff;">Dec 1, 2024</div>
+                    </div>
+                </div>
+                <div class="ats-divider"></div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn-a outline sm"><i class="las la-sign-in-alt"></i> Login As User</button>
+                    <button class="btn-a warning sm"><i class="las la-ban"></i> Suspend</button>
+                    <button class="btn-a danger sm"><i class="las la-key"></i> Reset Password</button>
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-a outline" onclick="ADMIN.closeModal('viewUserModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Approval Modal -->
+    <div class="a-modal-overlay" id="depApproveModal">
+        <div class="a-modal">
+            <div class="modal-head">
+                <h5><i class="las la-check-circle"></i>Review Deposit</h5>
+                <button class="modal-close" onclick="ADMIN.closeModal('depApproveModal')">&#x00D7;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row" style="margin-bottom:14px;">
+                    <div>
+                        <div class="form-label">User</div>
+                        <div class="fw-7" style="color:#fff;">John Trader</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Amount</div>
+                        <div class="fw-7 text-accent" style="font-size:18px;font-family:'Josefin Sans',sans-serif;">
+                            $500.00</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Method</div>
+                        <div class="fw-7" style="color:#fff;">Bitcoin (BTC)</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Submitted</div>
+                        <div style="color:var(--text-muted);">Dec 16, 2024 14:32</div>
+                    </div>
+                </div>
+                <div class="form-label">Payment Proof</div>
+                <div
+                    style="background:rgba(10,132,255,0.04);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;margin-bottom:14px;">
+                    <img src="https://via.placeholder.com/400x200/141B34/0A84FF?text=Payment+Screenshot"
+                        style="width:100%;border-radius:8px;max-height:200px;object-fit:cover;" alt="Proof">
+                    <div style="margin-top:8px;"><button class="btn-a outline sm"><i class="las la-expand"></i>
+                            Zoom</button> <button class="btn-a outline sm"><i class="las la-download"></i>
+                            Download</button></div>
+                </div>
+                <div
+                    style="background:rgba(0,255,179,0.05);border:1px solid rgba(0,255,179,0.15);border-radius:9px;padding:12px;font-size:12px;color:var(--text-muted);">
+                    <i class="las la-info-circle" style="color:var(--accent);"></i>
+                    Approving will: credit $500 to user wallet, update platform statistics, create transaction record,
+                    and send notification.
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-a danger" onclick="ADMIN.rejectDeposit()"><i class="las la-times"></i>
+                    Reject</button>
+                <button class="btn-a outline" onclick="ADMIN.closeModal('depApproveModal')">Cancel</button>
+                <button class="btn-a success" onclick="ADMIN.approveDeposit()"><i class="las la-check"></i> Approve
+                    Deposit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Notification Modal -->
+    <div class="a-modal-overlay" id="sendNotifModal">
+        <div class="a-modal">
+            <div class="modal-head">
+                <h5><i class="las la-broadcast-tower"></i>Send Notification</h5>
+                <button class="modal-close" onclick="ADMIN.closeModal('sendNotifModal')">&#x00D7;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">Recipients</label><select class="a-select">
+                        <option>All Users</option>
+                        <option>Active Users</option>
+                        <option>Specific User</option>
+                        <option>VIP Users</option>
+                    </select></div>
+                <div class="form-group"><label class="form-label">Type</label><select class="a-select">
+                        <option>Announcement</option>
+                        <option>Trading Update</option>
+                        <option>Bonus</option>
+                        <option>Maintenance</option>
+                        <option>Custom</option>
+                    </select></div>
+                <div class="form-group"><label class="form-label">Title</label><input type="text" class="a-input"
+                        placeholder="Notification title"></div>
+                <div class="form-group"><label class="form-label">Message</label><textarea class="a-textarea"
+                        placeholder="Notification message"></textarea></div>
+                <label class="toggle-wrap">
+                    <div class="toggle-switch"><input type="checkbox" checked>
+                        <div class="toggle-track"></div>
+                        <div class="toggle-thumb"></div>
+                    </div><span style="font-size:13px;color:var(--text-muted);">Also send via Email</span>
+                </label>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-a outline" onclick="ADMIN.closeModal('sendNotifModal')">Cancel</button>
+                <button class="btn-a primary" onclick="ADMIN.sendNotification()"><i class="las la-paper-plane"></i> Send
+                    Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Star field -->
+    <div class="full-wh" aria-hidden="true">
+        <div class="bg-animation">
+            <div id="stars"></div>
+            <div id="stars2"></div>
+            <div id="stars3"></div>
+            <div id="stars4"></div>
+        </div>
+    </div>
+
+    <!-- Back to top -->
+    <button class="back-top" id="backTopBtn" aria-label="Back to top">&#x2191;</button>
+
+    <!-- Sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ── TICKER ── -->
+    <div class="ats-ticker">
+        <div class="ticker-inner" id="tickerInner">
+            <span class="ticker-item"><span class="ts">Connecting…</span></span>
+        </div>
+    </div>
+
+    <!-- ══ ADMIN SHELL ══ -->
+    <div class="admin-shell">
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" onclick="ADMIN.closeSidebar()">&#x00D7;</button>
+
+            <div class="sidebar-brand">
+                <div class="brand-logo"><img src="assets/images/logo.png" alt="ATS"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                    <div
+                        style="display:none;font-size:18px;font-weight:700;color:var(--secondary);font-family:'Josefin Sans',sans-serif;">
+                        ATS</div>
+                </div>
+                <span class="admin-badge">Admin</span>
+            </div>
+
+            <div class="sidebar-ai-status">
+                <div class="ai-status-label"><i class="las la-robot"></i>AI Engine</div>
+                <div class="ai-status-row">
+                    <div class="pulse-dot"></div>
+                    <div>
+                        <div class="ai-status-name">Running</div>
+                        <div class="ai-status-sub">94.7% &#xB7; 88K+ Active</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section-label">Main</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active" data-section="overview"><i class="las la-th-large"></i>Overview</a></li>
+                <li><a href="#" data-section="analytics"><i class="las la-chart-bar"></i>Live Analytics</a></li>
+                <li><a href="#" data-section="quickactions"><i class="las la-bolt"></i>Quick Actions</a></li>
+            </ul>
+
+            <div class="sidebar-section-label">User Management</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" data-section="users"><i class="las la-users"></i>All Users</a></li>
+                <li><a href="#" data-section="useractivity"><i class="las la-user-clock"></i>User Activity</a></li>
+            </ul>
+
+            <div class="sidebar-section-label">Finance</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" data-section="deposits"><i class="las la-arrow-down"></i>Deposits <span
+                            class="nav-badge">5</span></a></li>
+                <li><a href="#" data-section="withdrawals"><i class="las la-arrow-up"></i>Withdrawals <span
+                            class="nav-badge">3</span></a></li>
+                <li><a href="#" data-section="investments"><i class="las la-cubes"></i>Investments</a></li>
+                <li><a href="#" data-section="transactions"><i class="las la-history"></i>Transactions</a></li>
+            </ul>
+
+            <div class="sidebar-section-label">AI Plans & Calculator</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" data-section="plans"><i class="las la-layer-group"></i>Plan Management</a></li>
+                <li><a href="#" data-section="calculator"><i class="las la-calculator"></i>Calculator Settings</a></li>
+            </ul>
+
+            <div class="sidebar-section-label">Content</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" data-section="cms"><i class="las la-home"></i>Homepage CMS</a></li>
+                <li><a href="#" data-section="blog"><i class="las la-blog"></i>Blog Management</a></li>
+            </ul>
+
+            <div class="sidebar-section-label">Platform</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" data-section="payments"><i class="las la-credit-card"></i>Payment Methods</a></li>
+                <li><a href="#" data-section="referral"><i class="las la-users"></i>Referrals</a></li>
+                <li><a href="#" data-section="bonuses"><i class="las la-gift"></i>Bonuses</a></li>
+                <li><a href="#" data-section="support"><i class="las la-headset"></i>Support <span
+                            class="nav-badge">8</span></a></li>
+                <li><a href="#" data-section="notifications"><i class="las la-broadcast-tower"></i>Notifications</a>
+                </li>
+            </ul>
+
+            <div class="sidebar-section-label">System</div>
+            <ul class="sidebar-nav">
+                <li><a href="#" data-section="settings"><i class="las la-cog"></i>Platform Settings</a></li>
+                <li><a href="#" data-section="activitylog"><i class="las la-history"></i>Activity Log</a></li>
+                <li><a href="#" data-section="adminprofile"><i class="las la-user-shield"></i>Admin Profile</a></li>
+                <li><a href="dashboard.html"><i class="las la-external-link-alt"></i>View User Dashboard</a></li>
+                <li><a href="index.html"><i class="las la-sign-out-alt"></i>Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- ── MAIN CONTENT ── -->
+        <main class="admin-main" id="adminMain">
+
+            <!-- TOPBAR -->
+            <div class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="hamburger-btn" id="hamburgerBtn"><i class="las la-bars"></i></button>
+                    <div class="topbar-greeting">
+                        <h4 id="greetingText">Good day, Administrator &#x1F44B;</h4>
+                        <p id="greetingDate">Loading&#x2026;</p>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div
+                        style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(0,255,179,0.06);border:1px solid rgba(0,255,179,0.18);border-radius:8px;font-size:12px;color:var(--accent);font-weight:600;flex-shrink:0;">
+                        <div class="pulse-dot" style="width:6px;height:6px;"></div>
+                        <span id="onlineCount">247 Online</span>
+                    </div>
+                    <div class="topbar-btn" id="notifToggleBtn"><i class="las la-bell"></i><span class="dot"
+                            id="notifDot"></span></div>
+                    <div class="topbar-btn" onclick="ADMIN.showSection('settings')"><i class="las la-cog"></i></div>
+                    <div class="topbar-avatar">A</div>
+                </div>
+            </div>
+
+
+            <!-- ══ SECTION: OVERVIEW ══ -->
+            <div id="section-overview" class="section-content active">
+
+                <div class="stat-grid">
+                    <div class="stat-card sc-blue" data-anim="up">
+                        <div class="stat-icon"><i class="las la-users"></i></div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-value" id="sc-users">0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+42 today</div>
+                        <div class="stat-mini" id="mini1"></div>
+                    </div>
+                    <div class="stat-card sc-green" data-anim="up" class="d1">
+                        <div class="stat-icon"><i class="las la-user-check"></i></div>
+                        <div class="stat-label">Active Users</div>
+                        <div class="stat-value" id="sc-active">0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+8.2% week</div>
+                        <div class="stat-mini" id="mini2"></div>
+                    </div>
+                    <div class="stat-card sc-cyan" data-anim="up">
+                        <div class="stat-icon"><i class="las la-arrow-down"></i></div>
+                        <div class="stat-label">Total Deposits</div>
+                        <div class="stat-value" id="sc-deposits">$0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+$12,400 today</div>
+                        <div class="stat-mini" id="mini3"></div>
+                    </div>
+                    <div class="stat-card sc-gold" data-anim="up">
+                        <div class="stat-icon"><i class="las la-arrow-up"></i></div>
+                        <div class="stat-label">Total Withdrawals</div>
+                        <div class="stat-value" id="sc-withdrawals">$0</div>
+                        <div class="stat-trend down"><i class="las la-arrow-down"></i>-$3,200 today</div>
+                        <div class="stat-mini" id="mini4"></div>
+                    </div>
+                    <div class="stat-card sc-purple" data-anim="up">
+                        <div class="stat-icon"><i class="las la-clock"></i></div>
+                        <div class="stat-label">Pending Deposits</div>
+                        <div class="stat-value" id="sc-pdep">5</div>
+                        <div class="stat-trend flat" style="color:var(--warning);"><i
+                                class="las la-exclamation-circle"></i>Needs review</div>
+                    </div>
+                    <div class="stat-card sc-red" data-anim="up">
+                        <div class="stat-icon"><i class="las la-hourglass-half"></i></div>
+                        <div class="stat-label">Pending Withdrawals</div>
+                        <div class="stat-value" id="sc-pwithdraw">3</div>
+                        <div class="stat-trend flat" style="color:var(--warning);"><i
+                                class="las la-exclamation-circle"></i>Needs review</div>
+                    </div>
+                    <div class="stat-card sc-blue" data-anim="up">
+                        <div class="stat-icon"><i class="las la-cubes"></i></div>
+                        <div class="stat-label">Total Investment</div>
+                        <div class="stat-value" id="sc-investment">$0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+5.4%</div>
+                        <div class="stat-mini" id="mini5"></div>
+                    </div>
+                    <div class="stat-card sc-green" data-anim="up">
+                        <div class="stat-icon"><i class="las la-chart-line"></i></div>
+                        <div class="stat-label">Total Profit Paid</div>
+                        <div class="stat-value" id="sc-profitpaid">$0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>This month</div>
+                        <div class="stat-mini" id="mini6"></div>
+                    </div>
+                    <div class="stat-card sc-teal" data-anim="up">
+                        <div class="stat-icon"><i class="las la-wallet"></i></div>
+                        <div class="stat-label">Platform Balance</div>
+                        <div class="stat-value" id="sc-platformbal">$0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>Healthy</div>
+                    </div>
+                    <div class="stat-card sc-pink" data-anim="up">
+                        <div class="stat-icon"><i class="las la-users"></i></div>
+                        <div class="stat-label">Referral Commissions</div>
+                        <div class="stat-value" id="sc-refcomm">$0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+$840 today</div>
+                    </div>
+                    <div class="stat-card sc-purple" data-anim="up">
+                        <div class="stat-icon"><i class="las la-layer-group"></i></div>
+                        <div class="stat-label">Active AI Plans</div>
+                        <div class="stat-value" id="sc-plans">8</div>
+                        <div class="stat-trend flat"><i class="las la-robot"></i>All running</div>
+                    </div>
+                    <div class="stat-card sc-gold" data-anim="up">
+                        <div class="stat-icon"><i class="las la-wifi"></i></div>
+                        <div class="stat-label">Online Users</div>
+                        <div class="stat-value" id="sc-online">247</div>
+                        <div class="stat-trend up"><i class="las la-circle"
+                                style="font-size:8px;color:var(--accent);"></i>Live</div>
+                    </div>
+                    <div class="stat-card sc-green" data-anim="up">
+                        <div class="stat-icon"><i class="las la-robot"></i></div>
+                        <div class="stat-label">AI Trading Status</div>
+                        <div class="stat-value" style="font-size:16px;">RUNNING</div>
+                        <div class="stat-trend up"><i class="las la-check-circle"></i>94.7% confidence</div>
+                    </div>
+                    <div class="stat-card sc-blue" data-anim="up">
+                        <div class="stat-icon"><i class="las la-blog"></i></div>
+                        <div class="stat-label">Total Blog Posts</div>
+                        <div class="stat-value" id="sc-blogs">24</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+2 drafts</div>
+                    </div>
+                    <div class="stat-card sc-red" data-anim="up">
+                        <div class="stat-icon"><i class="las la-headset"></i></div>
+                        <div class="stat-label">Open Tickets</div>
+                        <div class="stat-value" id="sc-tickets">8</div>
+                        <div class="stat-trend flat" style="color:var(--danger);"><i
+                                class="las la-exclamation-triangle"></i>3 urgent</div>
+                    </div>
+                    <div class="stat-card sc-teal" data-anim="up">
+                        <div class="stat-icon"><i class="las la-calendar-day"></i></div>
+                        <div class="stat-label">Today's Revenue</div>
+                        <div class="stat-value" id="sc-todayrev">$0</div>
+                        <div class="stat-trend up"><i class="las la-arrow-up"></i>+18.3%</div>
+                        <div class="stat-mini" id="mini7"></div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions + Recent Activity Row -->
+                <div class="row mb-3">
+                    <div class="col-lg-4 mb-3" data-anim="up">
+                        <div class="a-card h-100">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-bolt"></i>Quick Actions</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="qa-grid">
+                                    <button class="qa-btn qa-deposits" onclick="ADMIN.showSection('deposits')">
+                                        <div class="qa-icon"
+                                            style="background:rgba(0,255,179,0.12);color:var(--accent);"><i
+                                                class="las la-arrow-down"></i></div>Deposits
+                                    </button>
+                                    <button class="qa-btn qa-withdrawals" onclick="ADMIN.showSection('withdrawals')">
+                                        <div class="qa-icon"
+                                            style="background:rgba(10,132,255,0.12);color:var(--primary);"><i
+                                                class="las la-arrow-up"></i></div>Withdrawals
+                                    </button>
+                                    <button class="qa-btn qa-plan" onclick="ADMIN.openModal('editPlanModal')">
+                                        <div class="qa-icon"
+                                            style="background:rgba(255,215,0,0.1);color:var(--warning);"><i
+                                                class="las la-layer-group"></i></div>New Plan
+                                    </button>
+                                    <button class="qa-btn qa-blog" onclick="ADMIN.showSection('blog')">
+                                        <div class="qa-icon"
+                                            style="background:rgba(147,51,234,0.12);color:var(--purple);"><i
+                                                class="las la-blog"></i></div>New Blog
+                                    </button>
+                                    <button class="qa-btn qa-user" onclick="ADMIN.showSection('users')">
+                                        <div class="qa-icon"
+                                            style="background:rgba(0,212,255,0.12);color:var(--secondary);"><i
+                                                class="las la-user-plus"></i></div>Add User
+                                    </button>
+                                    <button class="qa-btn qa-notif" onclick="ADMIN.openModal('sendNotifModal')">
+                                        <div class="qa-icon"
+                                            style="background:rgba(255,77,109,0.12);color:var(--danger);"><i
+                                                class="las la-broadcast-tower"></i></div>Notify
+                                    </button>
+                                    <button class="qa-btn qa-backup"
+                                        onclick="ADMIN.toast('Database backup initiated…','info')">
+                                        <div class="qa-icon" style="background:rgba(0,180,216,0.12);color:#00b4d8;"><i
+                                                class="las la-database"></i></div>Backup
+                                    </button>
+                                    <button class="qa-btn qa-export" onclick="ADMIN.toast('Exporting data…','success')">
+                                        <div class="qa-icon" style="background:rgba(236,72,153,0.12);color:#ec4899;"><i
+                                                class="las la-file-export"></i></div>Export
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card h-100">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-history"></i>Recent Admin Activity</h5>
+                                <button class="btn-a outline sm" onclick="ADMIN.showSection('activitylog')">View
+                                    All</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(0,255,179,0.12);color:var(--accent);">
+                                        <i class="las la-check-circle"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">Deposit Approved — $500 (John Trader)</div>
+                                        <div class="log-meta">Admin &#xB7; 2 min ago &#xB7; IP: 192.168.1.1</div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(255,77,109,0.12);color:var(--danger);">
+                                        <i class="las la-times-circle"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">Withdrawal Rejected — $200 (Sarah M.)</div>
+                                        <div class="log-meta">Admin &#xB7; 15 min ago &#xB7; Reason: Wallet mismatch
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon"
+                                        style="background:rgba(10,132,255,0.12);color:var(--primary);"><i
+                                            class="las la-edit"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">AI Plan Updated — Trading Mastery (26.04% &#x2192;
+                                            26.04%)</div>
+                                        <div class="log-meta">Admin &#xB7; 1 hr ago &#xB7; Auto-propagated to all pages
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(147,51,234,0.12);color:var(--purple);">
+                                        <i class="las la-blog"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">Blog Post Published — "AI Market Analysis Dec 2024"
+                                        </div>
+                                        <div class="log-meta">Admin &#xB7; 2 hrs ago &#xB7; 0 views so far</div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(255,215,0,0.1);color:var(--warning);">
+                                        <i class="las la-user-times"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">User Suspended — spammer@fake.com</div>
+                                        <div class="log-meta">Admin &#xB7; 3 hrs ago &#xB7; Reason: Suspicious activity
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon"
+                                        style="background:rgba(0,212,255,0.12);color:var(--secondary);"><i
+                                            class="las la-broadcast-tower"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">Broadcast Notification Sent — "AI Engine Update v4.2"
+                                        </div>
+                                        <div class="log-meta">Admin &#xB7; 4 hrs ago &#xB7; 88,412 recipients</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /overview -->
+
+
+            <!-- ══ SECTION: ANALYTICS ══ -->
+            <div id="section-analytics" class="section-content">
+                <div class="section-head mb-3">
+                    <h5><i class="las la-chart-bar"></i>Live Analytics</h5>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-8 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-chart-area"></i>Daily Deposits &amp; Withdrawals
+                                </h5>
+                                <div class="a-tabs"><button class="a-tab-btn active">7D</button><button
+                                        class="a-tab-btn">30D</button><button class="a-tab-btn">90D</button></div>
+                            </div>
+                            <div class="card-body">
+                                <div id="depWithChart" style="min-height:280px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-user-plus"></i>User Registrations</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="regChart" style="min-height:280px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-robot"></i>AI Trading Volume</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="aiVolChart" style="min-height:220px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-chart-pie"></i>ROI Distribution</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="roiDistChart" style="min-height:220px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-dollar-sign"></i>Monthly Revenue</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="revenueChart" style="min-height:220px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-users"></i>Referral Statistics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="refStatChart" style="min-height:220px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /analytics -->
+
+
+            <!-- ══ SECTION: USERS ══ -->
+            <div id="section-users" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-users"></i>User Management</h5><button class="btn-a primary"
+                        onclick="ADMIN.openModal('viewUserModal')"><i class="las la-user-plus"></i>Add User</button>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs">
+                            <button class="a-tab-btn active">All Users</button>
+                            <button class="a-tab-btn">Active</button>
+                            <button class="a-tab-btn">Suspended</button>
+                            <button class="a-tab-btn">Unverified</button>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <div class="input-with-icon" style="min-width:200px;"><i
+                                    class="las la-search input-icon"></i><input type="search" class="a-input"
+                                    style="padding-left:38px;font-size:12px;min-height:36px;"
+                                    placeholder="Search users…"></div>
+                            <button class="btn-a outline sm"><i class="las la-filter"></i>Filter</button>
+                            <button class="btn-a outline sm" onclick="ADMIN.toast('Exporting users…','success')"><i
+                                    class="las la-file-export"></i>Export</button>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Balance</th>
+                                    <th>Deposits</th>
+                                    <th>Investments</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <div class="user-avatar">J</div><span class="fw-7">John Trader</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted-a">trader@email.com</td>
+                                    <td class="text-accent fw-7">$22,991</td>
+                                    <td>$2,000</td>
+                                    <td>3 active</td>
+                                    <td><span class="badge success"><span class="status-dot online"></span>Active</span>
+                                    </td>
+                                    <td class="text-muted-a">Dec 1</td>
+                                    <td><button class="btn-a outline sm" onclick="ADMIN.openModal('viewUserModal')"><i
+                                                class="las la-eye"></i></button> <button class="btn-a warning sm"
+                                            onclick="ADMIN.toast('User suspended','success')"><i
+                                                class="las la-ban"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <div class="user-avatar"
+                                                style="background:linear-gradient(135deg,#9333ea,#00D4FF);">S</div><span
+                                                class="fw-7">Sarah M.</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted-a">sarah@email.com</td>
+                                    <td class="text-accent fw-7">$8,420</td>
+                                    <td>$600</td>
+                                    <td>2 active</td>
+                                    <td><span class="badge success"><span class="status-dot online"></span>Active</span>
+                                    </td>
+                                    <td class="text-muted-a">Nov 28</td>
+                                    <td><button class="btn-a outline sm" onclick="ADMIN.openModal('viewUserModal')"><i
+                                                class="las la-eye"></i></button> <button class="btn-a warning sm"><i
+                                                class="las la-ban"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <div class="user-avatar"
+                                                style="background:linear-gradient(135deg,#ffd700,#ff8c00);">R</div><span
+                                                class="fw-7">Rajesh P.</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted-a">rajesh@email.com</td>
+                                    <td class="text-accent fw-7">$4,560</td>
+                                    <td>$900</td>
+                                    <td>1 active</td>
+                                    <td><span class="badge warning"><span class="status-dot idle"></span>Idle</span>
+                                    </td>
+                                    <td class="text-muted-a">Nov 22</td>
+                                    <td><button class="btn-a outline sm" onclick="ADMIN.openModal('viewUserModal')"><i
+                                                class="las la-eye"></i></button> <button class="btn-a warning sm"><i
+                                                class="las la-ban"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <div class="user-avatar"
+                                                style="background:linear-gradient(135deg,#ff4d6d,#9333ea);">M</div><span
+                                                class="fw-7">Mike S.</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted-a">mike@email.com</td>
+                                    <td class="text-muted-a">$0</td>
+                                    <td>$0</td>
+                                    <td>0</td>
+                                    <td><span class="badge danger"><span
+                                                class="status-dot offline"></span>Suspended</span></td>
+                                    <td class="text-muted-a">Nov 15</td>
+                                    <td><button class="btn-a success sm"
+                                            onclick="ADMIN.toast('User activated','success')"><i
+                                                class="las la-check"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="a-pagination"><button class="page-btn active">1</button><button
+                            class="page-btn">2</button><button class="page-btn">3</button><button
+                            class="page-btn">&#x276F;</button></div>
+                </div>
+            </div><!-- /users -->
+
+
+            <!-- ══ SECTION: DEPOSITS ══ -->
+            <div id="section-deposits" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-arrow-down"></i>Deposit Management</h5><button class="btn-a outline sm"
+                        onclick="ADMIN.toast('Exporting deposits…','success')"><i
+                            class="las la-file-export"></i>Export</button>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs"><button class="a-tab-btn active">All</button><button class="a-tab-btn"
+                                style="position:relative;">Pending <span
+                                    style="background:var(--danger);color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:4px;">5</span></button><button
+                                class="a-tab-btn">Approved</button><button class="a-tab-btn">Rejected</button></div>
+                        <div class="input-with-icon" style="min-width:200px;"><i
+                                class="las la-search input-icon"></i><input type="search" class="a-input"
+                                style="padding-left:38px;font-size:12px;min-height:36px;"
+                                placeholder="Search deposits…"></div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Proof</th>
+                                    <th>Submitted</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-7">John Trader</td>
+                                    <td class="text-accent fw-7">$500</td>
+                                    <td>Bitcoin</td>
+                                    <td><img src="https://via.placeholder.com/60x40/141B34/0A84FF?text=Proof"
+                                            class="proof-thumb" onclick="ADMIN.toast('Zooming proof…','info')"></td>
+                                    <td class="text-muted-a">Dec 16 14:32</td>
+                                    <td><span class="badge warning">Pending</span></td>
+                                    <td><button class="btn-a success sm" onclick="ADMIN.openModal('depApproveModal')"><i
+                                                class="las la-check"></i>Review</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-7">Sarah M.</td>
+                                    <td class="text-accent fw-7">$600</td>
+                                    <td>USDT TRC20</td>
+                                    <td><img src="https://via.placeholder.com/60x40/141B34/0A84FF?text=Proof"
+                                            class="proof-thumb"></td>
+                                    <td class="text-muted-a">Dec 16 12:11</td>
+                                    <td><span class="badge warning">Pending</span></td>
+                                    <td><button class="btn-a success sm" onclick="ADMIN.openModal('depApproveModal')"><i
+                                                class="las la-check"></i>Review</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-7">Rajesh P.</td>
+                                    <td class="text-accent fw-7">$900</td>
+                                    <td>Ethereum</td>
+                                    <td><img src="https://via.placeholder.com/60x40/141B34/0A84FF?text=Proof"
+                                            class="proof-thumb"></td>
+                                    <td class="text-muted-a">Dec 15 09:45</td>
+                                    <td><span class="badge success">Approved</span></td>
+                                    <td><button class="btn-a outline sm"><i class="las la-eye"></i>View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="a-pagination"><button class="page-btn active">1</button><button
+                            class="page-btn">2</button><button class="page-btn">&#x276F;</button></div>
+                </div>
+            </div><!-- /deposits -->
+
+
+            <!-- ══ SECTION: WITHDRAWALS ══ -->
+            <div id="section-withdrawals" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-arrow-up"></i>Withdrawal Management</h5><button class="btn-a outline sm"
+                        onclick="ADMIN.toast('Exporting withdrawals…','success')"><i
+                            class="las la-file-export"></i>Export</button>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs"><button class="a-tab-btn active">All</button><button
+                                class="a-tab-btn">Pending <span
+                                    style="background:var(--danger);color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:4px;">3</span></button><button
+                                class="a-tab-btn">Approved</button><button class="a-tab-btn">Rejected</button></div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Wallet</th>
+                                    <th>Network</th>
+                                    <th>Balance Before</th>
+                                    <th>Requested</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-7">John Trader</td>
+                                    <td class="text-danger fw-7">$1,000</td>
+                                    <td class="mono" style="font-size:11px;color:var(--text-muted);">0x1a2b…9f3e</td>
+                                    <td>Ethereum</td>
+                                    <td class="text-accent">$2,105</td>
+                                    <td class="text-muted-a">Dec 14</td>
+                                    <td><span class="badge warning">Pending</span></td>
+                                    <td><button class="btn-a success sm" onclick="ADMIN.approveWithdraw()"><i
+                                                class="las la-check"></i>Approve</button> <button
+                                            class="btn-a danger sm"
+                                            onclick="ADMIN.toast('Withdrawal rejected','info')"><i
+                                                class="las la-times"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-7">Sarah M.</td>
+                                    <td class="text-danger fw-7">$500</td>
+                                    <td class="mono" style="font-size:11px;color:var(--text-muted);">bc1q…4m7p</td>
+                                    <td>Bitcoin</td>
+                                    <td class="text-accent">$1,420</td>
+                                    <td class="text-muted-a">Dec 14</td>
+                                    <td><span class="badge warning">Pending</span></td>
+                                    <td><button class="btn-a success sm" onclick="ADMIN.approveWithdraw()"><i
+                                                class="las la-check"></i>Approve</button> <button
+                                            class="btn-a danger sm"><i class="las la-times"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- /withdrawals -->
+
+
+            <!-- ══ SECTION: AI PLANS ══ -->
+            <div id="section-plans" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-layer-group"></i>AI Trading Plan Management</h5><button class="btn-a primary"
+                        onclick="ADMIN.openModal('editPlanModal')"><i class="las la-plus"></i>Create Plan</button>
+                </div>
+
+                <div
+                    style="background:rgba(0,255,179,0.05);border:1px solid rgba(0,255,179,0.15);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--text-muted);display:flex;align-items:flex-start;gap:10px;">
+                    <i class="las la-info-circle" style="color:var(--accent);font-size:18px;margin-top:1px;"></i>
+                    <div><strong style="color:#fff;">Auto-Propagation Active.</strong> Any plan you create or edit is
+                        instantly reflected on the <strong style="color:var(--secondary);">User Dashboard</strong>,
+                        <strong style="color:var(--secondary);">Home Page Investment Plans</strong>, and <strong
+                            style="color:var(--secondary);">AI Return Calculator</strong> through the database — no
+                        manual HTML edits needed.</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6 mb-3" data-anim="up">
+                        <div class="plan-admin-card pac-starter">
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                                <span class="badge info">Starter</span>
+                                <label class="toggle-wrap" style="min-height:auto;">
+                                    <div class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox"
+                                            checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb" style="top:2px;left:2px;width:14px;height:14px;">
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div
+                                style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;font-family:'Josefin Sans',sans-serif;">
+                                Beginner Access</div>
+                            <div
+                                style="font-size:24px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                26.04%</div>
+                            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">/hr &#xB7; 48hrs
+                                &#xB7; Min $200</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Total Profit: <span
+                                    class="fw-7" style="color:#fff;">$2,500</span></div>
+                            <div style="font-size:12px;color:var(--text-muted);">Status: <span
+                                    class="badge success">Active</span></div>
+                            <div class="plan-admin-actions">
+                                <button class="btn-a outline sm" onclick="ADMIN.openModal('editPlanModal')"><i
+                                        class="las la-edit"></i></button>
+                                <button class="btn-a outline sm" onclick="ADMIN.toast('Plan duplicated','success')"><i
+                                        class="las la-copy"></i></button>
+                                <button class="btn-a danger sm" onclick="ADMIN.toast('Plan deleted','info')"><i
+                                        class="las la-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mb-3" data-anim="up" style="transition-delay:0.05s;">
+                        <div class="plan-admin-card pac-starter">
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                                <span class="badge info">Starter</span><label class="toggle-wrap"
+                                    style="min-height:auto;">
+                                    <div class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox"
+                                            checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb" style="top:2px;left:2px;width:14px;height:14px;">
+                                        </div>
+                                    </div>
+                                </label></div>
+                            <div
+                                style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;font-family:'Josefin Sans',sans-serif;">
+                                Trading Mastery</div>
+                            <div
+                                style="font-size:24px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                26.04%</div>
+                            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">/hr &#xB7; 48hrs
+                                &#xB7; Min $500</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Total Profit: <span
+                                    class="fw-7" style="color:#fff;">$6,250</span></div>
+                            <div style="font-size:12px;color:var(--text-muted);">Status: <span
+                                    class="badge success">Active</span></div>
+                            <div class="plan-admin-actions"><button class="btn-a outline sm"
+                                    onclick="ADMIN.openModal('editPlanModal')"><i
+                                        class="las la-edit"></i></button><button class="btn-a outline sm"><i
+                                        class="las la-copy"></i></button><button class="btn-a danger sm"><i
+                                        class="las la-trash"></i></button></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="plan-admin-card pac-elite">
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                                <span class="badge warning">Elite</span><label class="toggle-wrap"
+                                    style="min-height:auto;">
+                                    <div class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox"
+                                            checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb" style="top:2px;left:2px;width:14px;height:14px;">
+                                        </div>
+                                    </div>
+                                </label></div>
+                            <div
+                                style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;font-family:'Josefin Sans',sans-serif;">
+                                Elite Trader</div>
+                            <div
+                                style="font-size:24px;font-weight:700;color:var(--warning);font-family:'Josefin Sans',sans-serif;">
+                                17.36%</div>
+                            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">/hr &#xB7; 72hrs
+                                &#xB7; Min $600</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Total Profit: <span
+                                    class="fw-7" style="color:#fff;">$7,500</span></div>
+                            <div style="font-size:12px;color:var(--text-muted);">Status: <span
+                                    class="badge success">Active</span></div>
+                            <div class="plan-admin-actions"><button class="btn-a outline sm"
+                                    onclick="ADMIN.openModal('editPlanModal')"><i
+                                        class="las la-edit"></i></button><button class="btn-a outline sm"><i
+                                        class="las la-copy"></i></button><button class="btn-a danger sm"><i
+                                        class="las la-trash"></i></button></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 mb-3" data-anim="up" style="transition-delay:0.15s;">
+                        <div class="plan-admin-card pac-unlimited">
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                                <span class="badge success">Unlimited</span><label class="toggle-wrap"
+                                    style="min-height:auto;">
+                                    <div class="toggle-switch" style="width:36px;height:20px;"><input type="checkbox"
+                                            checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb" style="top:2px;left:2px;width:14px;height:14px;">
+                                        </div>
+                                    </div>
+                                </label></div>
+                            <div
+                                style="font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;font-family:'Josefin Sans',sans-serif;">
+                                Hack Bot Automation</div>
+                            <div
+                                style="font-size:24px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                17.36%</div>
+                            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">/hr &#xB7; 72hrs
+                                &#xB7; Min $10,000</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Total Profit: <span
+                                    class="fw-7" style="color:#fff;">$125,000+</span></div>
+                            <div style="font-size:12px;color:var(--text-muted);">Status: <span
+                                    class="badge success">Active</span></div>
+                            <div class="plan-admin-actions"><button class="btn-a outline sm"
+                                    onclick="ADMIN.openModal('editPlanModal')"><i
+                                        class="las la-edit"></i></button><button class="btn-a outline sm"><i
+                                        class="las la-copy"></i></button><button class="btn-a danger sm"><i
+                                        class="las la-trash"></i></button></div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /plans -->
+
+
+            <!-- ══ SECTION: CALCULATOR SETTINGS ══ -->
+            <div id="section-calculator" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-calculator"></i>Calculator Settings</h5><button class="btn-a primary"
+                        onclick="ADMIN.toast('Calculator settings saved and propagated!','success')"><i
+                            class="las la-save"></i>Save &amp; Propagate</button>
+                </div>
+                <div
+                    style="background:rgba(0,255,179,0.05);border:1px solid rgba(0,255,179,0.15);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--text-muted);">
+                    <i class="las la-info-circle" style="color:var(--accent);"></i>
+                    Changes here automatically update the <strong style="color:#fff;">User Dashboard Calculator</strong>
+                    and <strong style="color:#fff;">Home Page Calculator</strong>.
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-sliders-h"></i>Formula Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Default Currency</label><select
+                                        class="a-select">
+                                        <option>USD</option>
+                                        <option>EUR</option>
+                                        <option>GBP</option>
+                                    </select></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label class="form-label">2-Day Plan Rate
+                                            (%/hr)</label><input type="number" class="a-input" value="26.04"
+                                            step="0.01"></div>
+                                    <div class="form-group"><label class="form-label">3-Day Plan Rate
+                                            (%/hr)</label><input type="number" class="a-input" value="17.36"
+                                            step="0.01"></div>
+                                    <div class="form-group"><label class="form-label">Min Investment ($)</label><input
+                                            type="number" class="a-input" value="200"></div>
+                                    <div class="form-group"><label class="form-label">Max Investment ($)</label><input
+                                            type="number" class="a-input" value="999999"></div>
+                                </div>
+                                <label class="toggle-wrap" style="margin-bottom:10px;">
+                                    <div class="toggle-switch"><input type="checkbox" checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb"></div>
+                                    </div><span style="font-size:13px;color:var(--text-muted);">Show capital in
+                                        results</span>
+                                </label><br>
+                                <label class="toggle-wrap">
+                                    <div class="toggle-switch"><input type="checkbox" checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb"></div>
+                                    </div><span style="font-size:13px;color:var(--text-muted);">Show estimated
+                                        completion date</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-eye"></i>Live Preview</h5>
+                            </div>
+                            <div class="card-body">
+                                <div
+                                    style="background:rgba(10,132,255,0.05);border:1px solid rgba(10,132,255,0.12);border-radius:10px;padding:16px;text-align:center;">
+                                    <div
+                                        style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
+                                        Investment: $500 &#xB7; Trading Mastery &#xB7; 48hrs</div>
+                                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+                                        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:12px;">
+                                            <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">
+                                                HOURLY</div>
+                                            <div
+                                                style="font-size:20px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                                $130.20</div>
+                                        </div>
+                                        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:12px;">
+                                            <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">DAILY
+                                            </div>
+                                            <div
+                                                style="font-size:20px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                                $3,124.80</div>
+                                        </div>
+                                        <div
+                                            style="background:rgba(0,255,179,0.05);border:1px solid rgba(0,255,179,0.2);border-radius:8px;padding:12px;">
+                                            <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">NET
+                                                PROFIT</div>
+                                            <div
+                                                style="font-size:22px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                                $6,249.60</div>
+                                        </div>
+                                        <div
+                                            style="background:rgba(0,255,179,0.05);border:1px solid rgba(0,255,179,0.2);border-radius:8px;padding:12px;">
+                                            <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">TOTAL
+                                                RETURN</div>
+                                            <div
+                                                style="font-size:22px;font-weight:700;color:var(--accent);font-family:'Josefin Sans',sans-serif;">
+                                                $6,749.60</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /calculator -->
+
+
+            <!-- ══ SECTION: HOMEPAGE CMS ══ -->
+            <div id="section-cms" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-home"></i>Homepage CMS</h5><button class="btn-a primary"
+                        onclick="ADMIN.toast('Homepage changes saved and published!','success')"><i
+                            class="las la-save"></i>Save &amp; Publish</button>
+                </div>
+                <div
+                    style="background:rgba(10,132,255,0.05);border:1px solid rgba(10,132,255,0.2);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--text-muted);">
+                    <i class="las la-info-circle" style="color:var(--primary);"></i>
+                    All content saved here is stored in the database and automatically reflected on the public Home
+                    Page. No HTML editing required.
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-heading"></i>Hero Section</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Hero Title</label><input type="text"
+                                        class="a-input" value="AI-Powered Trading That Works 24/7"></div>
+                                <div class="form-group"><label class="form-label">Hero Subtitle</label><textarea
+                                        class="a-textarea"
+                                        style="min-height:70px;">Deploy institutional-grade AI bots in under 2 minutes. No trading experience required.</textarea>
+                                </div>
+                                <div class="form-group"><label class="form-label">Primary Button Text</label><input
+                                        type="text" class="a-input" value="Start Trading Now"></div>
+                                <div class="form-group"><label class="form-label">Secondary Button Text</label><input
+                                        type="text" class="a-input" value="View AI Plans"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-chart-bar"></i>Platform Statistics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group"><label class="form-label">Volume Traded</label><input
+                                            type="text" class="a-input" value="$5.4B+"></div>
+                                    <div class="form-group"><label class="form-label">Active Traders</label><input
+                                            type="text" class="a-input" value="88K+"></div>
+                                    <div class="form-group"><label class="form-label">System Uptime</label><input
+                                            type="text" class="a-input" value="99.99%"></div>
+                                    <div class="form-group"><label class="form-label">AI Win Rate</label><input
+                                            type="text" class="a-input" value="99.99%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-share-alt"></i>Social Media Links</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Telegram</label><input type="url"
+                                        class="a-input" placeholder="https://t.me/yourgroup"></div>
+                                <div class="form-group"><label class="form-label">Twitter / X</label><input type="url"
+                                        class="a-input" placeholder="https://twitter.com/yourprofile"></div>
+                                <div class="form-group"><label class="form-label">WhatsApp</label><input type="url"
+                                        class="a-input" placeholder="https://wa.me/..."></div>
+                                <div class="form-group"><label class="form-label">Discord</label><input type="url"
+                                        class="a-input" placeholder="https://discord.gg/..."></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-search"></i>SEO Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">SEO Title</label><input type="text"
+                                        class="a-input" value="ATS - AI-Powered Trading That Works 24/7"></div>
+                                <div class="form-group"><label class="form-label">SEO Description</label><textarea
+                                        class="a-textarea"
+                                        style="min-height:70px;">Deploy AI trading bots with 94.7% win rate. 88K+ active traders worldwide.</textarea>
+                                </div>
+                                <div class="form-group"><label class="form-label">Keywords</label><input type="text"
+                                        class="a-input" placeholder="AI trading, crypto bots, automated trading...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /cms -->
+
+
+            <!-- ══ SECTION: BLOG ══ -->
+            <div id="section-blog" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-blog"></i>Blog Management</h5><button class="btn-a primary"
+                        onclick="ADMIN.openCreateBlog()"><i class="las la-plus"></i>New Blog Post</button>
+                </div>
+                <div class="a-card" data-anim="up" style="margin-bottom:20px;" id="blogEditorCard"
+                    style="display:none;">
+                    <div class="card-head">
+                        <h5 class="card-title"><i class="las la-edit"></i>Create / Edit Post</h5><button
+                            class="btn-a outline sm"
+                            onclick="document.getElementById('blogEditorCard').style.display='none'">&#x00D7;
+                            Close</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Title</label><input type="text"
+                                    class="a-input" id="blogTitle" placeholder="Post title"></div>
+                            <div class="form-group"><label class="form-label">Slug</label><input type="text"
+                                    class="a-input" id="blogSlug" placeholder="post-url-slug"></div>
+                            <div class="form-group"><label class="form-label">Category</label><select class="a-select">
+                                    <option>Market Analysis</option>
+                                    <option>Trade Insights</option>
+                                    <option>AI Updates</option>
+                                    <option>Platform News</option>
+                                </select></div>
+                            <div class="form-group"><label class="form-label">Status</label><select class="a-select">
+                                    <option>Draft</option>
+                                    <option>Published</option>
+                                    <option>Scheduled</option>
+                                </select></div>
+                            <div class="form-group"><label class="form-label">SEO Title</label><input type="text"
+                                    class="a-input" placeholder="SEO title"></div>
+                            <div class="form-group"><label class="form-label">Featured Image URL</label><input
+                                    type="text" class="a-input" placeholder="https://..."></div>
+                        </div>
+                        <div class="form-group"><label class="form-label">SEO Description</label><input type="text"
+                                class="a-input" placeholder="Meta description"></div>
+                        <div class="form-group"><label class="form-label">Content</label><textarea class="rich-text"
+                                rows="8" placeholder="Write your blog post content here…"></textarea></div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="btn-a primary"
+                                onclick="ADMIN.toast('Post published!','success')"><i
+                                    class="las la-check"></i>Publish</button><button class="btn-a outline"
+                                onclick="ADMIN.toast('Draft saved','info')"><i class="las la-save"></i>Save
+                                Draft</button><button class="btn-a outline"
+                                onclick="ADMIN.toast('Preview opened in new tab','info')"><i
+                                    class="las la-eye"></i>Preview</button></div>
+                    </div>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head">
+                        <h5 class="card-title"><i class="las la-list"></i>All Posts</h5>
+                        <div class="input-with-icon" style="min-width:200px;"><i
+                                class="las la-search input-icon"></i><input type="search" class="a-input"
+                                style="padding-left:38px;font-size:12px;min-height:36px;" placeholder="Search posts…">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Views</th>
+                                    <th>Published</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-7">AI Market Analysis December 2024</td>
+                                    <td>Market Analysis</td>
+                                    <td><span class="badge success">Published</span></td>
+                                    <td>1,842</td>
+                                    <td class="text-muted-a">Dec 14, 2024</td>
+                                    <td><button class="btn-a outline sm"><i class="las la-edit"></i></button> <button
+                                            class="btn-a danger sm" onclick="ADMIN.toast('Post deleted','info')"><i
+                                                class="las la-trash"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-7">How ATS AI Achieves 94.7% Win Rate</td>
+                                    <td>AI Updates</td>
+                                    <td><span class="badge success">Published</span></td>
+                                    <td>3,241</td>
+                                    <td class="text-muted-a">Dec 10, 2024</td>
+                                    <td><button class="btn-a outline sm"><i class="las la-edit"></i></button> <button
+                                            class="btn-a danger sm"><i class="las la-trash"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-7">Beginner's Guide to AI Trading</td>
+                                    <td>Trade Insights</td>
+                                    <td><span class="badge warning">Draft</span></td>
+                                    <td>0</td>
+                                    <td class="text-muted-a">—</td>
+                                    <td><button class="btn-a outline sm"><i class="las la-edit"></i></button> <button
+                                            class="btn-a success sm"
+                                            onclick="ADMIN.toast('Post published!','success')"><i
+                                                class="las la-check"></i>Publish</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- /blog -->
+
+
+            <!-- ══ SECTION: PAYMENT METHODS ══ -->
+            <div id="section-payments" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-credit-card"></i>Payment Methods</h5><button class="btn-a primary"
+                        onclick="ADMIN.toast('Payment method added and deposit page updated!','success')"><i
+                            class="las la-plus"></i>Add Method</button>
+                </div>
+                <div
+                    style="background:rgba(10,132,255,0.05);border:1px solid rgba(10,132,255,0.2);border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--text-muted);">
+                    <i class="las la-info-circle" style="color:var(--primary);"></i>
+                    Wallet addresses and QR codes set here are automatically displayed on the User Dashboard <strong
+                        style="color:#fff;">Deposit Page</strong>.
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="lab la-bitcoin"
+                                        style="color:var(--warning);"></i>Bitcoin (BTC)</h5>
+                                <label class="toggle-wrap" style="min-height:auto;">
+                                    <div class="toggle-switch"><input type="checkbox" checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Wallet Address</label><input
+                                        type="text" class="a-input" value="bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+                                        style="font-family:monospace;font-size:12px;"></div>
+                                <div class="form-group"><label class="form-label">Network</label><input type="text"
+                                        class="a-input" value="Bitcoin Mainnet"></div>
+                                <div class="form-group"><label class="form-label">Instructions</label><textarea
+                                        class="a-textarea"
+                                        style="min-height:60px;">Send BTC to the address above and upload your transaction screenshot.</textarea>
+                                </div>
+                                <div class="form-group"><label class="form-label">QR Code Image</label>
+                                    <div style="border:1px dashed rgba(10,132,255,0.3);border-radius:10px;padding:16px;text-align:center;cursor:pointer;"
+                                        onclick="ADMIN.toast('QR upload triggered','info')"><i class="las la-qrcode"
+                                            style="font-size:28px;color:var(--text-muted);"></i>
+                                        <p style="font-size:12px;color:var(--text-muted);margin:6px 0 0;">Click to
+                                            upload QR code image</p>
+                                    </div>
+                                </div>
+                                <button class="btn-a success sm full"
+                                    onclick="ADMIN.toast('Bitcoin method saved! Deposit page updated.','success')"><i
+                                        class="las la-save"></i>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="lab la-ethereum"
+                                        style="color:var(--primary);"></i>Ethereum (ETH)</h5>
+                                <label class="toggle-wrap" style="min-height:auto;">
+                                    <div class="toggle-switch"><input type="checkbox" checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Wallet Address</label><input
+                                        type="text" class="a-input" value="0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b"
+                                        style="font-family:monospace;font-size:12px;"></div>
+                                <div class="form-group"><label class="form-label">Network</label><input type="text"
+                                        class="a-input" value="Ethereum Mainnet (ERC20)"></div>
+                                <div class="form-group"><label class="form-label">Instructions</label><textarea
+                                        class="a-textarea"
+                                        style="min-height:60px;">Send ETH to the address above. Minimum 3 confirmations required.</textarea>
+                                </div>
+                                <div class="form-group"><label class="form-label">QR Code Image</label>
+                                    <div style="border:1px dashed rgba(10,132,255,0.3);border-radius:10px;padding:16px;text-align:center;cursor:pointer;"
+                                        onclick="ADMIN.toast('QR upload triggered','info')"><i class="las la-qrcode"
+                                            style="font-size:28px;color:var(--text-muted);"></i>
+                                        <p style="font-size:12px;color:var(--text-muted);margin:6px 0 0;">Click to
+                                            upload QR code image</p>
+                                    </div>
+                                </div>
+                                <button class="btn-a success sm full"
+                                    onclick="ADMIN.toast('Ethereum method saved! Deposit page updated.','success')"><i
+                                        class="las la-save"></i>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /payments -->
+
+
+            <!-- ══ SECTION: SUPPORT ══ -->
+            <div id="section-support" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-headset"></i>Support Center</h5><span
+                        style="font-size:13px;color:var(--text-muted);">8 open tickets &#xB7; 3 urgent</span>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs"><button class="a-tab-btn active">All</button><button
+                                class="a-tab-btn">Open</button><button class="a-tab-btn">Urgent</button><button
+                                class="a-tab-btn">Resolved</button></div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>User</th>
+                                    <th>Subject</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Opened</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="mono text-cyan">#TKT-0042</td>
+                                    <td class="fw-7">John Trader</td>
+                                    <td>Withdrawal processing longer than expected</td>
+                                    <td><span class="badge danger">Urgent</span></td>
+                                    <td><span class="badge warning">Open</span></td>
+                                    <td class="text-muted-a">Dec 14</td>
+                                    <td><button class="btn-a outline sm"
+                                            onclick="ADMIN.toast('Ticket opened for reply','info')"><i
+                                                class="las la-reply"></i>Reply</button> <button class="btn-a success sm"
+                                            onclick="ADMIN.toast('Ticket closed','success')"><i
+                                                class="las la-check"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td class="mono text-cyan">#TKT-0041</td>
+                                    <td class="fw-7">Sarah M.</td>
+                                    <td>Unable to upload deposit proof</td>
+                                    <td><span class="badge warning">Medium</span></td>
+                                    <td><span class="badge info">Resolved</span></td>
+                                    <td class="text-muted-a">Dec 13</td>
+                                    <td><button class="btn-a outline sm"><i class="las la-eye"></i>View</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="mono text-cyan">#TKT-0040</td>
+                                    <td class="fw-7">Rajesh P.</td>
+                                    <td>AI bot not showing profits</td>
+                                    <td><span class="badge danger">Urgent</span></td>
+                                    <td><span class="badge warning">Open</span></td>
+                                    <td class="text-muted-a">Dec 12</td>
+                                    <td><button class="btn-a outline sm"
+                                            onclick="ADMIN.toast('Ticket opened for reply','info')"><i
+                                                class="las la-reply"></i>Reply</button> <button
+                                            class="btn-a success sm"><i class="las la-check"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- /support -->
+
+
+            <!-- ══ SECTION: NOTIFICATIONS ══ -->
+            <div id="section-notifications" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-broadcast-tower"></i>Send Notification</h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-paper-plane"></i>Compose</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Recipients</label><select
+                                        class="a-select">
+                                        <option>All Users (88,412)</option>
+                                        <option>Active Users</option>
+                                        <option>VIP Users</option>
+                                        <option>Specific User</option>
+                                    </select></div>
+                                <div class="form-group"><label class="form-label">Notification Type</label><select
+                                        class="a-select">
+                                        <option>Announcement</option>
+                                        <option>Trading Update</option>
+                                        <option>Bonus Available</option>
+                                        <option>Maintenance Notice</option>
+                                        <option>Custom</option>
+                                    </select></div>
+                                <div class="form-group"><label class="form-label">Title</label><input type="text"
+                                        class="a-input" placeholder="Notification title"></div>
+                                <div class="form-group"><label class="form-label">Message</label><textarea
+                                        class="a-textarea" placeholder="Full notification message"></textarea></div>
+                                <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+                                    <label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox" checked>
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div><span style="font-size:13px;color:var(--text-muted);">Send as in-app
+                                            notification</span>
+                                    </label>
+                                    <label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox">
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div><span style="font-size:13px;color:var(--text-muted);">Also send via
+                                            email</span>
+                                    </label>
+                                </div>
+                                <button class="btn-a primary full" onclick="ADMIN.sendNotification()"><i
+                                        class="las la-broadcast-tower"></i> Send Notification</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-history"></i>Recent Broadcasts</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(147,51,234,0.12);color:var(--purple);">
+                                        <i class="las la-broadcast-tower"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">AI Engine Update v4.2</div>
+                                        <div class="log-meta">All Users &#xB7; 88,412 sent &#xB7; 4 hrs ago</div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(255,215,0,0.1);color:var(--warning);">
+                                        <i class="las la-gift"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">Weekend Bonus — Extra 5% on deposits</div>
+                                        <div class="log-meta">Active Users &#xB7; 54,200 sent &#xB7; 2 days ago</div>
+                                    </div>
+                                </div>
+                                <div class="log-item">
+                                    <div class="log-icon" style="background:rgba(255,77,109,0.12);color:var(--danger);">
+                                        <i class="las la-tools"></i></div>
+                                    <div class="log-body">
+                                        <div class="log-action">Scheduled Maintenance — Dec 20, 2:00 AM UTC</div>
+                                        <div class="log-meta">All Users &#xB7; 88,412 sent &#xB7; 5 days ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /notifications -->
+
+
+            <!-- ══ SECTION: SETTINGS ══ -->
+            <div id="section-settings" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-cog"></i>Platform Settings</h5><button class="btn-a primary"
+                        onclick="ADMIN.toast('Settings saved successfully!','success')"><i class="las la-save"></i>Save
+                        All Settings</button>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-globe"></i>General Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="settings-grid">
+                                    <div class="form-group"><label class="form-label">Site Name</label><input
+                                            type="text" class="a-input" value="ATS — Automated Trading System"></div>
+                                    <div class="form-group"><label class="form-label">Site URL</label><input type="url"
+                                            class="a-input" value="https://ats-trading.io"></div>
+                                    <div class="form-group"><label class="form-label">Contact Email</label><input
+                                            type="email" class="a-input" value="support@ats-trading.io"></div>
+                                    <div class="form-group"><label class="form-label">Timezone</label><select
+                                            class="a-select">
+                                            <option>UTC</option>
+                                            <option>GMT</option>
+                                            <option>EST</option>
+                                        </select></div>
+                                    <div class="form-group"><label class="form-label">Currency</label><select
+                                            class="a-select">
+                                            <option>USD ($)</option>
+                                            <option>EUR (€)</option>
+                                        </select></div>
+                                    <div class="form-group"><label class="form-label">Language</label><select
+                                            class="a-select">
+                                            <option>English</option>
+                                            <option>French</option>
+                                            <option>Arabic</option>
+                                        </select></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-shield-alt"></i>Security &amp; Maintenance</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">Maintenance Mode</div>
+                                        <div class="setting-desc">Take platform offline for maintenance</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox">
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">2FA Required</div>
+                                        <div class="setting-desc">Force 2FA for all users</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox" checked>
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">Auto Approve Small Deposits</div>
+                                        <div class="setting-desc">Auto-approve deposits under $50</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox">
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">Referral Program Active</div>
+                                        <div class="setting-desc">Allow users to refer and earn</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox" checked>
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">New User Registration</div>
+                                        <div class="setting-desc">Allow new user sign-ups</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox" checked>
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-envelope"></i>SMTP Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="settings-grid">
+                                    <div class="form-group"><label class="form-label">SMTP Host</label><input
+                                            type="text" class="a-input" placeholder="smtp.example.com"></div>
+                                    <div class="form-group"><label class="form-label">SMTP Port</label><input
+                                            type="number" class="a-input" value="587"></div>
+                                    <div class="form-group"><label class="form-label">SMTP Username</label><input
+                                            type="text" class="a-input" placeholder="noreply@ats-trading.io"></div>
+                                    <div class="form-group"><label class="form-label">SMTP Password</label><input
+                                            type="password" class="a-input" placeholder="••••••••••••"></div>
+                                </div>
+                                <button class="btn-a outline sm"
+                                    onclick="ADMIN.toast('SMTP test email sent!','success')"><i
+                                        class="las la-paper-plane"></i>Test SMTP</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /settings -->
+
+
+            <!-- ══ SECTION: ACTIVITY LOG ══ -->
+            <div id="section-activitylog" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-history"></i>Activity Log</h5><button class="btn-a outline sm"
+                        onclick="ADMIN.toast('Log exported','success')"><i
+                            class="las la-file-export"></i>Export</button>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs"><button class="a-tab-btn active">All Actions</button><button
+                                class="a-tab-btn">Financial</button><button class="a-tab-btn">User
+                                Actions</button><button class="a-tab-btn">System</button></div>
+                        <div class="input-with-icon" style="min-width:200px;"><i
+                                class="las la-search input-icon"></i><input type="search" class="a-input"
+                                style="padding-left:38px;font-size:12px;min-height:36px;" placeholder="Search logs…">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(0,255,179,0.12);color:var(--accent);"><i
+                                    class="las la-check-circle"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">Deposit Approved &#x2014; $500.00 for John Trader</div>
+                                <div class="log-meta">Admin &#xB7; Dec 16, 2024 14:32:11 &#xB7; IP: 192.168.1.1 &#xB7;
+                                    Wallet credited</div>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(255,77,109,0.12);color:var(--danger);"><i
+                                    class="las la-times-circle"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">Withdrawal Rejected &#x2014; $200 for Sarah M.</div>
+                                <div class="log-meta">Admin &#xB7; Dec 16, 2024 14:15:03 &#xB7; Reason: Wallet address
+                                    mismatch</div>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(10,132,255,0.12);color:var(--primary);"><i
+                                    class="las la-edit"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">AI Plan Updated &#x2014; Trading Mastery</div>
+                                <div class="log-meta">Admin &#xB7; Dec 16, 2024 13:00:00 &#xB7; Auto-propagated to User
+                                    Dashboard + Home Page</div>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(147,51,234,0.12);color:var(--purple);"><i
+                                    class="las la-blog"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">Blog Published &#x2014; "AI Market Analysis December 2024"</div>
+                                <div class="log-meta">Admin &#xB7; Dec 16, 2024 12:30:00</div>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(255,215,0,0.1);color:var(--warning);"><i
+                                    class="las la-user-times"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">User Suspended &#x2014; spammer@fake.com</div>
+                                <div class="log-meta">Admin &#xB7; Dec 16, 2024 11:00:00 &#xB7; Reason: Multiple spam
+                                    attempts</div>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(0,212,255,0.12);color:var(--secondary);"><i
+                                    class="las la-broadcast-tower"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">Notification Broadcast &#x2014; "AI Engine Update v4.2" to
+                                    88,412 users</div>
+                                <div class="log-meta">Admin &#xB7; Dec 16, 2024 09:00:00</div>
+                            </div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background:rgba(0,255,179,0.12);color:var(--accent);"><i
+                                    class="las la-cog"></i></div>
+                            <div class="log-body">
+                                <div class="log-action">Settings Updated &#x2014; Referral commission rate changed to 5%
+                                </div>
+                                <div class="log-meta">Admin &#xB7; Dec 15, 2024 16:45:00</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="a-pagination"><button class="page-btn active">1</button><button
+                            class="page-btn">2</button><button class="page-btn">3</button><button
+                            class="page-btn">&#x276F;</button></div>
+                </div>
+            </div><!-- /activitylog -->
+
+
+            <!-- ══ SECTION: ADMIN PROFILE ══ -->
+            <div id="section-adminprofile" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-user-shield"></i>Admin Profile</h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 mb-3" data-anim="up">
+                        <div class="a-card text-center">
+                            <div class="card-body">
+                                <div
+                                    style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--primary));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;font-family:'Josefin Sans',sans-serif;margin:0 auto 14px;">
+                                    A</div>
+                                <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;">Super
+                                    Administrator</div>
+                                <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+                                    admin@ats-trading.io</div>
+                                <span class="badge purple"><i class="las la-shield-alt"></i>Super Admin</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card mb-3">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-user"></i>Profile Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="settings-grid">
+                                    <div class="form-group"><label class="form-label">Full Name</label><input
+                                            type="text" class="a-input" value="Platform Administrator"></div>
+                                    <div class="form-group"><label class="form-label">Email</label><input type="email"
+                                            class="a-input" value="admin@ats-trading.io"></div>
+                                </div>
+                                <button class="btn-a primary" onclick="ADMIN.toast('Profile saved!','success')"><i
+                                        class="las la-save"></i>Save Profile</button>
+                            </div>
+                        </div>
+                        <div class="a-card mb-3">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-lock"></i>Change Password</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="settings-grid">
+                                    <div class="form-group"><label class="form-label">Current Password</label><input
+                                            type="password" class="a-input" placeholder="••••••••"></div>
+                                    <div class="form-group"><label class="form-label">New Password</label><input
+                                            type="password" class="a-input" placeholder="••••••••"></div>
+                                </div>
+                                <button class="btn-a outline" onclick="ADMIN.toast('Password updated!','success')"><i
+                                        class="las la-key"></i>Update Password</button>
+                            </div>
+                        </div>
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-shield-alt"></i>Two Factor Authentication</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">Enable 2FA</div>
+                                        <div class="setting-desc">Secure admin account with authenticator app</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox" checked>
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="setting-label">Login Alerts</div>
+                                        <div class="setting-desc">Email alert on every admin login</div>
+                                    </div><label class="toggle-wrap">
+                                        <div class="toggle-switch"><input type="checkbox" checked>
+                                            <div class="toggle-track"></div>
+                                            <div class="toggle-thumb"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /adminprofile -->
+
+
+            <!-- ══ SECTION: REFERRAL ══ -->
+            <div id="section-referral" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-users"></i>Referral Management</h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-sliders-h"></i>Commission Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Level 1 Commission (%)</label><input
+                                        type="number" class="a-input" value="5" step="0.1"></div>
+                                <div class="form-group"><label class="form-label">Level 2 Commission (%)</label><input
+                                        type="number" class="a-input" value="2" step="0.1"></div>
+                                <div class="form-group"><label class="form-label">Level 3 Commission (%)</label><input
+                                        type="number" class="a-input" value="1" step="0.1"></div>
+                                <label class="toggle-wrap" style="margin-bottom:14px;">
+                                    <div class="toggle-switch"><input type="checkbox" checked>
+                                        <div class="toggle-track"></div>
+                                        <div class="toggle-thumb"></div>
+                                    </div><span style="font-size:13px;color:var(--text-muted);">Multi-level referral
+                                        active</span>
+                                </label>
+                                <button class="btn-a primary full"
+                                    onclick="ADMIN.toast('Referral settings saved!','success')"><i
+                                        class="las la-save"></i>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-trophy"></i>Top Referrers</h5>
+                            </div>
+                            <div class="table-wrap">
+                                <table class="a-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>User</th>
+                                            <th>Referrals</th>
+                                            <th>Earnings</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>&#x1F947; 1</td>
+                                            <td class="fw-7">James H.</td>
+                                            <td>142</td>
+                                            <td class="text-accent fw-7">$8,420</td>
+                                            <td><span class="badge success">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#x1F948; 2</td>
+                                            <td class="fw-7">Sarah M.</td>
+                                            <td>98</td>
+                                            <td class="text-accent fw-7">$5,880</td>
+                                            <td><span class="badge success">Active</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&#x1F949; 3</td>
+                                            <td class="fw-7">Rajesh P.</td>
+                                            <td>76</td>
+                                            <td class="text-accent fw-7">$4,560</td>
+                                            <td><span class="badge success">Active</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /referral -->
+
+
+            <!-- ══ SECTION: BONUSES ══ -->
+            <div id="section-bonuses" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-gift"></i>Bonus Management</h5><button class="btn-a primary"
+                        onclick="ADMIN.toast('Bonus created!','success')"><i class="las la-plus"></i>Create
+                        Bonus</button>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3" data-anim="up">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-star"></i>Active Bonuses</h5>
+                            </div>
+                            <div class="card-body">
+                                <div
+                                    style="background:rgba(0,255,179,0.06);border:1px solid rgba(0,255,179,0.18);border-radius:10px;padding:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                                    <div>
+                                        <div class="fw-7" style="color:#fff;">Welcome Bonus</div>
+                                        <div style="font-size:12px;color:var(--text-muted);">$50 on first deposit</div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:8px;"><span
+                                            class="badge success">Active</span><button class="btn-a danger sm"
+                                            onclick="ADMIN.toast('Bonus disabled','info')"><i
+                                                class="las la-ban"></i></button></div>
+                                </div>
+                                <div
+                                    style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.18);border-radius:10px;padding:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                                    <div>
+                                        <div class="fw-7" style="color:#fff;">Daily Loyalty Reward</div>
+                                        <div style="font-size:12px;color:var(--text-muted);">$5 per day for active
+                                            traders</div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:8px;"><span
+                                            class="badge success">Active</span><button class="btn-a danger sm"><i
+                                                class="las la-ban"></i></button></div>
+                                </div>
+                                <div
+                                    style="background:rgba(147,51,234,0.06);border:1px solid rgba(147,51,234,0.18);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                                    <div>
+                                        <div class="fw-7" style="color:#fff;">Weekend Deposit Boost</div>
+                                        <div style="font-size:12px;color:var(--text-muted);">Extra 5% on Sat-Sun
+                                            deposits</div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:8px;"><span
+                                            class="badge warning">Scheduled</span><button class="btn-a danger sm"><i
+                                                class="las la-ban"></i></button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3" data-anim="up" style="transition-delay:0.1s;">
+                        <div class="a-card">
+                            <div class="card-head">
+                                <h5 class="card-title"><i class="las la-plus"></i>Create New Bonus</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group"><label class="form-label">Bonus Name</label><input type="text"
+                                        class="a-input" placeholder="e.g. Holiday Special"></div>
+                                <div class="form-group"><label class="form-label">Type</label><select class="a-select">
+                                        <option>Welcome Bonus</option>
+                                        <option>Referral Bonus</option>
+                                        <option>Daily Reward</option>
+                                        <option>Loyalty Bonus</option>
+                                        <option>Limited Promotion</option>
+                                    </select></div>
+                                <div class="form-row">
+                                    <div class="form-group"><label class="form-label">Amount ($)</label><input
+                                            type="number" class="a-input" placeholder="50"></div>
+                                    <div class="form-group"><label class="form-label">Or Percentage (%)</label><input
+                                            type="number" class="a-input" placeholder="5"></div>
+                                </div>
+                                <button class="btn-a primary full"
+                                    onclick="ADMIN.toast('Bonus created and activated!','success')"><i
+                                        class="las la-gift"></i>Create Bonus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /bonuses -->
+
+
+            <!-- ══ SECTION: INVESTMENTS ══ -->
+            <div id="section-investments" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-cubes"></i>Investment Management</h5>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs"><button class="a-tab-btn active">All</button><button
+                                class="a-tab-btn">Active</button><button class="a-tab-btn">Completed</button><button
+                                class="a-tab-btn">Cancelled</button></div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Profit Paid</th>
+                                    <th>Progress</th>
+                                    <th>Started</th>
+                                    <th>Ends</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="mono text-cyan">#INV-001</td>
+                                    <td class="fw-7">John Trader</td>
+                                    <td>Trading Mastery</td>
+                                    <td class="fw-7">$500</td>
+                                    <td class="text-accent">$156.24</td>
+                                    <td style="min-width:100px;">
+                                        <div class="prog-track">
+                                            <div class="prog-fill" style="width:12.5%;"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted-a">Dec 16</td>
+                                    <td class="text-muted-a">Dec 18</td>
+                                    <td><span class="badge success">Active</span></td>
+                                    <td><button class="btn-a danger sm"
+                                            onclick="ADMIN.toast('Investment paused','info')"><i
+                                                class="las la-pause"></i></button> <button class="btn-a success sm"
+                                            onclick="ADMIN.toast('Investment completed manually','success')"><i
+                                                class="las la-check"></i>Force Complete</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="mono text-cyan">#INV-002</td>
+                                    <td class="fw-7">Sarah M.</td>
+                                    <td>Elite Trader</td>
+                                    <td class="fw-7">$600</td>
+                                    <td class="text-accent">$312.48</td>
+                                    <td style="min-width:100px;">
+                                        <div class="prog-track">
+                                            <div class="prog-fill"
+                                                style="width:27.4%;background:linear-gradient(90deg,var(--warning),#ff8c00);">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted-a">Dec 15</td>
+                                    <td class="text-muted-a">Dec 19</td>
+                                    <td><span class="badge success">Active</span></td>
+                                    <td><button class="btn-a danger sm"><i class="las la-pause"></i></button> <button
+                                            class="btn-a success sm"><i class="las la-check"></i>Force Complete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- /investments -->
+
+
+            <!-- ══ SECTION: TRANSACTIONS ══ -->
+            <div id="section-transactions" class="section-content">
+                <div class="section-head">
+                    <h5><i class="las la-history"></i>All Transactions</h5><button class="btn-a outline sm"
+                        onclick="ADMIN.toast('Exporting transactions…','success')"><i
+                            class="las la-file-export"></i>Export</button>
+                </div>
+                <div class="a-card" data-anim="up">
+                    <div class="card-head" style="flex-wrap:wrap;gap:10px;">
+                        <div class="a-tabs"><button class="a-tab-btn active">All</button><button
+                                class="a-tab-btn">Deposits</button><button class="a-tab-btn">Withdrawals</button><button
+                                class="a-tab-btn">Profits</button><button class="a-tab-btn">Referral</button></div>
+                        <div class="input-with-icon" style="min-width:200px;"><i
+                                class="las la-search input-icon"></i><input type="search" class="a-input"
+                                style="padding-left:38px;font-size:12px;min-height:36px;"
+                                placeholder="Search transactions…"></div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="a-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>TX ID</th>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Wallet</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted-a">Dec 16</td>
+                                    <td class="mono text-cyan" style="font-size:11px;">DZQXF5NAN2AT</td>
+                                    <td class="fw-7">John Trader</td>
+                                    <td>Interest</td>
+                                    <td class="text-accent fw-7">+$125</td>
+                                    <td class="text-muted-a">Interest Wallet</td>
+                                    <td><span class="badge success">Credited</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted-a">Dec 15</td>
+                                    <td class="mono text-cyan" style="font-size:11px;">AK8MXPR9VT3Z</td>
+                                    <td class="fw-7">Sarah M.</td>
+                                    <td>Deposit</td>
+                                    <td class="text-accent fw-7">+$500</td>
+                                    <td class="text-muted-a">Deposit Wallet</td>
+                                    <td><span class="badge info">Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted-a">Dec 14</td>
+                                    <td class="mono text-cyan" style="font-size:11px;">BQ7NLST4WX1M</td>
+                                    <td class="fw-7">John Trader</td>
+                                    <td>Withdrawal</td>
+                                    <td class="text-danger fw-7">-$1,000</td>
+                                    <td class="text-muted-a">External</td>
+                                    <td><span class="badge warning">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="a-pagination"><button class="page-btn active">1</button><button
+                            class="page-btn">2</button><button class="page-btn">&#x276F;</button></div>
+                </div>
+            </div><!-- /transactions -->
+
+
+            <footer class="admin-footer">
+                &#x00A9; 2024 <a href="index.html">ATS &#x2014; Automated Trading System</a>
+                &#xB7; Admin Control Panel &#xB7; All rights reserved
+            </footer>
+
+        </main>
+    </div><!-- /admin-shell -->
+
+    <!-- FAB -->
+    <div class="admin-fab" id="adminFab">
+        <div class="fab-menu" id="fabMenu">
+            <button class="fab-item" onclick="ADMIN.openModal('sendNotifModal')"><i
+                    class="las la-broadcast-tower"></i>Send Notification</button>
+            <button class="fab-item" onclick="ADMIN.openModal('editPlanModal')"><i class="las la-layer-group"></i>Create
+                Plan</button>
+            <button class="fab-item" onclick="ADMIN.showSection('deposits')"><i class="las la-arrow-down"></i>Approve
+                Deposits</button>
+            <a class="fab-item" href="https://t.me/YourTelegramSupportUsername" target="_blank" rel="noopener"><i
+                    class="lab la-telegram-plane"></i>Telegram</a>
+        </div>
+        <button class="fab-btn" id="fabBtn" aria-expanded="false">
+            <i class="las la-bolt"></i>
+        </button>
+    </div>
+
+    <button class="back-top" id="backTopBtn">&#x2191;</button>
+
+    <!-- Vendor -->
+    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+
+    <script>
+        /* ============================================================
+           ATS ADMIN DASHBOARD JAVASCRIPT
+           Modular namespace. Ready for Laravel API integration.
+           Replace mock data fetch calls with real API endpoints.
+        ============================================================ */
+        'use strict';
+
+        /* ─── CONFIG ─── */
+        var ADMIN_CONFIG = {
+            supportLink: 'https://t.me/YourAdminTelegramUsername',
+            platformName: 'ATS Admin',
+            /* Future Laravel API base URL */
+            apiBase: '/api/admin',
+        };
+
+        /* ─── MOCK DATA (replace with API calls in Laravel) ─── */
+        var MOCK_STATS = {
+            users: 88412, active: 54200, deposits: 5400000, withdrawals: 2100000,
+            pdep: 5, pwithdraw: 3, investment: 1200000, profitpaid: 890000,
+            platformbal: 4310000, refcomm: 124000, plans: 8, online: 247,
+            blogs: 24, tickets: 8, todayrev: 42800,
+        };
+
+        /* ─── STATE ─── */
+        var state = {
+            sidebarOpen: false,
+            notifOpen: false,
+            fabOpen: false,
+            chartsInited: false,
+        };
+
+        var DOM = {};
+
+        /* ─── UTILS ─── */
+        function qs(s, c) { return (c || document).querySelector(s); }
+        function qsa(s, c) { return (c || document).querySelectorAll(s); }
+        function on(el, ev, fn, opts) { if (el) el.addEventListener(ev, fn, opts || false); }
+
+        function lockScroll() {
+            var w = window.innerWidth - document.documentElement.clientWidth;
+            document.documentElement.style.setProperty('--sb-w', w + 'px');
+            document.body.classList.add('scroll-locked');
+        }
+
+        function unlockScroll() {
+            document.body.classList.remove('scroll-locked');
+            document.documentElement.style.removeProperty('--sb-w');
+        }
+
+        /* ─── NAMESPACE: ADMIN ─── */
+        var ADMIN = {
+
+            /* Section navigation */
+            showSection: function (name) {
+                qsa('.section-content').forEach(function (s) { s.classList.remove('active'); });
+                var target = qs('#section-' + name);
+                if (target) { target.classList.add('active'); triggerIO(); }
+
+                qsa('.sidebar-nav li a').forEach(function (a) { a.classList.remove('active'); });
+                var nav = qs('[data-section="' + name + '"]');
+                if (nav) nav.classList.add('active');
+
+                if (name === 'analytics') ADMIN.initCharts();
+                if (window.innerWidth <= 820) ADMIN.closeSidebar();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
+            /* Sidebar */
+            openSidebar: function () {
+                DOM.sidebar.classList.add('open');
+                DOM.sidebarOverlay.classList.add('active');
+                DOM.hamburgerBtn.setAttribute('aria-expanded', 'true');
+                if (window.innerWidth <= 820) lockScroll();
+                state.sidebarOpen = true;
+            },
+
+            closeSidebar: function () {
+                if (!state.sidebarOpen) return;
+                DOM.sidebar.classList.remove('open');
+                DOM.sidebarOverlay.classList.remove('active');
+                DOM.hamburgerBtn.setAttribute('aria-expanded', 'false');
+                unlockScroll();
+                state.sidebarOpen = false;
+            },
+
+            /* Notification drawer */
+            openNotif: function () {
+                DOM.notifDrawer.classList.add('open');
+                DOM.notifOverlay.classList.add('active');
+                lockScroll();
+                state.notifOpen = true;
+                setTimeout(function () { if (DOM.notifCloseBtn) DOM.notifCloseBtn.focus(); }, 320);
+            },
+
+            closeNotif: function () {
+                if (!state.notifOpen) return;
+                DOM.notifDrawer.classList.remove('open');
+                DOM.notifOverlay.classList.remove('active');
+                unlockScroll();
+                state.notifOpen = false;
+            },
+
+            markAllRead: function () {
+                qsa('.notif-item.unread').forEach(function (el) {
+                    el.classList.remove('unread');
+                    var dot = el.querySelector('.notif-dot'); if (dot) dot.remove();
+                });
+                ADMIN.updateNotifBadge();
+                ADMIN.toast('All notifications marked as read', 'success');
+            },
+
+            clearAllNotifs: function () {
+                if (DOM.notifList) DOM.notifList.innerHTML = '<div class="notif-empty" style="display:flex;flex-direction:column;align-items:center;padding:48px 20px;text-align:center;"><i class="las la-bell-slash" style="font-size:40px;color:rgba(10,132,255,0.2);margin-bottom:12px;"></i><p style="font-size:13px;color:var(--text-muted);">No notifications</p></div>';
+                ADMIN.updateNotifBadge();
+                ADMIN.toast('All cleared', 'success');
+            },
+
+            updateNotifBadge: function () {
+                var count = qsa('.notif-item.unread').length;
+                var badge = qs('#notifBadge');
+                var dot = qs('#notifDot');
+                if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'inline' : 'none'; }
+                if (dot) { dot.style.display = count > 0 ? 'block' : 'none'; }
+            },
+
+            /* Modals */
+            openModal: function (id) {
+                var m = qs('#' + id); if (m) m.classList.add('open');
+                lockScroll();
+            },
+
+            closeModal: function (id) {
+                var m = qs('#' + id); if (m) m.classList.remove('open');
+                unlockScroll();
+            },
+
+            /* Toast */
+            toast: function (msg, type, title) {
+                type = type || 'info';
+                title = title || (type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Notice');
+                var icons = { success: '&#x2714;', error: '&#x2716;', info: '&#x2139;' };
+                var el = document.createElement('div');
+                el.className = 'toast-item ' + type;
+                el.innerHTML = '<span class="toast-ico">' + (icons[type] || icons.info) + '</span><div class="toast-body"><div class="toast-title">' + title + '</div><div class="toast-msg">' + msg + '</div></div>';
+                var c = qs('#toastContainer'); if (c) c.appendChild(el);
+                setTimeout(function () { el.classList.add('removing'); setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 350); }, 4500);
+            },
+
+            /* FAB */
+            toggleFab: function () {
+                state.fabOpen = !state.fabOpen;
+                qs('#adminFab').classList.toggle('open', state.fabOpen);
+                qs('#fabBtn').setAttribute('aria-expanded', String(state.fabOpen));
+            },
+
+            /* Animated counters */
+            countUp: function (id, target, pre, suf, dec) {
+                pre = pre || ''; suf = suf || ''; dec = dec !== undefined ? dec : 0;
+                var el = qs('#' + id); if (!el) return;
+                var dur = 1200, t0 = null;
+                function tick(ts) {
+                    if (!t0) t0 = ts;
+                    var p = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+                    el.textContent = pre + (target * e).toLocaleString('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf;
+                    if (p < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            },
+
+            initStatCounters: function () {
+                var s = MOCK_STATS;
+                ADMIN.countUp('sc-users', s.users, '', '', 0);
+                ADMIN.countUp('sc-active', s.active, '', '', 0);
+                ADMIN.countUp('sc-deposits', s.deposits, '$', '', 0);
+                ADMIN.countUp('sc-withdrawals', s.withdrawals, '$', '', 0);
+                ADMIN.countUp('sc-investment', s.investment, '$', '', 0);
+                ADMIN.countUp('sc-profitpaid', s.profitpaid, '$', '', 0);
+                ADMIN.countUp('sc-platformbal', s.platformbal, '$', '', 0);
+                ADMIN.countUp('sc-refcomm', s.refcomm, '$', '', 0);
+                ADMIN.countUp('sc-todayrev', s.todayrev, '$', '', 0);
+                ADMIN.countUp('sc-online', s.online, '', '', 0);
+            },
+
+            /* Mini sparkline charts */
+            initMiniCharts: function () {
+                if (typeof ApexCharts === 'undefined') return;
+                var cfgs = [
+                    { id: 'mini1', data: [70, 74, 78, 80, 82, 84, 85, 86, 87, 88], color: '#0A84FF' },
+                    { id: 'mini2', data: [40, 44, 48, 50, 52, 53, 54, 54, 54, 54], color: '#00FFB3' },
+                    { id: 'mini3', data: [200, 280, 320, 400, 480, 500, 520, 530, 538, 540], color: '#00D4FF' },
+                    { id: 'mini4', data: [80, 100, 120, 140, 160, 180, 195, 205, 210, 210], color: '#ffd700' },
+                    { id: 'mini5', data: [80, 90, 100, 105, 108, 110, 112, 115, 118, 120], color: '#9333ea' },
+                    { id: 'mini6', data: [60, 70, 75, 78, 80, 82, 84, 85, 87, 89], color: '#00FFB3' },
+                    { id: 'mini7', data: [20, 25, 30, 32, 35, 38, 40, 41, 42, 42.8], color: '#00b4d8' },
+                ];
+                cfgs.forEach(function (cfg) {
+                    var el = qs('#' + cfg.id); if (!el) return;
+                    el.innerHTML = '';
+                    new ApexCharts(el, {
+                        chart: { type: 'area', height: 40, sparkline: { enabled: true }, animations: { enabled: true, speed: 800 }, parentHeightOffset: 0 },
+                        series: [{ name: ' ', data: cfg.data }],
+                        stroke: { curve: 'smooth', width: 2 },
+                        fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.35, opacityTo: 0.02 } },
+                        colors: [cfg.color],
+                        legend: { show: false }, dataLabels: { enabled: false }, tooltip: { enabled: false },
+                        xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
+                        yaxis: { labels: { show: false } },
+                        grid: { show: false, padding: { top: 0, right: 0, bottom: 0, left: 0 } },
+                        theme: { mode: 'dark' },
+                    }).render();
+                });
+            },
+
+            /* Analytics Charts */
+            initCharts: function () {
+                if (state.chartsInited || typeof ApexCharts === 'undefined') return;
+                state.chartsInited = true;
+                var base = {
+                    chart: { background: 'transparent', toolbar: { show: false }, animations: { enabled: true, speed: 700 } },
+                    theme: { mode: 'dark' },
+                    grid: { borderColor: 'rgba(10,132,255,0.08)', strokeDashArray: 3 },
+                    tooltip: { theme: 'dark' },
+                    legend: { show: false },
+                };
+
+                function render(id, opts) {
+                    var el = qs('#' + id); if (!el || el.dataset.inited) return;
+                    el.dataset.inited = '1'; el.innerHTML = '';
+                    new ApexCharts(el, opts).render();
+                }
+
+                render('depWithChart', Object.assign({}, base, {
+                    chart: Object.assign({}, base.chart, { type: 'bar', height: 280 }),
+                    series: [
+                        { name: 'Deposits', data: [12000, 15000, 13000, 18000, 22000, 19000, 25000] },
+                        { name: 'Withdrawals', data: [5000, 7000, 6000, 8000, 9000, 7500, 10000] },
+                    ],
+                    xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], labels: { style: { colors: 'rgba(232,234,246,0.5)', fontSize: '11px' } } },
+                    yaxis: { labels: { formatter: function (v) { return '$' + (v / 1000).toFixed(0) + 'K'; }, style: { colors: 'rgba(232,234,246,0.5)' } } },
+                    colors: ['#00FFB3', '#ff4d6d'],
+                    plotOptions: { bar: { borderRadius: 4, columnWidth: '50%' } },
+                    legend: { show: true, position: 'top', labels: { colors: 'rgba(232,234,246,0.7)' } },
+                }));
+
+                render('regChart', Object.assign({}, base, {
+                    chart: Object.assign({}, base.chart, { type: 'area', height: 280 }),
+                    series: [{ name: 'Registrations', data: [120, 145, 132, 165, 180, 195, 210, 225, 240, 235, 250, 265] }],
+                    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], labels: { style: { colors: 'rgba(232,234,246,0.5)', fontSize: '11px' } } },
+                    yaxis: { labels: { style: { colors: 'rgba(232,234,246,0.5)' } } },
+                    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05 } },
+                    stroke: { curve: 'smooth', width: 2 },
+                    colors: ['#0A84FF'],
+                }));
+
+                render('aiVolChart', Object.assign({}, base, {
+                    chart: Object.assign({}, base.chart, { type: 'line', height: 220 }),
+                    series: [{ name: 'AI Volume', data: [500, 620, 580, 700, 750, 820, 900, 950, 1000, 1100, 1200, 1300] }],
+                    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], labels: { style: { colors: 'rgba(232,234,246,0.5)', fontSize: '11px' } } },
+                    yaxis: { labels: { formatter: function (v) { return '$' + (v / 1000).toFixed(1) + 'M'; }, style: { colors: 'rgba(232,234,246,0.5)' } } },
+                    stroke: { curve: 'smooth', width: 2 },
+                    colors: ['#9333ea'],
+                }));
+
+                render('roiDistChart', Object.assign({}, base, {
+                    chart: Object.assign({}, base.chart, { type: 'donut', height: 220 }),
+                    series: [8500, 7200, 6800, 5500, 4200],
+                    labels: ['Beginner', 'Premium', 'Elite', 'VIP', 'Hack Bot'],
+                    colors: ['#0A84FF', '#00D4FF', '#ffd700', '#ff4d6d', '#00FFB3'],
+                    plotOptions: { pie: { donut: { size: '65%' } } },
+                    legend: { show: true, position: 'bottom', labels: { colors: 'rgba(232,234,246,0.7)' } },
+                }));
+
+                render('revenueChart', Object.assign({}, base, {
+                    chart: Object.assign({}, base.chart, { type: 'bar', height: 220 }),
+                    series: [{ name: 'Revenue', data: [28000, 32000, 29000, 38000, 42000, 40000, 48000, 52000, 49000, 55000, 58000, 62000] }],
+                    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], labels: { style: { colors: 'rgba(232,234,246,0.5)', fontSize: '11px' } } },
+                    yaxis: { labels: { formatter: function (v) { return '$' + (v / 1000).toFixed(0) + 'K'; }, style: { colors: 'rgba(232,234,246,0.5)' } } },
+                    colors: ['#00FFB3'],
+                    plotOptions: { bar: { borderRadius: 4 } },
+                }));
+
+                render('refStatChart', Object.assign({}, base, {
+                    chart: Object.assign({}, base.chart, { type: 'line', height: 220 }),
+                    series: [
+                        { name: 'New Referrals', data: [45, 52, 48, 60, 72, 68, 80, 85, 90, 100, 110, 120] },
+                        { name: 'Commission ($K)', data: [2.2, 2.6, 2.4, 3.0, 3.6, 3.4, 4.0, 4.2, 4.5, 5.0, 5.5, 6.0] },
+                    ],
+                    xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], labels: { style: { colors: 'rgba(232,234,246,0.5)', fontSize: '11px' } } },
+                    yaxis: { labels: { formatter: function (v) { return v; }, style: { colors: 'rgba(232,234,246,0.5)' } } },
+                    stroke: { curve: 'smooth', width: [2, 2] },
+                    colors: ['#9333ea', '#00FFB3'],
+                    legend: { show: true, position: 'top', labels: { colors: 'rgba(232,234,246,0.7)' } },
+                }));
+            },
+
+            /* Action handlers */
+            approveDeposit: function () {
+                ADMIN.closeModal('depApproveModal');
+                ADMIN.toast('Deposit approved! User wallet credited. Notification sent.', 'success', 'Deposit Approved');
+            },
+
+            rejectDeposit: function () {
+                ADMIN.closeModal('depApproveModal');
+                ADMIN.toast('Deposit rejected. User notified.', 'info', 'Deposit Rejected');
+            },
+
+            approveWithdraw: function () {
+                ADMIN.toast('Withdrawal approved! Funds sent. Transaction logged.', 'success', 'Withdrawal Approved');
+            },
+
+            savePlan: function () {
+                ADMIN.closeModal('editPlanModal');
+                ADMIN.toast('Plan saved and auto-propagated to User Dashboard, Home Page, and Calculator!', 'success', 'Plan Updated');
+            },
+
+            sendNotification: function () {
+                ADMIN.closeModal('sendNotifModal');
+                ADMIN.toast('Notification sent to all recipients!', 'success', 'Notification Sent');
+            },
+
+            openCreateBlog: function () {
+                var card = qs('#blogEditorCard');
+                if (card) card.style.display = 'block';
+            },
+        };
+
+        /* ─── LIVE TICKER ─── */
+        function initTicker() {
+            var PAIRS = [['btcusdt', 'BTC'], ['ethusdt', 'ETH'], ['solusdt', 'SOL'], ['bnbusdt', 'BNB'], ['xrpusdt', 'XRP'], ['adausdt', 'ADA']];
+            var live = {}, ws = null, retryMs = 3000, timer = null;
+            function fmt(p) { p = parseFloat(p); if (isNaN(p)) return '\u2014'; if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); return '$' + p.toFixed(4); }
+            function fmtC(c) { c = parseFloat(c); if (isNaN(c)) return ''; return (c >= 0 ? '+' : '') + c.toFixed(2) + '%'; }
+            function build() { var el = qs('#tickerInner'); if (!el) return; var h = ''; PAIRS.forEach(function (p) { var d = live[p[0]] || {}; var pr = d.price ? fmt(d.price) : '\u2014'; var ch = d.change !== undefined ? parseFloat(d.change) : null; var cls = ch === null ? '' : (ch >= 0 ? 'tu' : 'td'); var ct = ch !== null ? fmtC(ch) : ''; h += '<span class="ticker-item"><span class="ts">' + p[1] + '</span><span class="tp">' + pr + '</span>'; if (ct) h += '<span class="' + cls + '">' + ct + '</span>'; h += '</span><span class="t-sep">\u00B7</span>'; }); el.innerHTML = h + h; }
+            function sched() { if (timer) return; timer = setTimeout(function () { timer = null; build(); }, 500); }
+            function connect() { var s = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/'); try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + s); } catch (e) { retry(); return; } ws.onopen = function () { retryMs = 3000; }; ws.onclose = function () { retry(); }; ws.onerror = function () { }; ws.onmessage = function (e) { try { var m = JSON.parse(e.data); if (!m || !m.data) return; live[(m.data.s || '').toLowerCase()] = { price: m.data.c, change: m.data.P }; sched(); } catch (ex) { } }; }
+            function retry() { setTimeout(connect, retryMs); retryMs = Math.min(retryMs * 1.5, 30000); }
+            connect(); build();
+        }
+
+        /* ─── INTERSECTION OBSERVER ─── */
+        function triggerIO() {
+            if (!('IntersectionObserver' in window)) { qsa('[data-anim]').forEach(function (el) { el.classList.add('vis'); }); return; }
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+            }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+            qsa('[data-anim]:not(.vis)').forEach(function (el) { obs.observe(el); });
+        }
+
+        /* ─── GREETING ─── */
+        function setGreeting() {
+            var now = new Date(), h = now.getHours();
+            var g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+            var gEl = qs('#greetingText'), dEl = qs('#greetingDate');
+            if (gEl) gEl.textContent = g + ', Administrator \uD83D\uDC4B';
+            if (dEl) dEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        /* ─── ATTACH LISTENERS ─── */
+        function attachListeners() {
+            on(DOM.hamburgerBtn, 'click', function (e) {
+                e.stopPropagation();
+                if (state.sidebarOpen) ADMIN.closeSidebar();
+                else ADMIN.openSidebar();
+            });
+
+            on(DOM.sidebarCloseBtn, 'click', ADMIN.closeSidebar);
+            on(DOM.sidebarOverlay, 'click', ADMIN.closeSidebar);
+
+            qsa('.sidebar-nav li a').forEach(function (link) {
+                on(link, 'click', function (e) {
+                    var section = this.dataset.section;
+                    if (section) { e.preventDefault(); ADMIN.showSection(section); }
+                    if (window.innerWidth <= 820) ADMIN.closeSidebar();
+                });
+            });
+
+            on(qs('#notifToggleBtn'), 'click', function () {
+                if (state.notifOpen) ADMIN.closeNotif();
+                else ADMIN.openNotif();
+            });
+
+            on(DOM.notifCloseBtn, 'click', ADMIN.closeNotif);
+            on(DOM.notifOverlay, 'click', ADMIN.closeNotif);
+
+            on(qs('#fabBtn'), 'click', function (e) { e.stopPropagation(); ADMIN.toggleFab(); });
+
+            document.addEventListener('click', function (e) {
+                if (state.fabOpen) {
+                    var fab = qs('#adminFab');
+                    if (fab && !fab.contains(e.target)) {
+                        state.fabOpen = false;
+                        fab.classList.remove('open');
+                        qs('#fabBtn').setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    if (state.notifOpen) ADMIN.closeNotif();
+                    else if (state.sidebarOpen) ADMIN.closeSidebar();
+                    /* Close any open modal */
+                    qsa('.a-modal-overlay.open').forEach(function (m) { m.classList.remove('open'); unlockScroll(); });
+                }
+            });
+
+            /* Click outside modal to close */
+            qsa('.a-modal-overlay').forEach(function (overlay) {
+                on(overlay, 'click', function (e) {
+                    if (e.target === overlay) { overlay.classList.remove('open'); unlockScroll(); }
+                });
+            });
+
+            on(qs('#backTopBtn'), 'click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+            window.addEventListener('scroll', function () {
+                var b = qs('#backTopBtn');
+                if (b) b.classList.toggle('show', window.scrollY > 400);
+            }, { passive: true });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 820 && state.sidebarOpen) ADMIN.closeSidebar();
+            }, { passive: true });
+
+            /* Touch swipe */
+            var sx = 0, sy = 0;
+            document.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+            document.addEventListener('touchend', function (e) {
+                var dx = e.changedTouches[0].clientX - sx, dy = Math.abs(e.changedTouches[0].clientY - sy);
+                if (dy > 60) return;
+                if (state.sidebarOpen && dx < -60) ADMIN.closeSidebar();
+                if (state.notifOpen && dx > 60) ADMIN.closeNotif();
+            }, { passive: true });
+        }
+
+        /* ─── INIT ─── */
+        function init() {
+            DOM.sidebar = qs('#adminSidebar');
+            DOM.sidebarOverlay = qs('#sidebarOverlay');
+            DOM.hamburgerBtn = qs('#hamburgerBtn');
+            DOM.sidebarCloseBtn = qs('#sidebarCloseBtn');
+            DOM.notifDrawer = qs('#notifDrawer');
+            DOM.notifOverlay = qs('#notifOverlay');
+            DOM.notifCloseBtn = qs('#notifCloseBtn');
+            DOM.notifList = qs('#notifList');
+
+            setGreeting();
+            attachListeners();
+            initTicker();
+            triggerIO();
+            ADMIN.updateNotifBadge();
+
+            setTimeout(ADMIN.initStatCounters, 200);
+            setTimeout(ADMIN.initMiniCharts, 500);
+            setTimeout(function () {
+                ADMIN.toast('Admin Control Panel ready. 5 deposits and 3 withdrawals pending review.', 'info', 'ATS Admin');
+            }, 1500);
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+
+    </script>
+
+</body>
+
+</html>

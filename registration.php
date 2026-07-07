@@ -1,0 +1,1181 @@
+<?php
+require "config/database.php";
+header('Content-Type: application/json');
+
+$response = ["success" => false, "message" => ""];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = trim($_POST["username"] ?? "");
+  $email = trim($_POST["email"] ?? "");
+  $pwd = $_POST["password"] ?? "";
+
+  if ($username === "" || $email === "" || $pwd === "") {
+    $response["message"] = "All fields are required.";
+    echo json_encode($response);
+    exit;
+  }
+
+  $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
+  $sql = "INSERT INTO users (username, email, pwd) VALUES (?, ?, ?)";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedPwd);
+
+  try {
+    mysqli_stmt_execute($stmt);
+    $response["success"] = true;
+  } catch (mysqli_sql_exception $e) {
+    if ($e->getCode() == 1062) {
+      $response["message"] = "That username or email is already registered.";
+    } else {
+      throw $e;
+    }
+  }
+}
+
+echo json_encode($response);
+exit;
+?>
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATS - Create Account | AI-Powered Trading That Works 24/7</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" sizes="16x16">
+  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/vendor/animate.min.css">
+  <link rel="stylesheet" href="assets/css/vendor/slick.css">
+  <link rel="stylesheet" href="assets/css/vendor/dots.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <style>
+    /* ================================================
+       ATS Registration Page — Scroll stiffness FIXED
+       Same fix as login.html:
+       overflow-x:clip on html+body only.
+       NO overflow:hidden on .account-section or any
+       scrollable ancestor.
+    ================================================ */
+
+    html {
+      overflow-x: clip;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: clip;
+    }
+
+    /* Error Message Popup For Registration */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #2330b5;
+      padding: 24px 28px;
+      border-radius: 8px;
+      max-width: 350px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-box h3 {
+      margin-top: 0;
+      color: #d32f2f;
+    }
+
+    .modal-box button {
+      margin-top: 16px;
+      padding: 8px 20px;
+      border: none;
+      background: #d32f2f;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .modal-box button:hover {
+      background: #b71c1c;
+    }
+
+    /* ── FADE-UP ── */
+    .ats-fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .ats-fade-up.ats-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── TICKER ── */
+    .ats-ticker-bar {
+      background: rgba(10, 132, 255, 0.06);
+      border-bottom: 1px solid rgba(10, 132, 255, 0.15);
+      padding: 8px 0;
+      font-size: 12px;
+      color: rgba(232, 234, 246, 0.7);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      display: block !important;
+      visibility: visible !important;
+      position: relative;
+      z-index: 10;
+      margin-top: 72px;
+    }
+
+    .ats-ticker-bar .ticker-inner {
+      display: inline-flex;
+      gap: 30px;
+      white-space: nowrap;
+      animation: tickerScroll 60s linear infinite;
+      will-change: transform;
+    }
+
+    .ats-ticker-bar:hover .ticker-inner {
+      animation-play-state: paused;
+    }
+
+    .ats-ticker-bar .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ats-ticker-bar .ticker-item .symbol {
+      color: rgba(232, 234, 246, 0.5);
+      font-weight: 600;
+    }
+
+    .ats-ticker-bar .ticker-item .price {
+      color: #e8eaf6;
+      font-weight: 700;
+      font-family: "Josefin Sans", sans-serif;
+    }
+
+    .ats-ticker-bar .ticker-item .change {
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .ats-ticker-bar .ticker-item .up {
+      color: #00FFB3;
+    }
+
+    .ats-ticker-bar .ticker-item .down {
+      color: #ff4d6d;
+    }
+
+    .ats-ticker-bar .ticker-sep {
+      color: rgba(10, 132, 255, 0.35);
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 1199px) {
+      .ats-ticker-bar {
+        margin-top: 65px;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .ats-ticker-bar {
+        margin-top: 60px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .ats-ticker-bar {
+        margin-top: 58px;
+        font-size: 11px;
+        padding: 7px 0;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .ats-ticker-bar {
+        margin-top: 54px;
+      }
+
+      .ats-ticker-bar .ticker-inner {
+        gap: 18px;
+      }
+    }
+
+    /* ── INNER HERO ── */
+    .inner-hero .page-title {
+      background: linear-gradient(135deg, #ffffff 0%, #00D4FF 60%, #0A84FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 48px;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 991px) {
+      .inner-hero .page-title {
+        font-size: 38px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .inner-hero .page-title {
+        font-size: 32px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .inner-hero .page-title {
+        font-size: 26px;
+      }
+    }
+
+    /* ── ACCOUNT SECTION ──
+       KEY: NO overflow:hidden — prevents scroll stiffness */
+    .account-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .account-section::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(0, 255, 179, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── ACCOUNT CARD ── */
+    .account-card {
+      position: relative;
+      z-index: 2;
+    }
+
+    .account-card__header .section-title {
+      font-size: 28px !important;
+    }
+
+    .account-card__header p {
+      color: rgba(232, 234, 246, 0.75);
+      font-size: 14px;
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+
+    /* Green gradient — distinguishes registration from login's blue */
+    .account-card__body h3 {
+      background: linear-gradient(135deg, #ffffff 0%, #00FFB3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+
+    .account-card__body .form-group {
+      margin-bottom: 18px;
+    }
+
+    /* Green focus accent for registration */
+    .account-card__body .form-control:focus {
+      border-color: rgba(0, 255, 179, 0.5) !important;
+      box-shadow: 0 0 0 3px rgba(0, 255, 179, 0.1);
+    }
+
+    .account-card__body .form-control.error {
+      border-color: rgba(255, 77, 109, 0.6) !important;
+      box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.1);
+    }
+
+    .form-check-label {
+      color: rgba(232, 234, 246, 0.65);
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .account-card__body .f-size-14 {
+      color: rgba(232, 234, 246, 0.55);
+      font-size: 13px;
+    }
+
+    .account-card__body .f-size-14 a {
+      color: #00D4FF;
+      font-weight: 600;
+    }
+
+    .account-card__body .f-size-14 a:hover {
+      color: #00FFB3;
+    }
+
+    .account-card__body .cmn-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Error block */
+    .ats-reg-error {
+      display: none;
+      color: #ff4d6d;
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: rgba(255, 77, 109, 0.08);
+      border: 1px solid rgba(255, 77, 109, 0.25);
+      border-radius: 8px;
+    }
+
+    /* Live dot */
+    .ats-live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #00FFB3;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+    }
+
+    .ats-live-dot::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: #00FFB3;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      animation: regPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes regPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 8px rgba(0, 255, 179, 0.8);
+      }
+
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 3px rgba(0, 255, 179, 0.3);
+      }
+    }
+
+    /* Benefits strip */
+    .ats-benefits-strip {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(10, 132, 255, 0.12);
+    }
+
+    .ats-benefits-strip .benefit {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: rgba(232, 234, 246, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ats-benefits-strip .benefit i {
+      color: #00FFB3;
+      font-size: 14px;
+    }
+
+    /* Password strength meter */
+    .ats-pw-strength {
+      display: none;
+      margin-top: -10px;
+      margin-bottom: 18px;
+    }
+
+    .ats-pw-strength.show {
+      display: block;
+    }
+
+    .ats-pw-strength .bar-track {
+      height: 4px;
+      background: rgba(10, 132, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .ats-pw-strength .bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .ats-pw-strength .bar-label {
+      font-size: 11px;
+      color: rgba(232, 234, 246, 0.45);
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* Security strip */
+    .ats-security-strip {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(10, 132, 255, 0.12);
+    }
+
+    .ats-security-strip .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: rgba(232, 234, 246, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ats-security-strip .badge-item i {
+      color: #00FFB3;
+      font-size: 13px;
+    }
+
+    /* Terms note */
+    .ats-terms-note {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(232, 234, 246, 0.35);
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+
+    .ats-terms-note a {
+      color: rgba(10, 132, 255, 0.7);
+      font-size: 12px;
+    }
+
+    .ats-terms-note a:hover {
+      color: #00D4FF;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 991px) {
+      .account-section {
+        align-items: flex-start;
+        padding-top: 80px;
+        padding-bottom: 60px;
+      }
+
+      .account-section .col-xl-5,
+      .account-section .col-lg-7 {
+        width: 100%;
+        max-width: 540px;
+        flex: 0 0 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+
+    @media (max-width: 575px) {
+      .account-section {
+        padding-top: 68px;
+        padding-bottom: 48px;
+      }
+
+      .account-section .col-xl-5,
+      .account-section .col-lg-7 {
+        max-width: 100%;
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .account-card__body {
+        padding: 24px 20px !important;
+      }
+
+      .account-card__body h3 {
+        font-size: 18px;
+      }
+
+      .account-card__body .form-group {
+        margin-bottom: 14px;
+      }
+
+      .account-card__body .form-control {
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+
+      .account-card__body .cmn-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+      }
+
+      .account-card__header .section-title {
+        font-size: 22px !important;
+      }
+
+      .account-card__header .section-title span {
+        font-size: 26px !important;
+      }
+
+      .ats-benefits-strip {
+        gap: 10px;
+      }
+
+      .ats-benefits-strip .benefit {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .account-card__body .form-row {
+        flex-direction: column;
+      }
+
+      .account-card__body .form-row .col-sm-6 {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+      }
+
+      .account-card__body .form-row .text-sm-right {
+        text-align: left !important;
+        margin-top: 4px;
+      }
+    }
+
+    /* ── FOOTER ── */
+    .footer__bottom p {
+      color: rgba(232, 234, 246, 0.5);
+      font-size: 14px;
+    }
+
+    .footer__bottom .base--color {
+      color: #00D4FF !important;
+    }
+
+    .scroll-to-top .scroll-icon i {
+      transform: rotate(0deg) !important;
+      font-size: 20px;
+    }
+
+    @media (max-width: 767px) {
+      .footer__bottom .col-md-6 {
+        text-align: center !important;
+      }
+
+      .social-link-list {
+        justify-content: center !important;
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="preloader-container">
+      <span class="animated-preloader"></span>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <div class="scroll-to-top">
+    <span class="scroll-icon">
+      <i class="fa fa-rocket" aria-hidden="true"></i>
+    </span>
+  </div>
+
+  <!-- Star Field Background -->
+  <div class="full-wh">
+    <div class="bg-animation">
+      <div id='stars'></div>
+      <div id='stars2'></div>
+      <div id='stars3'></div>
+      <div id='stars4'></div>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+
+    <!-- ============================================================
+         HEADER — exact match to index.html header
+         Fixed: </ul> closed before nav-right div
+    ============================================================ -->
+    <header class="header">
+      <div class="header__bottom">
+        <div class="container">
+          <nav class="navbar navbar-expand-xl p-0 align-items-center">
+
+            <a class="site-logo site-title" href="index.html">
+              <img src="assets/images/logo.png" alt="ATS - Automated Trading System">
+            </a>
+
+            <ul class="account-menu mobile-acc-menu">
+              <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+            </ul>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="menu-toggle"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav main-menu m-auto">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="plan.html">AI Plans</a></li>
+                <li class="menu_has_children"><a href="#0">Blog</a>
+                  <ul class="sub-menu">
+                    <li><a href="blog.html">Market Analysis</a></li>
+                    <li><a href="blog-details.html">Trade Insights</a></li>
+                  </ul>
+                </li>
+              </ul>
+
+              <div class="nav-right">
+                <ul class="account-menu ml-3">
+                  <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
+                </ul>
+              </div>
+            </div>
+
+          </nav>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- ============================================================
+         LIVE BINANCE TICKER
+    ============================================================ -->
+    <div class="ats-ticker-bar" id="atsTicker">
+      <div class="container-fluid px-0">
+        <div class="ticker-inner" id="atsTickerInner">
+          <span class="ticker-item">
+            <span class="symbol">Loading live prices</span>
+            <span class="price">—</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         INNER HERO
+         BG IMAGE → bg-1.jpg
+    ============================================================ -->
+    <section class="inner-hero bg_img" data-background="assets/images/bg/bg-1.jpg">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <span class="section-top-title mb-3" style="display:block;">Join ATS</span>
+            <h2 class="page-title">Create Account</h2>
+            <ul class="page-breadcrumb">
+              <li><a href="index.html">Home</a></li>
+              <li>Register</li>
+            </ul>
+            <div style="margin-top:20px;">
+              <a href="index.html" class="border-btn">
+                <i class="las la-home" style="margin-right:6px;"></i>BACK TO HOME
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         ACCOUNT / REGISTRATION SECTION
+         BG IMAGE → bg-5.jpg
+         NO overflow:hidden — scroll stiffness fix applied
+    ============================================================ -->
+    <div class="account-section bg_img" data-background="assets/images/bg/bg-5.jpg">
+
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-5 col-lg-7">
+
+            <div class="account-card ats-fade-up">
+
+              <!-- Card header — BG IMAGE → bg-6.jpg / overlay--one -->
+              <div class="account-card__header bg_img overlay--one" data-background="assets/images/bg/bg-6.jpg">
+
+                <div class="ats-live-dot">Join 88K+ Active Traders</div>
+
+                <h2 class="section-title">
+                  Start Trading With
+                  <span style="
+                    color: #00FFB3;
+                    -webkit-text-fill-color: #00FFB3;
+                    display: block;
+                    margin-top: 4px;
+                    font-size: 32px;
+                  ">ATS Platform</span>
+                </h2>
+
+                <p>
+                  Deploy your first AI trading bot in under 2 minutes.
+                  No trading experience required — our algorithms handle
+                  everything automatically, 24 hours a day.
+                </p>
+
+              </div>
+
+              <!-- Card body — registration form -->
+              <div class="account-card__body">
+
+                <h3 class="text-center">
+                  <i class="las la-robot"
+                    style="font-size:20px; margin-right:8px; -webkit-text-fill-color:#00FFB3;"></i>
+                  Create Account
+                </h3>
+
+                <!-- Quick benefits -->
+                <div class="ats-benefits-strip mt-3">
+                  <span class="benefit"><i class="las la-check-circle"></i> Free to Join</span>
+                  <span class="benefit"><i class="las la-check-circle"></i> No KYC Required</span>
+                  <span class="benefit"><i class="las la-check-circle"></i> Instant Activation</span>
+                </div>
+
+                <!-- Error block — shown by backend on failed registration -->
+                <div class="ats-reg-error" id="regError">
+                  ⚠ This email is already registered. Try logging in instead.
+                </div>
+
+                <form class="mt-0" id="atsRegisterForm" action="registration.php" method="POST">
+
+                  <div class="form-group">
+                    <label>
+                      <i class="las la-user" style="color:#0A84FF; margin-right:5px;"></i>
+                      Full Name
+                    </label>
+                    <input type="text" name="username" id="reg-fullname" class="form-control"
+                      placeholder="Enter your User Name">
+                  </div>
+
+                  <div class="form-group">
+                    <label>
+                      <i class="las la-envelope" style="color:#0A84FF; margin-right:5px;"></i>
+                      Email Address
+                    </label>
+                    <input type="email" name="email" id="reg-email" class="form-control"
+                      placeholder="Enter your email address">
+                  </div>
+
+                  <div class="form-group">
+                    <label>
+                      <i class="las la-lock" style="color:#0A84FF; margin-right:5px;"></i>
+                      Password
+                    </label>
+                    <input type="password" name="password" id="reg-password" class="form-control"
+                      placeholder="Create a strong password">
+
+                    <!-- Password strength meter -->
+                    <div class="ats-pw-strength" id="pwStrength">
+                      <div class="bar-track">
+                        <div class="bar-fill" id="pwBarFill"></div>
+                      </div>
+                      <span class="bar-label" id="pwBarLabel">Password strength</span>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-sm-6">
+                      <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 text-sm-right">
+                      <p class="f-size-14">
+                        Have an account? <a href="login.html">Login</a>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="mt-3">
+                    <button class="cmn-btn" type="submit">
+                      <i class="las la-rocket" style="margin-right:6px;"></i>Create My AI Bot Account
+                    </button>
+                  </div>
+
+                </form>
+
+                <!-- Erro Model popup -->
+                <div class="modal-overlay" id="errorModal">
+                  <div class="modal-box">
+                    <h3>Registration Error</h3>
+                    <p id="errorMessage"></p>
+                    <button onclick="document.getElementById('errorModal').classList.remove('show')">OK</button>
+                  </div>
+                </div>
+
+                <!-- Terms note -->
+                <p class="ats-terms-note">
+                  By creating an account you agree to our
+                  <a href="#">Terms &amp; Conditions</a> and
+                  <a href="#">Risk Disclosure</a> policy.
+                </p>
+
+                <!-- Security badges -->
+                <div class="ats-security-strip">
+                  <span class="badge-item"><i class="las la-shield-alt"></i> 256-bit SSL</span>
+                  <span class="badge-item"><i class="las la-lock"></i> 2FA Ready</span>
+                  <span class="badge-item"><i class="las la-eye-slash"></i> Private</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         FOOTER
+         BG IMAGE → bg-7.jpg
+    ============================================================ -->
+    <footer class="footer bg_img ats-fade-up" data-background="assets/images/bg/bg-7.jpg">
+      <div class="footer__top">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-12 text-center">
+
+              <a href="index.html" class="footer-logo">
+                <img src="assets/images/logo.png" alt="ATS - Automated Trading System" loading="lazy">
+              </a>
+
+              <p
+                style="color:rgba(232,234,246,0.4); font-size:12px; margin-top:8px; letter-spacing:2px; text-transform:uppercase;">
+                AI-Powered Trading That Works 24/7
+              </p>
+
+              <ul class="footer-short-menu d-flex flex-wrap justify-content-center mt-4">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="plan.html">AI Trading Plans</a></li>
+                <li><a href="#0">Privacy Policy</a></li>
+                <li><a href="#0">Terms &amp; Conditions</a></li>
+                <li><a href="#0">Risk Disclosure</a></li>
+              </ul>
+
+              <div
+                style="display:flex; justify-content:center; gap:36px; flex-wrap:wrap; margin-top:32px; padding-top:24px; border-top:1px solid rgba(10,132,255,0.12);">
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    $5.4B+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Volume Traded</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00D4FF; font-family:'Josefin Sans',sans-serif;">
+                    88K+</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    Active Traders</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#0A84FF; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    System Uptime</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:20px; font-weight:700; color:#00FFB3; font-family:'Josefin Sans',sans-serif;">
+                    99.99%</div>
+                  <div
+                    style="font-size:11px; color:rgba(232,234,246,0.4); text-transform:uppercase; letter-spacing:1px; margin-top:3px;">
+                    AI Win Rate</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-md-left text-center">
+              <p>© 2024 <a href="index.html" class="base--color">ATS — Automated Trading System</a>. All rights
+                reserved.</p>
+            </div>
+            <div class="col-md-6">
+              <ul class="social-link-list d-flex flex-wrap justify-content-md-end justify-content-center">
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Twitter / X"><i
+                      class="lab la-twitter"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Telegram"><i
+                      class="lab la-telegram-plane"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i
+                      class="lab la-linkedin-in"></i></a></li>
+                <li><a href="#0" data-toggle="tooltip" data-placement="top" title="Discord"><i
+                      class="lab la-discord"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- page-wrapper end -->
+
+  <!-- Scripts — all preserved exactly -->
+  <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+  <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/vendor/slick.min.js"></script>
+  <script src="assets/js/vendor/wow.min.js"></script>
+  <script src="assets/js/contact.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    /* ============================================================
+       1. LIVE BINANCE WEBSOCKET TICKER
+    ============================================================ */
+    (function () {
+      'use strict';
+      var PAIRS = [
+        ['btcusdt', 'BTC/USD'], ['ethusdt', 'ETH/USD'],
+        ['solusdt', 'SOL/USD'], ['bnbusdt', 'BNB/USD'],
+        ['xrpusdt', 'XRP/USD'], ['dogeusdt', 'DOGE/USD'],
+        ['adausdt', 'ADA/USD'], ['maticusdt', 'MATIC/USD'],
+      ];
+      var live = {}, ws = null, retryMs = 3000, buildTimer = null;
+
+      function fmtPrice(p) {
+        p = parseFloat(p);
+        if (isNaN(p)) return '—';
+        if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (p >= 1) return '$' + p.toFixed(4);
+        return '$' + p.toFixed(6);
+      }
+
+      function fmtChange(c) {
+        c = parseFloat(c);
+        if (isNaN(c)) return '';
+        return (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      }
+
+      function buildTicker() {
+        var el = document.getElementById('atsTickerInner');
+        if (!el) return;
+        var half = '';
+        PAIRS.forEach(function (p) {
+          var sym = p[0], lbl = p[1], d = live[sym] || {};
+          var pr = d.price ? fmtPrice(d.price) : '—';
+          var ch = d.change !== undefined ? parseFloat(d.change) : null;
+          var cls = ch === null ? '' : (ch >= 0 ? 'up' : 'down');
+          var ct = ch !== null ? fmtChange(ch) : '';
+          half += '<span class="ticker-item"><span class="symbol">' + lbl + '</span><span class="price">' + pr + '</span>';
+          if (ct) half += '<span class="change ' + cls + '">' + ct + '</span>';
+          half += '</span><span class="ticker-sep">·</span>';
+        });
+        el.innerHTML = half + half;
+      }
+
+      function scheduleBuild() {
+        if (buildTimer) return;
+        buildTimer = setTimeout(function () { buildTimer = null; buildTicker(); }, 500);
+      }
+
+      function connect() {
+        var streams = PAIRS.map(function (p) { return p[0] + '@ticker'; }).join('/');
+        try { ws = new WebSocket('wss://stream.binance.com:9443/stream?streams=' + streams); }
+        catch (e) { retry(); return; }
+        ws.onopen = function () { retryMs = 3000; };
+        ws.onclose = function () { retry(); };
+        ws.onerror = function () { };
+        ws.onmessage = function (e) {
+          try {
+            var m = JSON.parse(e.data);
+            if (!m || !m.data) return;
+            var sym = (m.data.s || '').toLowerCase();
+            live[sym] = { price: m.data.c, change: m.data.P };
+            scheduleBuild();
+          } catch (err) { /* ignore */ }
+        };
+      }
+
+      function retry() {
+        setTimeout(connect, retryMs);
+        retryMs = Math.min(retryMs * 1.5, 30000);
+      }
+
+      connect();
+      buildTicker();
+    }());
+
+
+    /* ============================================================
+       2. INTERSECTION OBSERVER — Fade-up
+    ============================================================ */
+    (function () {
+      'use strict';
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.ats-fade-up').forEach(function (el) {
+          el.classList.add('ats-visible');
+        });
+        return;
+      }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('ats-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.ats-fade-up').forEach(function (el) { obs.observe(el); });
+    }());
+
+
+    /* ============================================================
+       3. PASSWORD STRENGTH METER
+    ============================================================ */
+    (function () {
+      'use strict';
+      var pwInput = document.getElementById('reg-password');
+      var strengthEl = document.getElementById('pwStrength');
+      var barFill = document.getElementById('pwBarFill');
+      var barLabel = document.getElementById('pwBarLabel');
+
+      if (!pwInput) return;
+
+      function scorePassword(pw) {
+        var score = 0;
+        if (!pw) return 0;
+        if (pw.length >= 8) score += 25;
+        if (pw.length >= 12) score += 15;
+        if (/[A-Z]/.test(pw)) score += 20;
+        if (/[0-9]/.test(pw)) score += 20;
+        if (/[^A-Za-z0-9]/.test(pw)) score += 20;
+        return Math.min(score, 100);
+      }
+
+      pwInput.addEventListener('input', function () {
+        var val = pwInput.value;
+        if (!val) { strengthEl.classList.remove('show'); return; }
+        strengthEl.classList.add('show');
+        var score = scorePassword(val);
+        barFill.style.width = score + '%';
+        if (score < 40) {
+          barFill.style.background = '#ff4d6d';
+          barLabel.textContent = 'Weak password';
+        } else if (score < 70) {
+          barFill.style.background = '#ffd700';
+          barLabel.textContent = 'Medium strength';
+        } else {
+          barFill.style.background = '#00FFB3';
+          barLabel.textContent = 'Strong password';
+        }
+      });
+    }());
+
+
+    /* ============================================================
+       4. PERFORMANCE — passive listeners, debounced resize
+    ============================================================ */
+    (function () {
+      'use strict';
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () { ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { }, 150);
+      }, { passive: true });
+    }());
+
+  </script>
+
+
+  // Popup Message In Registration
+
+  <script>
+    document.getElementById('atsRegisterForm').addEventListener('submit', async function (e) {
+      e.preventDefault(); // stops the normal page reload
+
+      const formData = new FormData(this);
+
+      const res = await fetch('registration.php', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        window.location.href = "login.php";
+      } else {
+        document.getElementById('errorMessage').textContent = data.message;
+        document.getElementById('errorModal').classList.add('show');
+      }
+    });
+  </script>
+
+</body>
+
+</html>
