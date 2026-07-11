@@ -1,42 +1,4 @@
-<?php
-require "config/database.php";
-header('Content-Type: application/json');
 
-$response = ["success" => false, "message" => ""];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $username = trim($_POST["username"] ?? "");
-  $email = trim($_POST["email"] ?? "");
-  $pwd = $_POST["password"] ?? "";
-
-  if ($username === "" || $email === "" || $pwd === "") {
-    $response["message"] = "All fields are required.";
-    echo json_encode($response);
-    exit;
-  }
-
-  $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
-  $sql = "INSERT INTO users (username, email, pwd) VALUES (?, ?, ?)";
-  $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedPwd);
-
-  try {
-    mysqli_stmt_execute($stmt);
-    $response["success"] = true;
-  } catch (mysqli_sql_exception $e) {
-    if ($e->getCode() == 1062) {
-      $response["message"] = "That username or email is already registered.";
-    } else {
-      throw $e;
-    }
-  }
-}
-
-echo json_encode($response);
-exit;
-?>
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,53 +31,6 @@ exit;
 
     body {
       overflow-x: clip;
-    }
-
-    /* Error Message Popup For Registration */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #2330b5;
-      padding: 24px 28px;
-      border-radius: 8px;
-      max-width: 350px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-box h3 {
-      margin-top: 0;
-      color: #d32f2f;
-    }
-
-    .modal-box button {
-      margin-top: 16px;
-      padding: 8px 20px;
-      border: none;
-      background: #d32f2f;
-      color: #fff;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .modal-box button:hover {
-      background: #b71c1c;
     }
 
     /* ── FADE-UP ── */
@@ -855,15 +770,6 @@ exit;
 
                 </form>
 
-                <!-- Erro Model popup -->
-                <div class="modal-overlay" id="errorModal">
-                  <div class="modal-box">
-                    <h3>Registration Error</h3>
-                    <p id="errorMessage"></p>
-                    <button onclick="document.getElementById('errorModal').classList.remove('show')">OK</button>
-                  </div>
-                </div>
-
                 <!-- Terms note -->
                 <p class="ats-terms-note">
                   By creating an account you agree to our
@@ -1149,31 +1055,6 @@ exit;
       }, { passive: true });
     }());
 
-  </script>
-
-
-  // Popup Message In Registration
-
-  <script>
-    document.getElementById('atsRegisterForm').addEventListener('submit', async function (e) {
-      e.preventDefault(); // stops the normal page reload
-
-      const formData = new FormData(this);
-
-      const res = await fetch('registration.php', {
-        method: 'POST',
-        body: formData
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        window.location.href = "login.php";
-      } else {
-        document.getElementById('errorMessage').textContent = data.message;
-        document.getElementById('errorModal').classList.add('show');
-      }
-    });
   </script>
 
 </body>
