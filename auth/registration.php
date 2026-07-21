@@ -1,6 +1,5 @@
 <?php
-require __DIR__ . "/config/database.php";
-
+require_once __DIR__ . '/config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   header('Content-Type: application/json');
@@ -32,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } catch (mysqli_sql_exception $e) {
       if ($e->getCode() == 1062) {
-        $response["message"] = "That username or email is already registered, Login Instead.";
+        $response["message"] = "That username or email is already registered.";
       } else {
         throw $e;
       }
@@ -649,7 +648,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
               <div class="nav-right">
                 <ul class="account-menu ml-3">
-                  <li class="icon"><a href="login.php"><i class="las la-user"></i></a></li>
+                  <li class="icon"><a href="login.html"><i class="las la-user"></i></a></li>
                 </ul>
               </div>
             </div>
@@ -763,7 +762,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <div class="form-group">
                     <label>
                       <i class="las la-user" style="color:#0A84FF; margin-right:5px;"></i>
-                      Name
+                      Full Name
                     </label>
                     <input type="text" name="username" id="reg-fullname" class="form-control"
                       placeholder="Enter your User Name">
@@ -804,7 +803,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="col-sm-6 text-sm-right">
                       <p class="f-size-14">
-                        Have an account? <a href="login.php">Login</a>
+                        Have an account? <a href="login.html">Login</a>
                       </p>
                     </div>
                   </div>

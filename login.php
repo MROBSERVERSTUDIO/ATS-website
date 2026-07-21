@@ -1,3 +1,61 @@
+<?php
+require __DIR__ . "/config/database.php";
+    session_set_cookie_params([
+    'lifetime' => 30,       // cookie expires 30 seconds after being set
+    'path'     => '/',
+    'domain'   => '',
+    'secure'   => true,
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+    session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        header('Content-Type: application/json');
+
+        $response = ["success" => false, "message" => ""];
+
+        $email = trim($_POST["email"] ?? "");
+        $pwd   = $_POST["password"] ?? "";
+
+        if ($email === "" || $pwd === "") {
+            $response["message"] = "Email and password are required.";
+            echo json_encode($response);
+            exit;
+        }
+
+        $sql = "SELECT id, username, email, pwd FROM users WHERE email = ? LIMIT 1";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+
+        try {
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $user = mysqli_fetch_assoc($result);
+
+            if (!$user || !password_verify($pwd, $user['pwd'])) {
+                $response["message"] = "Invalid email or password.";
+                echo json_encode($response);
+                exit;
+            }
+
+            $_SESSION['user_id']  = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['email']    = $user['email'];
+
+            $response["success"] = true;
+            $response["message"] = "Login successful!";
+
+        } catch (mysqli_sql_exception $e) {
+            $response["message"] = "Something went wrong. Please try again.";
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -449,14 +507,14 @@
                   ⚠ Invalid username or password. Please try again.
                 </div>
 
-                <form class="mt-4" id="atsLoginForm">
+                <form action= "login.php" method="POST" class="mt-4" id="atsLoginForm">
 
                   <div class="form-group">
                     <label>
                       <i class="las la-user" style="color:#0A84FF; margin-right:5px;"></i>
-                      Username
+                      email
                     </label>
-                    <input type="text" name="username" id="login-username"
+                    <input type="text" name="email" id="login-username"
                       class="form-control" placeholder="Enter your username">
                   </div>
 
@@ -711,6 +769,53 @@
   }());
 
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+const form = document.getElementById("atsLoginForm");
+
+form.addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const response = await fetch("login.php", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.success) {
+
+        Swal.fire({
+            icon: "success",
+            title: "Welcome back!",
+            text: data.message,
+            confirmButtonColor: "#2563eb",
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+             willClose: () => {
+            form.reset();
+            window.location.href = "dashboard.php";
+          }
+            
+        })
+
+    } else {
+
+        Swal.fire({
+            icon: "error",
+            title: "Login Failed",
+            text: data.message
+        });
+
+    }
+});
+</script>
 
 </body>
 </html>
